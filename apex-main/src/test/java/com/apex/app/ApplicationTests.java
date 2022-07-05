@@ -1,4 +1,4 @@
-package com.acpr.app;
+package com.apex.app;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
