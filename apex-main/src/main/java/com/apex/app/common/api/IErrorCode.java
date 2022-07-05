@@ -3,7 +3,7 @@ package com.apex.app.common.api;
 /**
  * @author Mingze Ma
  */
-public interface ErrorCodeInterface {
+public interface IErrorCode {
 
     long getCode();
 

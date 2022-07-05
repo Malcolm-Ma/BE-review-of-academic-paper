@@ -29,7 +29,7 @@ public class CommonResult<T> {
      * @param data 获取的数据
      */
     public static <T> CommonResult<T> success(T data) {
-        return new CommonResult<T>(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMessage(), data);
+        return new CommonResult<T>(StatusCodeI.SUCCESS.getCode(), StatusCodeI.SUCCESS.getMessage(), data);
     }
 
     /**
@@ -39,14 +39,14 @@ public class CommonResult<T> {
      * @param  message 提示信息
      */
     public static <T> CommonResult<T> success(T data, String message) {
-        return new CommonResult<T>(StatusCode.SUCCESS.getCode(), message, data);
+        return new CommonResult<T>(StatusCodeI.SUCCESS.getCode(), message, data);
     }
 
     /**
      * 失败返回结果
      * @param errorCode 错误码
      */
-    public static <T> CommonResult<T> failed(ErrorCodeInterface errorCode) {
+    public static <T> CommonResult<T> failed(IErrorCode errorCode) {
         return new CommonResult<T>(errorCode.getCode(), errorCode.getMessage(), null);
     }
 
@@ -55,7 +55,7 @@ public class CommonResult<T> {
      * @param errorCode 错误码
      * @param message 错误信息
      */
-    public static <T> CommonResult<T> failed(ErrorCodeInterface errorCode,String message) {
+    public static <T> CommonResult<T> failed(IErrorCode errorCode, String message) {
         return new CommonResult<T>(errorCode.getCode(), message, null);
     }
 
@@ -64,21 +64,21 @@ public class CommonResult<T> {
      * @param message 提示信息
      */
     public static <T> CommonResult<T> failed(String message) {
-        return new CommonResult<T>(StatusCode.FAILED.getCode(), message, null);
+        return new CommonResult<T>(StatusCodeI.FAILED.getCode(), message, null);
     }
 
     /**
      * 失败返回结果
      */
     public static <T> CommonResult<T> failed() {
-        return failed(StatusCode.FAILED);
+        return failed(StatusCodeI.FAILED);
     }
 
     /**
      * 参数验证失败返回结果
      */
     public static <T> CommonResult<T> validateFailed() {
-        return failed(StatusCode.VALIDATE_FAILED);
+        return failed(StatusCodeI.VALIDATE_FAILED);
     }
 
     /**
@@ -86,21 +86,21 @@ public class CommonResult<T> {
      * @param message 提示信息
      */
     public static <T> CommonResult<T> validateFailed(String message) {
-        return new CommonResult<T>(StatusCode.VALIDATE_FAILED.getCode(), message, null);
+        return new CommonResult<T>(StatusCodeI.VALIDATE_FAILED.getCode(), message, null);
     }
 
     /**
      * 未登录返回结果
      */
     public static <T> CommonResult<T> unauthorized(T data) {
-        return new CommonResult<T>(StatusCode.UNAUTHORIZED.getCode(), StatusCode.UNAUTHORIZED.getMessage(), data);
+        return new CommonResult<T>(StatusCodeI.UNAUTHORIZED.getCode(), StatusCodeI.UNAUTHORIZED.getMessage(), data);
     }
 
     /**
      * 未授权返回结果
      */
     public static <T> CommonResult<T> forbidden(T data) {
-        return new CommonResult<T>(StatusCode.FORBIDDEN.getCode(), StatusCode.FORBIDDEN.getMessage(), data);
+        return new CommonResult<T>(StatusCodeI.FORBIDDEN.getCode(), StatusCodeI.FORBIDDEN.getMessage(), data);
     }
 
     public long getCode() {
