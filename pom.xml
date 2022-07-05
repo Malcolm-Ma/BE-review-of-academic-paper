@@ -33,6 +33,7 @@
         <mybatis-generator.version>1.4.1</mybatis-generator.version>
         <mybatis.version>3.5.9</mybatis.version>
         <mysql-connector.version>8.0.29</mysql-connector.version>
+        <spring-boot-starter-jdbc.version>2.5.0</spring-boot-starter-jdbc.version>
         <apex-mbg.version>0.0.1-SNAPSHOT</apex-mbg.version>
     </properties>
 
@@ -80,11 +81,11 @@
                 <version>${apex-mbg.version}</version>
             </dependency>
 
-
             <!--default datasource (HicariCP)-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-jdbc</artifactId>
+                <version>${spring-boot-starter-jdbc.version}</version>
             </dependency>
             <!--MyBatis分页插件starter-->
             <dependency>

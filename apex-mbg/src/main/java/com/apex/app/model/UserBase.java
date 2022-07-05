@@ -14,6 +14,8 @@ public class UserBase implements Serializable {
 
     private String avatar;
 
+    private String password;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -56,6 +58,14 @@ public class UserBase implements Serializable {
         this.avatar = avatar;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -67,6 +77,7 @@ public class UserBase implements Serializable {
         sb.append(", email=").append(email);
         sb.append(", title=").append(title);
         sb.append(", avatar=").append(avatar);
+        sb.append(", password=").append(password);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
