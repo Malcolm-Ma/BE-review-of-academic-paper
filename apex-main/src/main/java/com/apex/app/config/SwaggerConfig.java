@@ -37,9 +37,9 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("API Documentation for Apex - Review of Academic Paper")
-                .description("mall-tiny")
-                .contact(new Contact("macro", null, null))
+                .title("API Documentation for Apex")
+                .description("Back-end Server of Review of Academic Paper")
+                .contact(new Contact("Mingze Ma", "https://github.com/MalcolmMa1998", "mma26@sheffield.ac.uk"))
                 .version("1.0")
                 .build();
     }
