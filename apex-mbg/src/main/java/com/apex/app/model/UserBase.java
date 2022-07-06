@@ -2,10 +2,12 @@ package com.apex.app.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.util.Date;
 
 public class UserBase implements Serializable {
     private String id;
 
+    @ApiModelProperty(value = "Full name")
     private String name;
 
     private String email;
@@ -15,6 +17,12 @@ public class UserBase implements Serializable {
     private String avatar;
 
     private String password;
+
+    @ApiModelProperty(value = "create time")
+    private Date createTime;
+
+    @ApiModelProperty(value = "Account enable status: 0 -> disabled; 1 -> enabled")
+    private Integer enableStatus;
 
     private static final long serialVersionUID = 1L;
 
@@ -66,6 +74,22 @@ public class UserBase implements Serializable {
         this.password = password;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getEnableStatus() {
+        return enableStatus;
+    }
+
+    public void setEnableStatus(Integer enableStatus) {
+        this.enableStatus = enableStatus;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -78,6 +102,8 @@ public class UserBase implements Serializable {
         sb.append(", title=").append(title);
         sb.append(", avatar=").append(avatar);
         sb.append(", password=").append(password);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", enableStatus=").append(enableStatus);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

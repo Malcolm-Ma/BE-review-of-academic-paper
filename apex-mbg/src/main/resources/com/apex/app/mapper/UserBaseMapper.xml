@@ -8,6 +8,8 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="enable_status" jdbcType="INTEGER" property="enableStatus" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, email, title, avatar, password
+    id, name, email, title, avatar, password, create_time, enable_status
   </sql>
   <select id="selectByExample" parameterType="com.apex.app.model.UserBaseExample" resultMap="BaseResultMap">
     select
@@ -101,20 +103,19 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.apex.app.model.UserBase">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into user_base (name, email, title, 
-      avatar, password)
-    values (#{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{avatar,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
+    insert into user_base (id, name, email, 
+      title, avatar, password, 
+      create_time, enable_status)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{enableStatus,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.apex.app.model.UserBase">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into user_base
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="name != null">
         name,
       </if>
@@ -130,8 +131,17 @@
       <if test="password != null">
         password,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="enableStatus != null">
+        enable_status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
@@ -146,6 +156,12 @@
       </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableStatus != null">
+        #{enableStatus,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -176,6 +192,12 @@
       <if test="row.password != null">
         password = #{row.password,jdbcType=VARCHAR},
       </if>
+      <if test="row.createTime != null">
+        create_time = #{row.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.enableStatus != null">
+        enable_status = #{row.enableStatus,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -188,7 +210,9 @@
       email = #{row.email,jdbcType=VARCHAR},
       title = #{row.title,jdbcType=VARCHAR},
       avatar = #{row.avatar,jdbcType=VARCHAR},
-      password = #{row.password,jdbcType=VARCHAR}
+      password = #{row.password,jdbcType=VARCHAR},
+      create_time = #{row.createTime,jdbcType=TIMESTAMP},
+      enable_status = #{row.enableStatus,jdbcType=INTEGER}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -211,6 +235,12 @@
       <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableStatus != null">
+        enable_status = #{enableStatus,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -220,7 +250,9 @@
       email = #{email,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR}
+      password = #{password,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      enable_status = #{enableStatus,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

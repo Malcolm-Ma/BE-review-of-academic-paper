@@ -3,8 +3,10 @@ package com.apex.app.mapper;
 import com.apex.app.model.UserBase;
 import com.apex.app.model.UserBaseExample;
 import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface UserBaseMapper {
     long countByExample(UserBaseExample example);
 
