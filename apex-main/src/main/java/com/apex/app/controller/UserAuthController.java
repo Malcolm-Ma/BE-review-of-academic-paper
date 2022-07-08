@@ -1,6 +1,7 @@
 package com.apex.app.controller;
 
 import com.apex.app.common.api.CommonResult;
+import com.apex.app.controller.vo.UserLoginRequest;
 import com.apex.app.controller.vo.UserRegisterRequest;
 import com.apex.app.model.UserBase;
 import com.apex.app.service.UserAuthService;
@@ -18,9 +19,12 @@ public class UserAuthController {
     @Autowired
     private UserAuthService userAuthService;
 
-    @GetMapping(value = "/login")
-    public CommonResult<String> login() {
-        return CommonResult.success("Hello world");
+    @PostMapping(value = "/login")
+    public CommonResult<UserBase> login(@Validated @RequestBody UserLoginRequest userLoginRequest) {
+        UserBase userBase = userAuthService.login(userLoginRequest);
+        return userBase == null
+                ? CommonResult.validateFailed("Incorrect username or password")
+                : CommonResult.success(userBase);
     }
 
     @ApiOperation(value = "User Registration")

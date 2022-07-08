@@ -1,5 +1,6 @@
 package com.apex.app.service.impl;
 
+import com.apex.app.controller.vo.UserLoginRequest;
 import com.apex.app.controller.vo.UserRegisterRequest;
 import com.apex.app.mapper.UserBaseMapper;
 import com.apex.app.model.UserBase;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -50,4 +52,18 @@ public class UserAuthServiceImpl implements UserAuthService {
         return userBase;
     }
 
+    @Override
+    public UserBase login(UserLoginRequest userLoginRequest) {
+        UserBaseExample example = new UserBaseExample();
+        example.createCriteria().andEmailEqualTo(userLoginRequest.getEmail());
+        List<UserBase> targetUserList = userBaseMapper.selectByExample(example);
+        if (targetUserList.size() == 0) {
+            return null;
+        }
+        UserBase targetUser = targetUserList.get(0);
+        if (Objects.equals(targetUser.getPassword(), userLoginRequest.getPassword())) {
+            return targetUser;
+        }
+        return null;
+    }
 }
