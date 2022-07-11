@@ -3,7 +3,7 @@ package com.apex.app.common.api;
 /**
  * @author Mingze Ma
  */
-public enum StatusCodeI implements IErrorCode {
+public enum StatusCode implements IErrorCode {
     SUCCESS(200, "Success"),
     FAILED(500, "Failure"),
     VALIDATE_FAILED(404, "Parameter check failed"),
@@ -13,7 +13,7 @@ public enum StatusCodeI implements IErrorCode {
     private long code;
     private String message;
 
-    private StatusCodeI(long code, String message) {
+    private StatusCode(long code, String message) {
         this.code = code;
         this.message = message;
     }
