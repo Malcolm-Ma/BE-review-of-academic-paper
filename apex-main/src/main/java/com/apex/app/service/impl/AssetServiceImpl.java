@@ -3,8 +3,10 @@ package com.apex.app.service.impl;
 import com.apex.app.common.api.CommonResult;
 import com.apex.app.controller.vo.UploadResponse;
 import com.apex.app.service.AssetService;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import io.minio.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.compress.utils.FileNameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * 
@@ -49,7 +52,11 @@ public class AssetServiceImpl implements AssetService {
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(BUCKET_NAME).build());
             }
 
-            String filename = file.getOriginalFilename();
+            String filename = UUID.randomUUID().toString().split("-")[0] +
+                    "-" +
+                    new Date().getTime() +
+                    "." +
+                    FileNameUtils.getExtension(file.getOriginalFilename());
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             // Set name to storage object
             String objectName = sdf.format(new Date()) + "/" + filename;
@@ -62,7 +69,7 @@ public class AssetServiceImpl implements AssetService {
                             .stream(file.getInputStream(), file.getSize(), ObjectWriteArgs.MIN_MULTIPART_SIZE)
                             .build()
             );
-            log.info("File uploading successfully");
+            log.info("File {} uploading successfully", objectName);
             UploadResponse uploadResponse = new UploadResponse();
             uploadResponse.setName(filename);
             uploadResponse.setUrl(ENDPOINT + "/" + BUCKET_NAME + "/" + objectName);
