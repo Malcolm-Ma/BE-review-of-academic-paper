@@ -1,4 +1,4 @@
-package com.apex.app.config;
+package com.apex.app.config.security;
 
 import com.apex.app.service.UserAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,12 +7,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
- * Spring Security config
- *
+ * 
  * @author Mingze Ma
  */
 @Configuration
-public class SecurityConfig {
+public class ApexSecurityConfig {
 
     @Autowired
     UserAuthService userAuthService;

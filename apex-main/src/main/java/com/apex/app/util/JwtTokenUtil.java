@@ -13,7 +13,6 @@ import java.util.Date;
  *
  * @author Mingze Ma
  */
-@Component
 @Slf4j
 public class JwtTokenUtil {
 
