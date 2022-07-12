@@ -8,6 +8,7 @@ import com.apex.app.model.UserBaseExample;
 import com.apex.app.service.UserAuthService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -64,6 +65,11 @@ public class UserAuthServiceImpl implements UserAuthService {
         if (Objects.equals(targetUser.getPassword(), userLoginRequest.getPassword())) {
             return targetUser;
         }
+        return null;
+    }
+
+    @Override
+    public UserDetails getUserByEmail(String email) {
         return null;
     }
 }

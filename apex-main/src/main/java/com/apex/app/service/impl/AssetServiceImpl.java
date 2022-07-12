@@ -1,14 +1,10 @@
 package com.apex.app.service.impl;
 
-import com.apex.app.common.api.CommonResult;
 import com.apex.app.controller.vo.UploadResponse;
 import com.apex.app.service.AssetService;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import io.minio.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.FileNameUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +14,7 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * 
+ * Asset(file) Service Implementation
  * @author Mingze Ma
  */
 @Service

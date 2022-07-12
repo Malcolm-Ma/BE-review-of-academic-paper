@@ -34,8 +34,9 @@
         <mybatis.version>3.5.9</mybatis.version>
         <mysql-connector.version>8.0.29</mysql-connector.version>
         <spring-boot-starter-jdbc.version>2.5.0</spring-boot-starter-jdbc.version>
-        <apex-mbg.version>0.0.1-SNAPSHOT</apex-mbg.version>
+        <jjwt.version>0.9.1</jjwt.version>
         <minio.version>8.4.1</minio.version>
+        <apex-mbg.version>0.0.1-SNAPSHOT</apex-mbg.version>
     </properties>
 
     <dependencies>
@@ -146,6 +147,12 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
+            </dependency>
+            <!--JWT(Json Web Token)登录支持-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -32,3 +32,9 @@ minio:
   bucketName: apex #存储桶名称
   accessKey: minioadmin #访问的key
   secretKey: minioadmin #访问的秘钥
+
+jwt:
+  tokenHeader: Authorization # JWT存储的请求头
+  secret: secret-apex-review-of-acdemic-paper # JWT加解密使用的密钥
+  expiration: 604800 # JWT expired time (seconds) (7 * 24 * 60 * 60)
+  tokenHead: 'Bearer '  # JWT负载中拿到开头
