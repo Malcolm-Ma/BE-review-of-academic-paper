@@ -21,6 +21,12 @@ spring:
     multipart:
       enabled: true #开启文件上传
       max-file-size: 10MB #限制文件上传大小为10M
+  redis:
+    host: localhost # Redis服务器地址
+    database: 0 # Redis数据库索引（默认为0）
+    port: 6379 # Redis服务器连接端口
+    password: # Redis服务器连接密码（默认为空）
+    timeout: 300ms # 连接超时时间（毫秒）
 
 mybatis:
   mapper-locations:
@@ -34,7 +40,26 @@ minio:
   secretKey: minioadmin #访问的秘钥
 
 jwt:
-  tokenHeader: Authorization # JWT存储的请求头
-  secret: secret-apex-review-of-acdemic-paper # JWT加解密使用的密钥
+  tokenHeader: Authorization # JWT header for storage
+  secret: secret-apex-review-of-acdemic-paper # The key used for JWT encryption and decryption
   expiration: 604800 # JWT expired time (seconds) (7 * 24 * 60 * 60)
-  tokenHead: 'Bearer '  # JWT负载中拿到开头
+  tokenHead: 'Bearer '  # The beginning in the JWT load
+
+secure:
+  ignored:
+    urls: # Secure Path Whitelist
+      - /swagger-ui/
+      - /swagger-resources/**
+      - /**/v2/api-docs
+      - /**/*.html
+      - /**/*.js
+      - /**/*.css
+      - /**/*.png
+      - /**/*.map
+      - /favicon.ico
+      - /actuator/**
+      - /druid/**
+      - /user/login
+      - /user/register
+      - /admin/logout
+      - /file/upload
