@@ -67,7 +67,8 @@ secure:
 redis:
   database: apex
   key:
-    admin: 'user'
+    user: 'user'
     resourceList: 'resourceList'
   expire:
     common: 86400 # 24 hours
+    authCode: 90 # auth code expire time (seconds)
