@@ -1,6 +1,6 @@
 package com.apex.app.service;
 
-import com.apex.app.model.UserBase;
+import com.apex.app.domain.model.UserBase;
 
 /**
  * Cache service interface

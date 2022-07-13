@@ -1,7 +1,7 @@
 package com.apex.app.mapper;
 
-import com.apex.app.model.UserBase;
-import com.apex.app.model.UserBaseExample;
+import com.apex.app.domain.model.UserBase;
+import com.apex.app.domain.model.UserBaseExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

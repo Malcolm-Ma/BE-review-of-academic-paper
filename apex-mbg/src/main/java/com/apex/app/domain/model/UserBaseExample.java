@@ -1,4 +1,4 @@
-package com.apex.app.model;
+package com.apex.app.domain.model;
 
 import java.util.ArrayList;
 import java.util.Date;

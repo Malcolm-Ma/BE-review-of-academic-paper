@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apex.app.mapper.UserBaseMapper">
-  <resultMap id="BaseResultMap" type="com.apex.app.model.UserBase">
+  <resultMap id="BaseResultMap" type="com.apex.app.domain.model.UserBase">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="email" jdbcType="VARCHAR" property="email" />
@@ -72,7 +72,7 @@
   <sql id="Base_Column_List">
     id, name, email, title, avatar, password, create_time, enable_status
   </sql>
-  <select id="selectByExample" parameterType="com.apex.app.model.UserBaseExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.apex.app.domain.model.UserBaseExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -96,13 +96,13 @@
     delete from user_base
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.apex.app.model.UserBaseExample">
+  <delete id="deleteByExample" parameterType="com.apex.app.domain.model.UserBaseExample">
     delete from user_base
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.apex.app.model.UserBase">
+  <insert id="insert" parameterType="com.apex.app.domain.model.UserBase">
     insert into user_base (id, name, email, 
       title, avatar, password, 
       create_time, enable_status)
@@ -110,7 +110,7 @@
       #{title,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{enableStatus,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.apex.app.model.UserBase">
+  <insert id="insertSelective" parameterType="com.apex.app.domain.model.UserBase">
     insert into user_base
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -165,7 +165,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.apex.app.model.UserBaseExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.apex.app.domain.model.UserBaseExample" resultType="java.lang.Long">
     select count(*) from user_base
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -217,7 +217,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.apex.app.model.UserBase">
+  <update id="updateByPrimaryKeySelective" parameterType="com.apex.app.domain.model.UserBase">
     update user_base
     <set>
       <if test="name != null">
@@ -244,7 +244,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.apex.app.model.UserBase">
+  <update id="updateByPrimaryKey" parameterType="com.apex.app.domain.model.UserBase">
     update user_base
     set name = #{name,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},

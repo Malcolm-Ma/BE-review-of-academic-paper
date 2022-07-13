@@ -2,7 +2,7 @@ package com.apex.app.service;
 
 import com.apex.app.controller.vo.UserLoginRequest;
 import com.apex.app.controller.vo.UserRegisterRequest;
-import com.apex.app.model.UserBase;
+import com.apex.app.domain.model.UserBase;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -28,6 +28,6 @@ public interface UserAuthService {
      * @param email username
      * @return UserDetails class
      */
-    UserDetails getUserByEmail(String email);
+    UserDetails getUserByUsername(String username);
 
 }

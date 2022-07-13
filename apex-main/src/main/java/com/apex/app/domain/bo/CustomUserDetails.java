@@ -1,6 +1,6 @@
-package com.apex.app.bo;
+package com.apex.app.domain.bo;
 
-import com.apex.app.model.UserBase;
+import com.apex.app.domain.model.UserBase;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

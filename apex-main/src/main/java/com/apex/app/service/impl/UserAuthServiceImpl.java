@@ -3,12 +3,13 @@ package com.apex.app.service.impl;
 import com.apex.app.controller.vo.UserLoginRequest;
 import com.apex.app.controller.vo.UserRegisterRequest;
 import com.apex.app.mapper.UserBaseMapper;
-import com.apex.app.model.UserBase;
-import com.apex.app.model.UserBaseExample;
+import com.apex.app.domain.model.UserBase;
+import com.apex.app.domain.model.UserBaseExample;
 import com.apex.app.service.UserAuthService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -23,8 +24,8 @@ import java.util.UUID;
 @Service
 public class UserAuthServiceImpl implements UserAuthService {
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     UserBaseMapper userBaseMapper;
@@ -45,8 +46,8 @@ public class UserAuthServiceImpl implements UserAuthService {
         }
 
         // Encode password
-//        String encodedPassword = passwordEncoder.encode(userBase.getPassword());
-//        userBase.setPassword(encodedPassword);
+        String encodedPassword = passwordEncoder.encode(userBase.getPassword());
+        userBase.setPassword(encodedPassword);
         // Set uuid
         userBase.setId(UUID.randomUUID().toString());
         userBaseMapper.insert(userBase);
@@ -69,7 +70,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     }
 
     @Override
-    public UserDetails getUserByEmail(String email) {
+    public UserDetails getUserByUsername(String username) {
         return null;
     }
 }

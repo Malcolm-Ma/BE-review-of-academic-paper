@@ -18,7 +18,7 @@ public class ApexSecurityConfig {
 
     @Bean
     UserDetailsService userDetailsService() {
-        return username -> userAuthService.getUserByEmail(username);
+        return username -> userAuthService.getUserByUsername(username);
     }
 
 }

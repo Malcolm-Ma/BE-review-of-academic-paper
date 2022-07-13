@@ -3,7 +3,7 @@ package com.apex.app.controller;
 import com.apex.app.common.api.CommonResult;
 import com.apex.app.controller.vo.UserLoginRequest;
 import com.apex.app.controller.vo.UserRegisterRequest;
-import com.apex.app.model.UserBase;
+import com.apex.app.domain.model.UserBase;
 import com.apex.app.service.UserAuthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

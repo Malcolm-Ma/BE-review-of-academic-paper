@@ -69,6 +69,7 @@ redis:
   key:
     user: 'user'
     resourceList: 'resourceList'
+    authCode: 'authCode'
   expire:
     common: 86400 # 24 hours
     authCode: 90 # auth code expire time (seconds)

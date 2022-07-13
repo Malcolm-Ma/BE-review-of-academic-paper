@@ -1,7 +1,7 @@
 package com.apex.app.service.impl;
 
 import com.apex.app.mapper.UserBaseMapper;
-import com.apex.app.model.UserBase;
+import com.apex.app.domain.model.UserBase;
 import com.apex.app.service.CacheService;
 import com.apex.app.service.RedisService;
 import lombok.extern.slf4j.Slf4j;
