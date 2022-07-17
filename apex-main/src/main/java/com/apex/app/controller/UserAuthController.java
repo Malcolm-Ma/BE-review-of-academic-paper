@@ -8,23 +8,37 @@ import com.apex.app.service.UserAuthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Api(tags = "User Authentication Controller")
 @RestController
 @RequestMapping("/user")
 public class UserAuthController {
 
+    @Value("${jwt.tokenHeader}")
+    private String tokenHeader;
+
+    @Value("${jwt.tokenHead}")
+    private String tokenHead;
+
     @Autowired
     private UserAuthService userAuthService;
 
     @PostMapping(value = "/login")
-    public CommonResult<UserBase> login(@Validated @RequestBody UserLoginRequest userLoginRequest) {
-        UserBase userBase = userAuthService.login(userLoginRequest);
-        return userBase == null
-                ? CommonResult.validateFailed("Incorrect username or password")
-                : CommonResult.success(userBase);
+    public CommonResult<Map<String, String>> login(@Validated @RequestBody UserLoginRequest userLoginRequest) {
+        String token = userAuthService.login(userLoginRequest);
+        if (token == null) {
+            return CommonResult.validateFailed("Incorrect username or password");
+        }
+        Map<String, String> tokenMap = new HashMap<>();
+        tokenMap.put("token", token);
+        tokenMap.put("tokenHead", tokenHead);
+        return CommonResult.success(tokenMap);
     }
 
     @ApiOperation(value = "User Registration")

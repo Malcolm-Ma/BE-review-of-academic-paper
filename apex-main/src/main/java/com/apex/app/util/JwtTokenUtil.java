@@ -27,7 +27,6 @@ public class JwtTokenUtil {
                 .setIssuedAt(new Date())
                 .setExpiration(generateExpirationDate())
                 .signWith(SignatureAlgorithm.HS512, secret)
-                .compressWith(CompressionCodecs.GZIP)
                 .compact();
     }
 

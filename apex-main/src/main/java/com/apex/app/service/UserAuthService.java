@@ -20,14 +20,16 @@ public interface UserAuthService {
     /**
      * Login function
      */
-    UserBase login(UserLoginRequest userLoginRequest);
+    String login(UserLoginRequest userLoginRequest);
 
     /**
      * JWT auth function
      *
-     * @param email username
+     * @param username username
      * @return UserDetails class
      */
     UserDetails getUserByUsername(String username);
+
+    CacheService getCacheService();
 
 }
