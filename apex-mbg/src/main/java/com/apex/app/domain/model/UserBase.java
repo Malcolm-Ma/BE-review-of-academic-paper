@@ -8,7 +8,7 @@ public class UserBase implements Serializable {
     private String id;
 
     @ApiModelProperty(value = "Full name")
-    private String name;
+    private String fullName;
 
     private String email;
 
@@ -24,6 +24,12 @@ public class UserBase implements Serializable {
     @ApiModelProperty(value = "Account enable status: 0 -> disabled; 1 -> enabled")
     private Integer enableStatus;
 
+    @ApiModelProperty(value = "First name")
+    private String firstName;
+
+    @ApiModelProperty(value = "Last name")
+    private String lastName;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -34,12 +40,12 @@ public class UserBase implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {
@@ -90,6 +96,22 @@ public class UserBase implements Serializable {
         this.enableStatus = enableStatus;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -97,13 +119,15 @@ public class UserBase implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
+        sb.append(", fullName=").append(fullName);
         sb.append(", email=").append(email);
         sb.append(", title=").append(title);
         sb.append(", avatar=").append(avatar);
         sb.append(", password=").append(password);
         sb.append(", createTime=").append(createTime);
         sb.append(", enableStatus=").append(enableStatus);
+        sb.append(", firstName=").append(firstName);
+        sb.append(", lastName=").append(lastName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

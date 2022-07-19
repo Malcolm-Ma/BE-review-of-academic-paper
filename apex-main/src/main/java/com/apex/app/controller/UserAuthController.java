@@ -4,6 +4,7 @@ import com.apex.app.common.api.CommonResult;
 import com.apex.app.controller.vo.UserInfoResponse;
 import com.apex.app.controller.vo.UserLoginRequest;
 import com.apex.app.controller.vo.UserRegisterRequest;
+import com.apex.app.controller.vo.UserTokenResponse;
 import com.apex.app.domain.model.UserBase;
 import com.apex.app.service.UserAuthService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,16 +32,17 @@ public class UserAuthController {
     @Autowired
     private UserAuthService userAuthService;
 
+    @ApiOperation(value = "User Login")
     @PostMapping(value = "/login")
-    public CommonResult<Map<String, String>> login(@Validated @RequestBody UserLoginRequest userLoginRequest) {
+    public CommonResult<UserTokenResponse> login(@Validated @RequestBody UserLoginRequest userLoginRequest) {
         String token = userAuthService.login(userLoginRequest);
         if (token == null) {
             return CommonResult.validateFailed("Incorrect username or password");
         }
-        Map<String, String> tokenMap = new HashMap<>();
-        tokenMap.put("token", token);
-        tokenMap.put("tokenHead", tokenHead);
-        return CommonResult.success(tokenMap);
+        UserTokenResponse userTokenResponse = new UserTokenResponse();
+        userTokenResponse.setToken(token);
+        userTokenResponse.setTokenHead(tokenHead);
+        return CommonResult.success(userTokenResponse);
     }
 
     @ApiOperation(value = "User Registration")

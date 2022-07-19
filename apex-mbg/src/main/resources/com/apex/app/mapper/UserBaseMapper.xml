@@ -3,13 +3,15 @@
 <mapper namespace="com.apex.app.mapper.UserBaseMapper">
   <resultMap id="BaseResultMap" type="com.apex.app.domain.model.UserBase">
     <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="full_name" jdbcType="VARCHAR" property="fullName" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="enable_status" jdbcType="INTEGER" property="enableStatus" />
+    <result column="first_name" jdbcType="VARCHAR" property="firstName" />
+    <result column="last_name" jdbcType="VARCHAR" property="lastName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, email, title, avatar, password, create_time, enable_status
+    id, full_name, email, title, avatar, password, create_time, enable_status, first_name, 
+    last_name
   </sql>
   <select id="selectByExample" parameterType="com.apex.app.domain.model.UserBaseExample" resultMap="BaseResultMap">
     select
@@ -103,12 +106,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.apex.app.domain.model.UserBase">
-    insert into user_base (id, name, email, 
+    insert into user_base (id, full_name, email, 
       title, avatar, password, 
-      create_time, enable_status)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      create_time, enable_status, first_name, 
+      last_name)
+    values (#{id,jdbcType=VARCHAR}, #{fullName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{enableStatus,jdbcType=INTEGER})
+      #{createTime,jdbcType=TIMESTAMP}, #{enableStatus,jdbcType=INTEGER}, #{firstName,jdbcType=VARCHAR}, 
+      #{lastName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.apex.app.domain.model.UserBase">
     insert into user_base
@@ -116,8 +121,8 @@
       <if test="id != null">
         id,
       </if>
-      <if test="name != null">
-        name,
+      <if test="fullName != null">
+        full_name,
       </if>
       <if test="email != null">
         email,
@@ -137,13 +142,19 @@
       <if test="enableStatus != null">
         enable_status,
       </if>
+      <if test="firstName != null">
+        first_name,
+      </if>
+      <if test="lastName != null">
+        last_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="fullName != null">
+        #{fullName,jdbcType=VARCHAR},
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
@@ -163,6 +174,12 @@
       <if test="enableStatus != null">
         #{enableStatus,jdbcType=INTEGER},
       </if>
+      <if test="firstName != null">
+        #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null">
+        #{lastName,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.apex.app.domain.model.UserBaseExample" resultType="java.lang.Long">
@@ -177,8 +194,8 @@
       <if test="row.id != null">
         id = #{row.id,jdbcType=VARCHAR},
       </if>
-      <if test="row.name != null">
-        name = #{row.name,jdbcType=VARCHAR},
+      <if test="row.fullName != null">
+        full_name = #{row.fullName,jdbcType=VARCHAR},
       </if>
       <if test="row.email != null">
         email = #{row.email,jdbcType=VARCHAR},
@@ -198,6 +215,12 @@
       <if test="row.enableStatus != null">
         enable_status = #{row.enableStatus,jdbcType=INTEGER},
       </if>
+      <if test="row.firstName != null">
+        first_name = #{row.firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="row.lastName != null">
+        last_name = #{row.lastName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -206,13 +229,15 @@
   <update id="updateByExample" parameterType="map">
     update user_base
     set id = #{row.id,jdbcType=VARCHAR},
-      name = #{row.name,jdbcType=VARCHAR},
+      full_name = #{row.fullName,jdbcType=VARCHAR},
       email = #{row.email,jdbcType=VARCHAR},
       title = #{row.title,jdbcType=VARCHAR},
       avatar = #{row.avatar,jdbcType=VARCHAR},
       password = #{row.password,jdbcType=VARCHAR},
       create_time = #{row.createTime,jdbcType=TIMESTAMP},
-      enable_status = #{row.enableStatus,jdbcType=INTEGER}
+      enable_status = #{row.enableStatus,jdbcType=INTEGER},
+      first_name = #{row.firstName,jdbcType=VARCHAR},
+      last_name = #{row.lastName,jdbcType=VARCHAR}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -220,8 +245,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.apex.app.domain.model.UserBase">
     update user_base
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="fullName != null">
+        full_name = #{fullName,jdbcType=VARCHAR},
       </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
@@ -241,18 +266,26 @@
       <if test="enableStatus != null">
         enable_status = #{enableStatus,jdbcType=INTEGER},
       </if>
+      <if test="firstName != null">
+        first_name = #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null">
+        last_name = #{lastName,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.apex.app.domain.model.UserBase">
     update user_base
-    set name = #{name,jdbcType=VARCHAR},
+    set full_name = #{fullName,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      enable_status = #{enableStatus,jdbcType=INTEGER}
+      enable_status = #{enableStatus,jdbcType=INTEGER},
+      first_name = #{firstName,jdbcType=VARCHAR},
+      last_name = #{lastName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -27,6 +27,8 @@ spring:
     port: 6379 # Redis server port no.
     password: # Redis server password（default empty）
     timeout: 300ms # ttl（ms）
+  jackson:
+    property-naming-strategy: SNAKE_CASE
 
 mybatis:
   mapper-locations:

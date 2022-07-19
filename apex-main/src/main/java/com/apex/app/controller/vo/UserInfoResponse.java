@@ -16,7 +16,13 @@ public class UserInfoResponse {
     private String id;
 
     @ApiModelProperty(value = "Full name")
-    private String name;
+    private String fullName;
+
+    @ApiModelProperty(value = "First name")
+    private String firstName;
+
+    @ApiModelProperty(value = "Last name")
+    private String lastName;
 
     private String email;
 
@@ -32,11 +38,13 @@ public class UserInfoResponse {
 
     public UserInfoResponse (UserBase userBase) {
         this.id = userBase.getId();
-        this.name = userBase.getName();
+        this.fullName = userBase.getFullName();
         this.email = userBase.getEmail();
         this.avatar = userBase.getAvatar();
         this.createTime = userBase.getCreateTime();
         this.enableStatus = userBase.getEnableStatus();
         this.title = userBase.getTitle();
+        this.firstName = userBase.getFirstName();
+        this.lastName = userBase.getLastName();
     }
 }
