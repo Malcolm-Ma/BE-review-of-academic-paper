@@ -19,14 +19,14 @@ spring:
       matching-strategy: ANT_PATH_MATCHER
   servlet:
     multipart:
-      enabled: true #开启文件上传
-      max-file-size: 10MB #限制文件上传大小为10M
+      enabled: true # enable file uploading
+      max-file-size: 10MB # limited file size of 10 MB
   redis:
-    host: localhost # Redis服务器地址
-    database: 0 # Redis数据库索引（默认为0）
-    port: 6379 # Redis服务器连接端口
-    password: # Redis服务器连接密码（默认为空）
-    timeout: 300ms # 连接超时时间（毫秒）
+    host: localhost # Redis server address
+    database: 0 # Redis index（default 0）
+    port: 6379 # Redis server port no.
+    password: # Redis server password（default empty）
+    timeout: 300ms # ttl（ms）
 
 mybatis:
   mapper-locations:
@@ -34,15 +34,15 @@ mybatis:
     - classpath*:com/**/mapper/*.xml
 
 minio:
-  endpoint: https://minio.malcolmpro.com #MinIO服务所在地址
-  bucketName: apex #存储桶名称
-  accessKey: minioadmin #访问的key
-  secretKey: minioadmin #访问的秘钥
+  endpoint: https://minio.malcolmpro.com #MinIO server address
+  bucketName: apex
+  accessKey: minioadmin
+  secretKey: minioadmin
 
 jwt:
   tokenHeader: Authorization # JWT header for storage
-  secret: secret-apex-review-of-acdemic-paper # The key used for JWT encryption and decryption
-  expiration: 604800 # JWT expired time (seconds) (7 * 24 * 60 * 60)
+  secret: secret-apex-review-of-academic-paper # The key used for JWT encryption and decryption
+  expiration: 86400 # JWT expired time (seconds) (1 * 24 * 60 * 60)
   tokenHead: 'Bearer '  # The beginning in the JWT load
 
 secure:
