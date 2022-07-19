@@ -1,10 +1,12 @@
 package com.apex.app.controller;
 
 import com.apex.app.common.api.CommonResult;
+import com.apex.app.controller.vo.UserInfoResponse;
 import com.apex.app.controller.vo.UserLoginRequest;
 import com.apex.app.controller.vo.UserRegisterRequest;
 import com.apex.app.domain.model.UserBase;
 import com.apex.app.service.UserAuthService;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +52,14 @@ public class UserAuthController {
             return CommonResult.failed();
         }
         return CommonResult.success(userBase);
+    }
+
+    @ApiOperation(value = "User Current Information")
+    @GetMapping("/info/get")
+    @ResponseBody
+    public CommonResult<UserInfoResponse> getUserInfo() {
+        UserBase user = userAuthService.getCurrentUser();
+        UserInfoResponse resp = new UserInfoResponse(user);
+        return CommonResult.success(resp);
     }
 }

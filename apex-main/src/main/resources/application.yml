@@ -61,7 +61,7 @@ secure:
       - /druid/**
       - /user/login
       - /user/register
-      - /admin/logout
+      - /user/logout
       - /file/upload
 
 redis:

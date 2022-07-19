@@ -1,5 +1,6 @@
 package com.apex.app.service;
 
+import com.apex.app.controller.vo.UserInfoResponse;
 import com.apex.app.controller.vo.UserLoginRequest;
 import com.apex.app.controller.vo.UserRegisterRequest;
 import com.apex.app.domain.model.UserBase;
@@ -31,5 +32,7 @@ public interface UserAuthService {
     UserDetails getUserByUsername(String username);
 
     CacheService getCacheService();
+
+    UserBase getCurrentUser();
 
 }

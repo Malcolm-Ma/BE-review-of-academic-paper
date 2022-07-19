@@ -53,4 +53,8 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return userBase.getEnableStatus().equals(1);
     }
+
+    public UserBase getUserBase() {
+        return userBase;
+    }
 }

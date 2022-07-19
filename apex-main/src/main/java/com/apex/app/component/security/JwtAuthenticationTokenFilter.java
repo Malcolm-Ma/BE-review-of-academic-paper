@@ -58,6 +58,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     log.info("Authenticated user: {}", username);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {
+                    log.warn("Unauthenticated user: {}", username);
                 }
             }
         }

@@ -37,6 +37,7 @@
         <jjwt.version>0.9.1</jjwt.version>
         <minio.version>8.4.1</minio.version>
         <jaxb-api.version>2.3.0</jaxb-api.version>
+        <hutool.version>5.8.0</hutool.version>
         <apex-mbg.version>0.0.1-SNAPSHOT</apex-mbg.version>
     </properties>
 
@@ -74,6 +75,11 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
@@ -101,12 +107,6 @@
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper</artifactId>
                 <version>${pagehelper.version}</version>
-            </dependency>
-            <!--Hutool Java工具包-->
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-all</artifactId>
-                <version>${hutool.version}</version>
             </dependency>
             <!--Swagger-UI API文档生产工具-->
             <dependency>
@@ -159,6 +159,12 @@
                 <groupId>javax.xml.bind</groupId>
                 <artifactId>jaxb-api</artifactId>
                 <version>${jaxb-api.version}</version>
+            </dependency>
+            <!--Hutool Java utils-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

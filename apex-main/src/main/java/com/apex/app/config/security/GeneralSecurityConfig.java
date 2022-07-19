@@ -1,6 +1,8 @@
 package com.apex.app.config.security;
 
 import com.apex.app.component.security.JwtAuthenticationTokenFilter;
+import com.apex.app.component.security.RestAuthenticationEntryPoint;
+import com.apex.app.component.security.RestfulAccessDeniedHandler;
 import com.apex.app.util.JwtTokenUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +35,16 @@ public class GeneralSecurityConfig {
     @Bean
     public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter(){
         return new JwtAuthenticationTokenFilter();
+    }
+
+    @Bean
+    public RestfulAccessDeniedHandler restfulAccessDeniedHandler() {
+        return new RestfulAccessDeniedHandler();
+    }
+
+    @Bean
+    public RestAuthenticationEntryPoint restAuthenticationEntryPoint() {
+        return new RestAuthenticationEntryPoint();
     }
 
 }
