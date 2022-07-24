@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apex.app.mapper.UserReviewEvaluationMapper">
+  <resultMap id="BaseResultMap" type="com.apex.app.domain.model.UserReviewEvaluation">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="task_id" jdbcType="VARCHAR" property="taskId" />
+    <result column="review_date" jdbcType="TIMESTAMP" property="reviewDate" />
+    <result column="index" jdbcType="TINYINT" property="index" />
+    <result column="total_score" jdbcType="SMALLINT" property="totalScore" />
+    <result column="confidence" jdbcType="TINYINT" property="confidence" />
+    <result column="as_short_paper" jdbcType="TINYINT" property="asShortPaper" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.apex.app.domain.model.UserReviewEvaluation">
+    <result column="evaluation_content" jdbcType="LONGVARCHAR" property="evaluationContent" />
+    <result column="confidence_remark" jdbcType="LONGVARCHAR" property="confidenceRemark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, task_id, review_date, index, total_score, confidence, as_short_paper, 
+    status
+  </sql>
+  <sql id="Blob_Column_List">
+    evaluation_content, confidence_remark
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.apex.app.domain.model.UserReviewEvaluationExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from user_review_evaluation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.apex.app.domain.model.UserReviewEvaluationExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_review_evaluation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from user_review_evaluation
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user_review_evaluation
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.apex.app.domain.model.UserReviewEvaluationExample">
+    delete from user_review_evaluation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.apex.app.domain.model.UserReviewEvaluation">
+    insert into user_review_evaluation (id, user_id, task_id, 
+      review_date, index, total_score, 
+      confidence, as_short_paper, status, 
+      evaluation_content, confidence_remark
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR}, 
+      #{reviewDate,jdbcType=TIMESTAMP}, #{index,jdbcType=TINYINT}, #{totalScore,jdbcType=SMALLINT}, 
+      #{confidence,jdbcType=TINYINT}, #{asShortPaper,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
+      #{evaluationContent,jdbcType=LONGVARCHAR}, #{confidenceRemark,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.apex.app.domain.model.UserReviewEvaluation">
+    insert into user_review_evaluation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="reviewDate != null">
+        review_date,
+      </if>
+      <if test="index != null">
+        index,
+      </if>
+      <if test="totalScore != null">
+        total_score,
+      </if>
+      <if test="confidence != null">
+        confidence,
+      </if>
+      <if test="asShortPaper != null">
+        as_short_paper,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="evaluationContent != null">
+        evaluation_content,
+      </if>
+      <if test="confidenceRemark != null">
+        confidence_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewDate != null">
+        #{reviewDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="index != null">
+        #{index,jdbcType=TINYINT},
+      </if>
+      <if test="totalScore != null">
+        #{totalScore,jdbcType=SMALLINT},
+      </if>
+      <if test="confidence != null">
+        #{confidence,jdbcType=TINYINT},
+      </if>
+      <if test="asShortPaper != null">
+        #{asShortPaper,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="evaluationContent != null">
+        #{evaluationContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="confidenceRemark != null">
+        #{confidenceRemark,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.apex.app.domain.model.UserReviewEvaluationExample" resultType="java.lang.Long">
+    select count(*) from user_review_evaluation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user_review_evaluation
+    <set>
+      <if test="row.id != null">
+        id = #{row.id,jdbcType=BIGINT},
+      </if>
+      <if test="row.userId != null">
+        user_id = #{row.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="row.taskId != null">
+        task_id = #{row.taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="row.reviewDate != null">
+        review_date = #{row.reviewDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.index != null">
+        index = #{row.index,jdbcType=TINYINT},
+      </if>
+      <if test="row.totalScore != null">
+        total_score = #{row.totalScore,jdbcType=SMALLINT},
+      </if>
+      <if test="row.confidence != null">
+        confidence = #{row.confidence,jdbcType=TINYINT},
+      </if>
+      <if test="row.asShortPaper != null">
+        as_short_paper = #{row.asShortPaper,jdbcType=TINYINT},
+      </if>
+      <if test="row.status != null">
+        status = #{row.status,jdbcType=TINYINT},
+      </if>
+      <if test="row.evaluationContent != null">
+        evaluation_content = #{row.evaluationContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="row.confidenceRemark != null">
+        confidence_remark = #{row.confidenceRemark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update user_review_evaluation
+    set id = #{row.id,jdbcType=BIGINT},
+      user_id = #{row.userId,jdbcType=VARCHAR},
+      task_id = #{row.taskId,jdbcType=VARCHAR},
+      review_date = #{row.reviewDate,jdbcType=TIMESTAMP},
+      index = #{row.index,jdbcType=TINYINT},
+      total_score = #{row.totalScore,jdbcType=SMALLINT},
+      confidence = #{row.confidence,jdbcType=TINYINT},
+      as_short_paper = #{row.asShortPaper,jdbcType=TINYINT},
+      status = #{row.status,jdbcType=TINYINT},
+      evaluation_content = #{row.evaluationContent,jdbcType=LONGVARCHAR},
+      confidence_remark = #{row.confidenceRemark,jdbcType=LONGVARCHAR}
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user_review_evaluation
+    set id = #{row.id,jdbcType=BIGINT},
+      user_id = #{row.userId,jdbcType=VARCHAR},
+      task_id = #{row.taskId,jdbcType=VARCHAR},
+      review_date = #{row.reviewDate,jdbcType=TIMESTAMP},
+      index = #{row.index,jdbcType=TINYINT},
+      total_score = #{row.totalScore,jdbcType=SMALLINT},
+      confidence = #{row.confidence,jdbcType=TINYINT},
+      as_short_paper = #{row.asShortPaper,jdbcType=TINYINT},
+      status = #{row.status,jdbcType=TINYINT}
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.apex.app.domain.model.UserReviewEvaluation">
+    update user_review_evaluation
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewDate != null">
+        review_date = #{reviewDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="index != null">
+        index = #{index,jdbcType=TINYINT},
+      </if>
+      <if test="totalScore != null">
+        total_score = #{totalScore,jdbcType=SMALLINT},
+      </if>
+      <if test="confidence != null">
+        confidence = #{confidence,jdbcType=TINYINT},
+      </if>
+      <if test="asShortPaper != null">
+        as_short_paper = #{asShortPaper,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="evaluationContent != null">
+        evaluation_content = #{evaluationContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="confidenceRemark != null">
+        confidence_remark = #{confidenceRemark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.apex.app.domain.model.UserReviewEvaluation">
+    update user_review_evaluation
+    set user_id = #{userId,jdbcType=VARCHAR},
+      task_id = #{taskId,jdbcType=VARCHAR},
+      review_date = #{reviewDate,jdbcType=TIMESTAMP},
+      index = #{index,jdbcType=TINYINT},
+      total_score = #{totalScore,jdbcType=SMALLINT},
+      confidence = #{confidence,jdbcType=TINYINT},
+      as_short_paper = #{asShortPaper,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      evaluation_content = #{evaluationContent,jdbcType=LONGVARCHAR},
+      confidence_remark = #{confidenceRemark,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.apex.app.domain.model.UserReviewEvaluation">
+    update user_review_evaluation
+    set user_id = #{userId,jdbcType=VARCHAR},
+      task_id = #{taskId,jdbcType=VARCHAR},
+      review_date = #{reviewDate,jdbcType=TIMESTAMP},
+      index = #{index,jdbcType=TINYINT},
+      total_score = #{totalScore,jdbcType=SMALLINT},
+      confidence = #{confidence,jdbcType=TINYINT},
+      as_short_paper = #{asShortPaper,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
