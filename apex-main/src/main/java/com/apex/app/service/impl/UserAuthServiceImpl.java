@@ -77,12 +77,15 @@ public class UserAuthServiceImpl implements UserAuthService {
             return null;
         }
 
+        userBase.setFullName(userBase.getFirstName() + " " + userBase.getLastName());
         // Encode password
         String encodedPassword = passwordEncoder.encode(userBase.getPassword());
         userBase.setPassword(encodedPassword);
         // Set uuid
         userBase.setId(UUID.randomUUID().toString());
         userBaseMapper.insert(userBase);
+
+        userBase.setPassword(null);
         return userBase;
     }
 

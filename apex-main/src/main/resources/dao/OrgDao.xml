@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apex.app.dao.OrgDao">
+
+    <select id="getOrgMemberList" resultType="com.apex.app.domain.bo.OrgMemberBo">
+        select u.id            id,
+               u.full_name     fullName,
+               u.first_name    firstName,
+               u.last_name     lastName,
+               u.title         title,
+               u.enable_status enableStatus,
+               u.email         email,
+               u.avatar        avatar,
+               m.create_time   memberSince,
+               m.type          type
+        from user_org_merge m
+                 left join user_base u on m.user_id = u.id
+        where m.org_id = #{org_id}
+    </select>
+
+    <select id="getOrgListByUserId" resultType="com.apex.app.domain.bo.OrgListByUserBo">
+        select org.id id,
+               org.name name,
+               org.create_time createTime,
+               org.active_status activeStatus,
+               org.description description,
+               org.email email,
+               m.type userType
+        from user_org_merge m
+                 left join org_base org on m.org_id = org.id
+        where m.user_id = #{user_id}
+    </select>
+
+</mapper>

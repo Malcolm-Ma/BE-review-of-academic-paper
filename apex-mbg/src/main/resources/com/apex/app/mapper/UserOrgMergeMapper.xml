@@ -6,6 +6,7 @@
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="org_id" jdbcType="VARCHAR" property="orgId" />
     <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, org_id, type
+    id, user_id, org_id, type, create_time
   </sql>
   <select id="selectByExample" parameterType="com.apex.app.domain.model.UserOrgMergeExample" resultMap="BaseResultMap">
     select
@@ -100,9 +101,9 @@
   </delete>
   <insert id="insert" parameterType="com.apex.app.domain.model.UserOrgMerge">
     insert into user_org_merge (id, user_id, org_id, 
-      type)
+      type, create_time)
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, 
-      #{type,jdbcType=INTEGER})
+      #{type,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.apex.app.domain.model.UserOrgMerge">
     insert into user_org_merge
@@ -119,6 +120,9 @@
       <if test="type != null">
         type,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -132,6 +136,9 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -156,6 +163,9 @@
       <if test="row.type != null">
         type = #{row.type,jdbcType=INTEGER},
       </if>
+      <if test="row.createTime != null">
+        create_time = #{row.createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -166,7 +176,8 @@
     set id = #{row.id,jdbcType=BIGINT},
       user_id = #{row.userId,jdbcType=VARCHAR},
       org_id = #{row.orgId,jdbcType=VARCHAR},
-      type = #{row.type,jdbcType=INTEGER}
+      type = #{row.type,jdbcType=INTEGER},
+      create_time = #{row.createTime,jdbcType=TIMESTAMP}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -183,6 +194,9 @@
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -190,7 +204,8 @@
     update user_org_merge
     set user_id = #{userId,jdbcType=VARCHAR},
       org_id = #{orgId,jdbcType=VARCHAR},
-      type = #{type,jdbcType=INTEGER}
+      type = #{type,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

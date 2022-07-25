@@ -2,6 +2,7 @@ package com.apex.app.domain.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.util.Date;
 
 public class UserOrgMerge implements Serializable {
     private Long id;
@@ -12,6 +13,8 @@ public class UserOrgMerge implements Serializable {
 
     @ApiModelProperty(value = "Relationship type: 0->disabled; 1->member; 2->manager")
     private Integer type;
+
+    private Date createTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -47,6 +50,14 @@ public class UserOrgMerge implements Serializable {
         this.type = type;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -57,6 +68,7 @@ public class UserOrgMerge implements Serializable {
         sb.append(", userId=").append(userId);
         sb.append(", orgId=").append(orgId);
         sb.append(", type=").append(type);
+        sb.append(", createTime=").append(createTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
