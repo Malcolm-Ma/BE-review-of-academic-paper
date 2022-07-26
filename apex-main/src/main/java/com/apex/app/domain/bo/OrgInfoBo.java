@@ -33,7 +33,7 @@ public class OrgInfoBo extends OrgBase {
 
     public void appendMembers(List<OrgMemberBo> allMemberList) {
         for (OrgMemberBo member : allMemberList) {
-            if (member.getType() == 2) {
+            if (member.getType() >= 2) {
                 managerList.add(member);
             }
             if (member.getType() == 1) {

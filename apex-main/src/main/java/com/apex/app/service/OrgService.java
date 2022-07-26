@@ -2,6 +2,8 @@ package com.apex.app.service;
 
 import com.apex.app.controller.vo.OrgCreateRequest;
 import com.apex.app.controller.vo.OrgInfoUpdateRequest;
+import com.apex.app.controller.vo.OrgSetMemberRequest;
+import com.apex.app.controller.vo.OrgSetMemberResponse;
 import com.apex.app.domain.bo.OrgInfoBo;
 import com.apex.app.domain.bo.OrgListByUserBo;
 import com.apex.app.domain.bo.OrgMemberBo;
@@ -52,5 +54,7 @@ public interface OrgService {
      * @return detail information bo
      */
     OrgInfoBo getOrgDetail(String orgId);
+
+    OrgSetMemberResponse setOrgMembers(OrgSetMemberRequest request);
 
 }

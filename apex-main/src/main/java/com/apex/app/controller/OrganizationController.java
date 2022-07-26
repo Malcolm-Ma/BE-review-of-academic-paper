@@ -3,6 +3,8 @@ package com.apex.app.controller;
 import com.apex.app.common.api.CommonResult;
 import com.apex.app.controller.vo.OrgCreateRequest;
 import com.apex.app.controller.vo.OrgInfoUpdateRequest;
+import com.apex.app.controller.vo.OrgSetMemberRequest;
+import com.apex.app.controller.vo.OrgSetMemberResponse;
 import com.apex.app.domain.bo.OrgInfoBo;
 import com.apex.app.domain.bo.OrgListByUserBo;
 import com.apex.app.domain.bo.OrgMemberBo;
@@ -87,6 +89,18 @@ public class OrganizationController {
     ) {
         OrgInfoBo result = orgService.getOrgDetail(orgId);
         return CommonResult.success(result);
+    }
+
+    @ApiOperation("Set members into an organization")
+    @PostMapping("/member/set")
+    @ResponseBody
+    public CommonResult<OrgSetMemberResponse> setOrgMembers(
+            @Validated
+            @RequestBody
+            OrgSetMemberRequest orgSetMemberRequest
+    ) {
+        OrgSetMemberResponse response = orgService.setOrgMembers(orgSetMemberRequest);
+        return CommonResult.success(response);
     }
 
 }
