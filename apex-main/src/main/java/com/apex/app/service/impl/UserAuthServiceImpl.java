@@ -134,4 +134,10 @@ public class UserAuthServiceImpl implements UserAuthService {
         CustomUserDetails customUserDetails = (CustomUserDetails) auth.getPrincipal();
         return customUserDetails.getUserBase();
     }
+
+    @Override
+    public void logout() {
+        UserBase user = getCurrentUser();
+        getCacheService().deleteUser(user.getId());
+    }
 }

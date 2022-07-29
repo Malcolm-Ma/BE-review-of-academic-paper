@@ -107,7 +107,7 @@ def insert_user(org_list):
         sample_id = random.sample(user_id_list, 10)
         for user_id in sample_id:
             date_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            sql = "INSERT INTO user_org_merge (org_id, user_id, type, create_time) VALUES ('{0}','{1}', '{2}', '{3}')" \
+            sql = "INSERT INTO user_org_merge (org_id, user_id, type, create_time) VALUES ('{0}','{1}','{2}','{3}')" \
                 .format(org_id, user_id, 1, date_time)
             with sql_conn.cursor() as cursor:
                 cursor.execute(sql)

@@ -35,4 +35,6 @@ public interface UserAuthService {
 
     UserBase getCurrentUser();
 
+    void logout();
+
 }

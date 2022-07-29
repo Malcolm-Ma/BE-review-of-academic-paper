@@ -64,4 +64,12 @@ public class UserAuthController {
         UserInfoResponse resp = new UserInfoResponse(user);
         return CommonResult.success(resp);
     }
+
+    @ApiOperation(value = "Sign out")
+    @GetMapping("/logout")
+    @ResponseBody
+    public CommonResult logout() {
+        userAuthService.logout();
+        return CommonResult.success(null);
+    }
 }
