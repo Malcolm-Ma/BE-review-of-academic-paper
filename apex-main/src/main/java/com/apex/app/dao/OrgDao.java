@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * 
+ * Org Dao
+ *
  * @author Mingze Ma
  */
 @Repository

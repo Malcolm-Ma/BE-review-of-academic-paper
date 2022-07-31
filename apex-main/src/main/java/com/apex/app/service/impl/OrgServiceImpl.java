@@ -74,8 +74,18 @@ public class OrgServiceImpl implements OrgService {
         userOrgMerge.setType(UserTypeEnum.OWNER.getValue());
         userOrgMerge.setCreateTime(new Date());
         userOrgMergeMapper.insert(userOrgMerge);
-
         log.info("Create org: {}", orgBase);
+
+        // Set users if applicable
+        List<String> userIdList = orgCreateRequest.getUserIdList();
+        if (userIdList != null && userIdList.size() > 0) {
+            OrgSetMemberRequest orgSetMemberRequest = new OrgSetMemberRequest();
+            orgSetMemberRequest.setOrgId(orgBase.getId());
+            orgSetMemberRequest.setIndexType("id");
+            orgSetMemberRequest.setUserType(UserTypeEnum.MEMBER);
+            orgSetMemberRequest.setIndexList(userIdList);
+            setOrgMembers(orgSetMemberRequest);
+        }
 
         return orgBase;
     }

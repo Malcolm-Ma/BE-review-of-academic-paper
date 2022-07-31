@@ -3,7 +3,9 @@ package com.apex.app.service.impl;
 import com.apex.app.common.exception.Asserts;
 import com.apex.app.controller.vo.UserLoginRequest;
 import com.apex.app.controller.vo.UserRegisterRequest;
+import com.apex.app.dao.UserDao;
 import com.apex.app.domain.bo.CustomUserDetails;
+import com.apex.app.domain.bo.UserSearchResultBo;
 import com.apex.app.mapper.UserBaseMapper;
 import com.apex.app.domain.model.UserBase;
 import com.apex.app.domain.model.UserBaseExample;
@@ -11,6 +13,7 @@ import com.apex.app.service.CacheService;
 import com.apex.app.service.UserAuthService;
 import com.apex.app.util.JwtTokenUtil;
 import com.apex.app.util.SpringUtil;
+import com.apex.app.util.SqlUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,9 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @Autowired
     UserBaseMapper userBaseMapper;
+
+    @Autowired
+    UserDao userDao;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -140,4 +146,14 @@ public class UserAuthServiceImpl implements UserAuthService {
         UserBase user = getCurrentUser();
         getCacheService().deleteUser(user.getId());
     }
+
+    @Override
+    public List<UserSearchResultBo> searchUser(String searchContent, Integer limit) {
+        if (limit == null) {
+            limit = 20;
+        }
+        List<UserSearchResultBo> searchResultList = userDao.searchUser(SqlUtil.parseQuery(searchContent), limit);
+        return searchResultList;
+    }
+
 }

@@ -1,10 +1,8 @@
 package com.apex.app.controller;
 
 import com.apex.app.common.api.CommonResult;
-import com.apex.app.controller.vo.UserInfoResponse;
-import com.apex.app.controller.vo.UserLoginRequest;
-import com.apex.app.controller.vo.UserRegisterRequest;
-import com.apex.app.controller.vo.UserTokenResponse;
+import com.apex.app.controller.vo.*;
+import com.apex.app.domain.bo.UserSearchResultBo;
 import com.apex.app.domain.model.UserBase;
 import com.apex.app.service.UserAuthService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Api(tags = "User Authentication Controller")
@@ -71,5 +70,13 @@ public class UserAuthController {
     public CommonResult logout() {
         userAuthService.logout();
         return CommonResult.success(null);
+    }
+
+    @ApiOperation(value = "Search User")
+    @PostMapping(value = "/search")
+    @ResponseBody
+    public CommonResult<List<UserSearchResultBo>> register(@Validated @RequestBody UserSearchRequest request) {
+        List<UserSearchResultBo> result = userAuthService.searchUser(request.getQuery(), request.getLimit());
+        return CommonResult.success(result);
     }
 }

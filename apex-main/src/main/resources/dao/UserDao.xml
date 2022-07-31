@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apex.app.dao.UserDao">
+
+
+    <select id="searchUser" resultType="com.apex.app.domain.bo.UserSearchResultBo">
+        select ub.id,
+               ub.full_name             fullName,
+               ub.email,
+               ub.create_time           createTime,
+               ub.enable_status         enableStatus,
+               ub.title,
+               ub.last_name             lastName,
+               ub.first_name            firstName,
+               ub.avatar,
+               group_concat(uom.org_id) orgIds
+        from user_base ub
+                 left join user_org_merge uom on ub.id = uom.user_id
+        where ub.email like #{query}
+           or ub.full_name like #{query}
+        group by ub.id
+        limit #{limit}
+    </select>
+
+</mapper>
