@@ -34,6 +34,8 @@ public interface UserAuthService {
      */
     UserDetails getUserByUsername(String username);
 
+    UserBase getUserById(String id);
+
     CacheService getCacheService();
 
     UserBase getCurrentUser();

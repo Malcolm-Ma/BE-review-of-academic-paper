@@ -129,6 +129,15 @@ public class UserAuthServiceImpl implements UserAuthService {
     }
 
     @Override
+    public UserBase getUserById(String id) {
+        UserBase user = userBaseMapper.selectByPrimaryKey(id);
+        if (user != null) {
+            return user;
+        }
+        throw new UsernameNotFoundException("Incorrect user id");
+    }
+
+    @Override
     public CacheService getCacheService() {
         return SpringUtil.getBean(CacheService.class);
     }

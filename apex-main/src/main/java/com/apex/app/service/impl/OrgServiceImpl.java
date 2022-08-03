@@ -113,6 +113,11 @@ public class OrgServiceImpl implements OrgService {
     @Override
     public OrgInfoBo getOrgDetail(String orgId) {
         OrgInfoBo orgInfo = new OrgInfoBo();
+        OrgBase selectedOrg = orgBaseMapper.selectByPrimaryKey(orgId);
+        if (selectedOrg == null) {
+            Asserts.fail("Invalid org id");
+            return null;
+        }
         BeanUtils.copyProperties(orgBaseMapper.selectByPrimaryKey(orgId), orgInfo);
         List<OrgMemberBo> allMemberList = orgDao.getOrgMemberList(orgId);
         orgInfo.appendMembers(allMemberList);

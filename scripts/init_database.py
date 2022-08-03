@@ -42,8 +42,7 @@ def create_user():
     title = fake.prefix()
     email = fake.safe_email()
     password = fake.password()
-    avatar = ('https://www.gravatar.com/avatar/' + hashlib.md5(email.encode('utf-8')).hexdigest() + '?d=identicon') \
-        if time.thread_time() % 2 == 0 else ''
+    avatar = 'https://www.gravatar.com/avatar/' + hashlib.md5(email.encode('utf-8')).hexdigest() + '?d=identicon'
 
     data = {
         'first_name': first_name,
@@ -90,7 +89,7 @@ def create_org(header):
     return org_list
 
 
-def insert_user(org_list):
+def insert_user_to_org(org_list):
     user_id_list = []
     sql = "SELECT id from user_base WHERE id != 'admin'"
     try:
@@ -104,7 +103,7 @@ def insert_user(org_list):
     print(user_id_list)
 
     for org_id in org_list:
-        sample_id = random.sample(user_id_list, 10)
+        sample_id = random.sample(user_id_list, 20)
         for user_id in sample_id:
             date_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             sql = "INSERT INTO user_org_merge (org_id, user_id, type, create_time) VALUES ('{0}','{1}','{2}','{3}')" \
@@ -112,6 +111,51 @@ def insert_user(org_list):
             with sql_conn.cursor() as cursor:
                 cursor.execute(sql)
             sql_conn.commit()
+
+
+def get_user_id_from_org(header, org_id):
+    req = requests.get(SERVICE_URL + '/org/member_list/get?org_id=' + org_id, headers=header)
+    result = json.loads(req.text)
+    user_id_list = []
+    for user in result['data']:
+        user_id_list.append(user['id'])
+    return user_id_list
+
+
+def get_org_list_by_user_id(header, user_id):
+    req = requests.get(SERVICE_URL + '/org/list/get?user_id=' + user_id, headers=header)
+    result = json.loads(req.text)
+    org_id_list = []
+    for org in result['data']:
+        org_id_list.append(org['id'])
+    return org_id_list
+
+
+def create_review_task(header, org_list):
+    for org_id in org_list:
+        # get user id list
+        user_id_list = get_user_id_from_org(headers, org_id)
+        # generate fake data
+        for user_id in user_id_list:
+            author_list = []
+            for i in range(fake.random_digit_not_null()):
+                author_list.append(fake.name())
+            params = {
+                "abstracts": fake.text(),
+                "authors": ",".join(author_list),
+                "contact_email": fake.safe_email(),
+                "deadline": "2022-09-02T22:53:27.379Z",
+                "keywords": ",".join(fake.words(unique=True)),
+                "org_id": org_id,
+                "published_time": "2022-08-01T00:00:27.379Z",
+                "resource_url": "https://minio.malcolmpro.com/apex/02-08-2022/fbbf07d3-1659463084353.pdf",
+                "title": fake.sentence(),
+                "user_id": user_id,
+            }
+            print(params)
+            req = requests.post(SERVICE_URL + '/review/create',json=params, headers=header)
+            result = json.loads(req.text)
+            print(result['data'])
 
 
 if __name__ == '__main__':
@@ -122,8 +166,11 @@ if __name__ == '__main__':
     headers = set_token()
 
     # create org
-    org_id_list = create_org(headers)
+    # org_id_list = create_org(headers)
 
-    insert_user(org_id_list)
+    # insert_user_to_org(org_id_list)
+
+    admin_org_id_list = get_org_list_by_user_id(headers, 'admin')
+    create_review_task(headers, admin_org_id_list)
 
 sql_conn.close()

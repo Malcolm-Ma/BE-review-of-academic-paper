@@ -40,7 +40,7 @@ public class CacheServiceImpl implements CacheService {
 
     @Override
     public void setUser(UserBase user) {
-        String key = REDIS_DATABASE + ":" + REDIS_KEY_USER + ":" + user.getId();
+        String key = REDIS_DATABASE + ":" + REDIS_KEY_USER + ":" + user.getEmail();
         redisService.set(key, user, REDIS_EXPIRE);
     }
 
@@ -51,10 +51,10 @@ public class CacheServiceImpl implements CacheService {
     }
 
     @Override
-    public void deleteUser(String uid) {
-        UserBase user = userBaseMapper.selectByPrimaryKey(uid);
+    public void deleteUser(String username) {
+        UserBase user = userBaseMapper.selectByPrimaryKey(username);
         if (user != null) {
-            String key = REDIS_DATABASE + ":" + REDIS_KEY_USER + ":" + user.getId();
+            String key = REDIS_DATABASE + ":" + REDIS_KEY_USER + ":" + user.getEmail();
             redisService.del(key);
         }
     }
