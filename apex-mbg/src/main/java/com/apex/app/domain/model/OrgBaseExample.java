@@ -434,6 +434,126 @@ public class OrgBaseExample {
             addCriterion("email not between", value1, value2, "email");
             return (Criteria) this;
         }
+
+        public Criteria andSubmissionDdlIsNull() {
+            addCriterion("submission_ddl is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmissionDdlIsNotNull() {
+            addCriterion("submission_ddl is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmissionDdlEqualTo(Date value) {
+            addCriterion("submission_ddl =", value, "submissionDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmissionDdlNotEqualTo(Date value) {
+            addCriterion("submission_ddl <>", value, "submissionDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmissionDdlGreaterThan(Date value) {
+            addCriterion("submission_ddl >", value, "submissionDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmissionDdlGreaterThanOrEqualTo(Date value) {
+            addCriterion("submission_ddl >=", value, "submissionDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmissionDdlLessThan(Date value) {
+            addCriterion("submission_ddl <", value, "submissionDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmissionDdlLessThanOrEqualTo(Date value) {
+            addCriterion("submission_ddl <=", value, "submissionDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmissionDdlIn(List<Date> values) {
+            addCriterion("submission_ddl in", values, "submissionDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmissionDdlNotIn(List<Date> values) {
+            addCriterion("submission_ddl not in", values, "submissionDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmissionDdlBetween(Date value1, Date value2) {
+            addCriterion("submission_ddl between", value1, value2, "submissionDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubmissionDdlNotBetween(Date value1, Date value2) {
+            addCriterion("submission_ddl not between", value1, value2, "submissionDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewProcessIsNull() {
+            addCriterion("review_process is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewProcessIsNotNull() {
+            addCriterion("review_process is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewProcessEqualTo(Byte value) {
+            addCriterion("review_process =", value, "reviewProcess");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewProcessNotEqualTo(Byte value) {
+            addCriterion("review_process <>", value, "reviewProcess");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewProcessGreaterThan(Byte value) {
+            addCriterion("review_process >", value, "reviewProcess");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewProcessGreaterThanOrEqualTo(Byte value) {
+            addCriterion("review_process >=", value, "reviewProcess");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewProcessLessThan(Byte value) {
+            addCriterion("review_process <", value, "reviewProcess");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewProcessLessThanOrEqualTo(Byte value) {
+            addCriterion("review_process <=", value, "reviewProcess");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewProcessIn(List<Byte> values) {
+            addCriterion("review_process in", values, "reviewProcess");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewProcessNotIn(List<Byte> values) {
+            addCriterion("review_process not in", values, "reviewProcess");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewProcessBetween(Byte value1, Byte value2) {
+            addCriterion("review_process between", value1, value2, "reviewProcess");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewProcessNotBetween(Byte value1, Byte value2) {
+            addCriterion("review_process not between", value1, value2, "reviewProcess");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

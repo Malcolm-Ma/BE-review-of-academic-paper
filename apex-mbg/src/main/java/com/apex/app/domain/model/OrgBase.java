@@ -15,6 +15,11 @@ public class OrgBase implements Serializable {
 
     private String email;
 
+    private Date submissionDdl;
+
+    @ApiModelProperty(value = "0 -> preparing; 1 -> collecting; 2 -> bidding; 3 -> reviewing; 4 -> finished")
+    private Byte reviewProcess;
+
     private String description;
 
     private static final long serialVersionUID = 1L;
@@ -59,6 +64,22 @@ public class OrgBase implements Serializable {
         this.email = email;
     }
 
+    public Date getSubmissionDdl() {
+        return submissionDdl;
+    }
+
+    public void setSubmissionDdl(Date submissionDdl) {
+        this.submissionDdl = submissionDdl;
+    }
+
+    public Byte getReviewProcess() {
+        return reviewProcess;
+    }
+
+    public void setReviewProcess(Byte reviewProcess) {
+        this.reviewProcess = reviewProcess;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -78,6 +99,8 @@ public class OrgBase implements Serializable {
         sb.append(", createTime=").append(createTime);
         sb.append(", activeStatus=").append(activeStatus);
         sb.append(", email=").append(email);
+        sb.append(", submissionDdl=").append(submissionDdl);
+        sb.append(", reviewProcess=").append(reviewProcess);
         sb.append(", description=").append(description);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

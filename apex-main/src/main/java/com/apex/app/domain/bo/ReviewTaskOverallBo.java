@@ -4,6 +4,8 @@ import cn.hutool.core.bean.BeanUtil;
 import com.apex.app.domain.model.PaperBase;
 import com.apex.app.domain.model.ReviewTaskOverall;
 import com.apex.app.domain.model.UserBase;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 
 /**
@@ -14,6 +16,11 @@ import lombok.Data;
 @Data
 public class ReviewTaskOverallBo {
 
+    private String id;
+
+    @ApiModelProperty(value = "key for frontend table render")
+    private String key;
+
     private UserDisplayBo userInfo;
 
     private String orgId;
@@ -22,15 +29,13 @@ public class ReviewTaskOverallBo {
 
     private ReviewTaskOverall reviewTask;
 
-    public ReviewTaskOverallBo() {
-
-    }
-
     public ReviewTaskOverallBo(UserBase userBase, String orgId, PaperBase paperInfo, ReviewTaskOverall reviewTask) {
         setUserInfo(userBase);
         this.orgId = orgId;
         this.paperInfo = paperInfo;
         this.reviewTask = reviewTask;
+        this.id = reviewTask.getId();
+        this.key = reviewTask.getId();
     }
 
     public void setUserInfo(UserBase userBase) {

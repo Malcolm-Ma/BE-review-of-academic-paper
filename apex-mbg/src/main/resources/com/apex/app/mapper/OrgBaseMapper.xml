@@ -7,6 +7,8 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="active_status" jdbcType="INTEGER" property="activeStatus" />
     <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="submission_ddl" jdbcType="TIMESTAMP" property="submissionDdl" />
+    <result column="review_process" jdbcType="TINYINT" property="reviewProcess" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.apex.app.domain.model.OrgBase">
     <result column="description" jdbcType="LONGVARCHAR" property="description" />
@@ -70,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, create_time, active_status, email
+    id, name, create_time, active_status, email, submission_ddl, review_process
   </sql>
   <sql id="Blob_Column_List">
     description
@@ -125,11 +127,11 @@
   </delete>
   <insert id="insert" parameterType="com.apex.app.domain.model.OrgBase">
     insert into org_base (id, name, create_time, 
-      active_status, email, description
-      )
+      active_status, email, submission_ddl, 
+      review_process, description)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{activeStatus,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR}
-      )
+      #{activeStatus,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{submissionDdl,jdbcType=TIMESTAMP}, 
+      #{reviewProcess,jdbcType=TINYINT}, #{description,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.apex.app.domain.model.OrgBase">
     insert into org_base
@@ -148,6 +150,12 @@
       </if>
       <if test="email != null">
         email,
+      </if>
+      <if test="submissionDdl != null">
+        submission_ddl,
+      </if>
+      <if test="reviewProcess != null">
+        review_process,
       </if>
       <if test="description != null">
         description,
@@ -168,6 +176,12 @@
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="submissionDdl != null">
+        #{submissionDdl,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reviewProcess != null">
+        #{reviewProcess,jdbcType=TINYINT},
       </if>
       <if test="description != null">
         #{description,jdbcType=LONGVARCHAR},
@@ -198,6 +212,12 @@
       <if test="row.email != null">
         email = #{row.email,jdbcType=VARCHAR},
       </if>
+      <if test="row.submissionDdl != null">
+        submission_ddl = #{row.submissionDdl,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.reviewProcess != null">
+        review_process = #{row.reviewProcess,jdbcType=TINYINT},
+      </if>
       <if test="row.description != null">
         description = #{row.description,jdbcType=LONGVARCHAR},
       </if>
@@ -213,6 +233,8 @@
       create_time = #{row.createTime,jdbcType=TIMESTAMP},
       active_status = #{row.activeStatus,jdbcType=INTEGER},
       email = #{row.email,jdbcType=VARCHAR},
+      submission_ddl = #{row.submissionDdl,jdbcType=TIMESTAMP},
+      review_process = #{row.reviewProcess,jdbcType=TINYINT},
       description = #{row.description,jdbcType=LONGVARCHAR}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -224,7 +246,9 @@
       name = #{row.name,jdbcType=VARCHAR},
       create_time = #{row.createTime,jdbcType=TIMESTAMP},
       active_status = #{row.activeStatus,jdbcType=INTEGER},
-      email = #{row.email,jdbcType=VARCHAR}
+      email = #{row.email,jdbcType=VARCHAR},
+      submission_ddl = #{row.submissionDdl,jdbcType=TIMESTAMP},
+      review_process = #{row.reviewProcess,jdbcType=TINYINT}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -244,6 +268,12 @@
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
+      <if test="submissionDdl != null">
+        submission_ddl = #{submissionDdl,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reviewProcess != null">
+        review_process = #{reviewProcess,jdbcType=TINYINT},
+      </if>
       <if test="description != null">
         description = #{description,jdbcType=LONGVARCHAR},
       </if>
@@ -256,6 +286,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       active_status = #{activeStatus,jdbcType=INTEGER},
       email = #{email,jdbcType=VARCHAR},
+      submission_ddl = #{submissionDdl,jdbcType=TIMESTAMP},
+      review_process = #{reviewProcess,jdbcType=TINYINT},
       description = #{description,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -264,7 +296,9 @@
     set name = #{name,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       active_status = #{activeStatus,jdbcType=INTEGER},
-      email = #{email,jdbcType=VARCHAR}
+      email = #{email,jdbcType=VARCHAR},
+      submission_ddl = #{submissionDdl,jdbcType=TIMESTAMP},
+      review_process = #{reviewProcess,jdbcType=TINYINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

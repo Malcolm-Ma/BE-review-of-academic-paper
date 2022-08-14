@@ -138,7 +138,7 @@ def create_review_task(header, org_list):
         # generate fake data
         for user_id in user_id_list:
             author_list = []
-            for i in range(fake.random_digit_not_null()):
+            for i in range(fake.random_int(min=1, max=5)):
                 author_list.append(fake.name())
             params = {
                 "abstracts": fake.text(),
@@ -153,7 +153,7 @@ def create_review_task(header, org_list):
                 "user_id": user_id,
             }
             print(params)
-            req = requests.post(SERVICE_URL + '/review/create',json=params, headers=header)
+            req = requests.post(SERVICE_URL + '/review/create', json=params, headers=header)
             result = json.loads(req.text)
             print(result['data'])
 

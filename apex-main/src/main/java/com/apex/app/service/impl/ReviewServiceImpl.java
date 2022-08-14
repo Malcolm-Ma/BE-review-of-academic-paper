@@ -4,11 +4,9 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.UUID;
 import com.apex.app.common.exception.Asserts;
 import com.apex.app.controller.vo.ReviewCreateRequest;
+import com.apex.app.controller.vo.SubmissionListRequest;
 import com.apex.app.domain.bo.ReviewTaskOverallBo;
-import com.apex.app.domain.model.PaperBase;
-import com.apex.app.domain.model.PaperUserMerge;
-import com.apex.app.domain.model.ReviewTaskOverall;
-import com.apex.app.domain.model.UserBase;
+import com.apex.app.domain.model.*;
 import com.apex.app.domain.type.ReviewStatusEnum;
 import com.apex.app.mapper.PaperBaseMapper;
 import com.apex.app.mapper.PaperUserMergeMapper;
@@ -19,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -86,7 +85,26 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<ReviewTaskOverallBo> getSubmission(String orgId) {
-        return null;
+    public List<ReviewTaskOverallBo> getSubmissionList(SubmissionListRequest request) {
+        String orgId = request.getOrgId();
+
+        ReviewTaskOverallExample example = new ReviewTaskOverallExample();
+        example.createCriteria().andOrgIdEqualTo(orgId);
+        List<ReviewTaskOverall> reviewTaskOveralls = reviewTaskOverallMapper.selectByExample(example);
+
+        List<ReviewTaskOverallBo> reviewTaskOverallBoList = new ArrayList<>();
+
+        for (ReviewTaskOverall task : reviewTaskOveralls) {
+            PaperBase paper = paperBaseMapper.selectByPrimaryKey(task.getPaperId());
+            PaperUserMergeExample mergeExample = new PaperUserMergeExample();
+            mergeExample.createCriteria().andPaperIdEqualTo(paper.getId());
+            List<PaperUserMerge> mergeList = paperUserMergeMapper.selectByExample(mergeExample);
+            // Because the relationship between paper_id and user_id is one to one currently,
+            // we simply pick up index:0 for the merge record
+            UserBase user = userService.getUserById(mergeList.get(0).getUserId());
+            reviewTaskOverallBoList.add(new ReviewTaskOverallBo(user, request.getOrgId(), paper, task));
+        }
+
+        return reviewTaskOverallBoList;
     }
 }

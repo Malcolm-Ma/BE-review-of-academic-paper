@@ -1,6 +1,7 @@
 package com.apex.app.service;
 
 import com.apex.app.controller.vo.ReviewCreateRequest;
+import com.apex.app.controller.vo.SubmissionListRequest;
 import com.apex.app.domain.bo.ReviewTaskOverallBo;
 
 import java.util.List;
@@ -14,6 +15,6 @@ public interface ReviewService {
 
     ReviewTaskOverallBo createReviewTask(ReviewCreateRequest request);
 
-    List<ReviewTaskOverallBo> getSubmission(String orgId);
+    List<ReviewTaskOverallBo> getSubmissionList(SubmissionListRequest request);
 
 }
