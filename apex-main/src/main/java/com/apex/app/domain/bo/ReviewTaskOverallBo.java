@@ -5,7 +5,6 @@ import com.apex.app.domain.model.PaperBase;
 import com.apex.app.domain.model.ReviewTaskOverall;
 import com.apex.app.domain.model.UserBase;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 
 /**

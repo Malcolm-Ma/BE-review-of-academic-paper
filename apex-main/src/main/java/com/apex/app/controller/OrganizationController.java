@@ -18,7 +18,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Organization Controller
@@ -81,7 +83,7 @@ public class OrganizationController {
     @GetMapping("/detail/get")
     @ResponseBody
     public CommonResult<OrgInfoBo> getOrgDetail(
-            @ApiParam("User id for query")
+            @ApiParam("Org id for query")
             @Validated
             @RequestParam("org_id")
             @NotEmpty
@@ -101,6 +103,22 @@ public class OrganizationController {
     ) {
         OrgSetMemberResponse response = orgService.setOrgMembers(orgSetMemberRequest);
         return CommonResult.success(response);
+    }
+
+    @ApiOperation("Get submission count")
+    @GetMapping("/submission_count/get")
+    @ResponseBody
+    public CommonResult<Map<String, Integer>> getSubmissionCount(
+            @ApiParam("Org id for query")
+            @Validated
+            @RequestParam("org_id")
+            @NotEmpty
+            String orgId
+    ) {
+        Integer counts = orgService.getSubmissionCount(orgId);
+        Map<String, Integer> result = new HashMap<>();
+        result.put("count", counts);
+        return CommonResult.success(result);
     }
 
 }

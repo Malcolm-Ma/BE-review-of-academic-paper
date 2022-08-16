@@ -57,4 +57,6 @@ public interface OrgService {
 
     OrgSetMemberResponse setOrgMembers(OrgSetMemberRequest request);
 
+    Integer getSubmissionCount(String orgId);
+
 }

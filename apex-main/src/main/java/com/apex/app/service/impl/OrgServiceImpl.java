@@ -14,6 +14,7 @@ import com.apex.app.domain.bo.OrgMemberBo;
 import com.apex.app.domain.model.*;
 import com.apex.app.domain.type.UserTypeEnum;
 import com.apex.app.mapper.OrgBaseMapper;
+import com.apex.app.mapper.PaperBaseMapper;
 import com.apex.app.mapper.UserBaseMapper;
 import com.apex.app.mapper.UserOrgMergeMapper;
 import com.apex.app.service.OrgService;
@@ -45,6 +46,9 @@ public class OrgServiceImpl implements OrgService {
 
     @Autowired
     UserBaseMapper userBaseMapper;
+
+    @Autowired
+    PaperBaseMapper paperBaseMapper;
 
     @Autowired
     OrgDao orgDao;
@@ -213,6 +217,17 @@ public class OrgServiceImpl implements OrgService {
             return response;
         }
         Asserts.fail("Invalid index type, only accepted 'id' or 'email'");
+        return null;
+    }
+
+    @Override
+    public Integer getSubmissionCount(String orgId) {
+        PaperBaseExample example = new PaperBaseExample();
+        example.createCriteria().andOrgIdEqualTo(orgId);
+        List<PaperBase> paperBases = paperBaseMapper.selectByExample(example);
+        if (paperBases != null) {
+            return paperBases.size();
+        }
         return null;
     }
 }
