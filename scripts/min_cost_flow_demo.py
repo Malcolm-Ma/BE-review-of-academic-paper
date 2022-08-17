@@ -3,8 +3,9 @@ from faker import Faker
 import networkx as nx
 
 PROJECT_NUM = 100
-USER_COUNT = 50
-capacity = 6  # when debugging, please focus this var
+REVIEW_DEMAND = 4
+USER_COUNT = 20
+capacity = 5  # when debugging, please focus this var
 # Init faker
 fake = Faker('en')
 
@@ -40,7 +41,7 @@ num_persons = len(user_pref)
 
 G = nx.DiGraph()
 
-G.add_node('dest', demand=num_persons * capacity)
+G.add_node('dest', demand=num_persons * capacity - PROJECT_NUM * 1)
 
 for person, pref_list in user_pref.items():
     G.add_node(person, demand=-capacity)
@@ -55,6 +56,7 @@ for person, pref_list in user_pref.items():
             G.add_edge(person, project, capacity=1, weight=cost)  # Edge taken if person does this project
 
 for project in project_list:
+    G.add_node(project, demand=1)
     G.add_edge(project, 'dest', capacity=capacity, weight=0)
 
 flow_dict = nx.min_cost_flow(G)
