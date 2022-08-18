@@ -2,10 +2,11 @@ import random
 from faker import Faker
 import networkx as nx
 
-PROJECT_NUM = 100
+PROJECT_NUM = 50
 REVIEW_DEMAND = 4
 USER_COUNT = 20
-capacity = 5  # when debugging, please focus this var
+capacity = 12  # when debugging, please focus this var
+
 # Init faker
 fake = Faker('en')
 
@@ -17,10 +18,11 @@ project_pref = {}
 user_pref = {}
 for user in user_list:
     random_project = random.sample(project_list, PROJECT_NUM)  # random sort project
-    interest_count = fake.random_int(min=0, max=PROJECT_NUM / 2)
-    no_count = fake.random_int(min=0, max=PROJECT_NUM / 2)
-    maybe_count = PROJECT_NUM - interest_count - no_count
-    print('interest, maybe, no, total', interest_count, maybe_count, no_count, interest_count + maybe_count + no_count)
+    # interest_count = fake.random_int(min=0, max=PROJECT_NUM / 2)
+    interest_count = REVIEW_DEMAND
+    maybe_count = fake.random_int(min=PROJECT_NUM / 2, max=PROJECT_NUM - interest_count)
+    no_count = PROJECT_NUM - interest_count - maybe_count
+    # print('interest, maybe, no, total', interest_count, maybe_count, no_count, interest_count + maybe_count + no_count)
     # slice random list
     interest_projects = random_project[:interest_count]
     maybe_projects = random_project[interest_count: (interest_count + maybe_count)]
@@ -41,7 +43,7 @@ num_persons = len(user_pref)
 
 G = nx.DiGraph()
 
-G.add_node('dest', demand=num_persons * capacity - PROJECT_NUM * 1)
+G.add_node('dest', demand=num_persons * capacity - PROJECT_NUM * REVIEW_DEMAND)
 
 for person, pref_list in user_pref.items():
     G.add_node(person, demand=-capacity)
@@ -49,14 +51,14 @@ for person, pref_list in user_pref.items():
         if i == 0:
             cost = -100  # happy to assign first choices
         elif i == 1:
-            cost = -60  # slightly unhappy to assign second choices
+            cost = -70  # slightly unhappy to assign second choices
         else:
-            cost = -30  # very unhappy to assign third choices
+            cost = -20  # very unhappy to assign third choices
         for project in pref:
             G.add_edge(person, project, capacity=1, weight=cost)  # Edge taken if person does this project
 
 for project in project_list:
-    G.add_node(project, demand=1)
+    G.add_node(project, demand=REVIEW_DEMAND)
     G.add_edge(project, 'dest', capacity=capacity, weight=0)
 
 flow_dict = nx.min_cost_flow(G)
@@ -71,9 +73,10 @@ for person in user_pref:
                 pre_res = []
             pre_res.append(project)
             result_dict[person] = pre_res
-            # print(person, ' joins ', project)
+            print(person, ' joins ', project)
 print(result_dict)
 
+# validate
 score_dict = {}
 allocate_dict = {}
 review_times = {}
@@ -93,15 +96,23 @@ for person, projects in result_dict.items():
             allocate_score[2] += 1
         cur_times = review_times.get(project)
         if cur_times is None:
-            cur_times = 0
-        review_times[project] = cur_times + 1
+            cur_times = []
+        cur_times.append(person)
+        review_times[project] = cur_times
     score_dict[person] = score
     allocate_dict[person] = allocate_score
-
 
 for person, score in score_dict.items():
     print(person, ': ', score)
 print(allocate_dict)
 print(review_times)
 
-print(len(review_times))
+review_per_user = 0
+for project, users in review_times.items():
+    review_per_user += len(users)
+    if len(users) > REVIEW_DEMAND + 1:
+        print('project: ', project, ',', len(users))
+review_per_user = review_per_user / len(review_times)
+print('review_per_user:', review_per_user)
+
+print('Total review times:', len(review_times))
