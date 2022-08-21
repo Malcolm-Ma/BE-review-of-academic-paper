@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.apex.app.domain.model.ReviewTaskOverall">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="org_id" jdbcType="VARCHAR" property="orgId" />
-    <result column="paper_id" jdbcType="VARCHAR" property="paperId" />
+    <result column="submission_id" jdbcType="VARCHAR" property="submissionId" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="deadline" jdbcType="TIMESTAMP" property="deadline" />
     <result column="decision" jdbcType="TINYINT" property="decision" />
@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, org_id, paper_id, status, deadline, decision, created_time
+    id, org_id, submission_id, status, deadline, decision, created_time
   </sql>
   <select id="selectByExample" parameterType="com.apex.app.domain.model.ReviewTaskOverallExample" resultMap="BaseResultMap">
     select
@@ -102,10 +102,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.apex.app.domain.model.ReviewTaskOverall">
-    insert into review_task_overall (id, org_id, paper_id, 
+    insert into review_task_overall (id, org_id, submission_id, 
       status, deadline, decision, 
       created_time)
-    values (#{id,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{paperId,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{submissionId,jdbcType=VARCHAR}, 
       #{status,jdbcType=TINYINT}, #{deadline,jdbcType=TIMESTAMP}, #{decision,jdbcType=TINYINT}, 
       #{createdTime,jdbcType=TIMESTAMP})
   </insert>
@@ -118,8 +118,8 @@
       <if test="orgId != null">
         org_id,
       </if>
-      <if test="paperId != null">
-        paper_id,
+      <if test="submissionId != null">
+        submission_id,
       </if>
       <if test="status != null">
         status,
@@ -141,8 +141,8 @@
       <if test="orgId != null">
         #{orgId,jdbcType=VARCHAR},
       </if>
-      <if test="paperId != null">
-        #{paperId,jdbcType=VARCHAR},
+      <if test="submissionId != null">
+        #{submissionId,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -173,8 +173,8 @@
       <if test="row.orgId != null">
         org_id = #{row.orgId,jdbcType=VARCHAR},
       </if>
-      <if test="row.paperId != null">
-        paper_id = #{row.paperId,jdbcType=VARCHAR},
+      <if test="row.submissionId != null">
+        submission_id = #{row.submissionId,jdbcType=VARCHAR},
       </if>
       <if test="row.status != null">
         status = #{row.status,jdbcType=TINYINT},
@@ -197,7 +197,7 @@
     update review_task_overall
     set id = #{row.id,jdbcType=VARCHAR},
       org_id = #{row.orgId,jdbcType=VARCHAR},
-      paper_id = #{row.paperId,jdbcType=VARCHAR},
+      submission_id = #{row.submissionId,jdbcType=VARCHAR},
       status = #{row.status,jdbcType=TINYINT},
       deadline = #{row.deadline,jdbcType=TIMESTAMP},
       decision = #{row.decision,jdbcType=TINYINT},
@@ -212,8 +212,8 @@
       <if test="orgId != null">
         org_id = #{orgId,jdbcType=VARCHAR},
       </if>
-      <if test="paperId != null">
-        paper_id = #{paperId,jdbcType=VARCHAR},
+      <if test="submissionId != null">
+        submission_id = #{submissionId,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
@@ -233,7 +233,7 @@
   <update id="updateByPrimaryKey" parameterType="com.apex.app.domain.model.ReviewTaskOverall">
     update review_task_overall
     set org_id = #{orgId,jdbcType=VARCHAR},
-      paper_id = #{paperId,jdbcType=VARCHAR},
+      submission_id = #{submissionId,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       deadline = #{deadline,jdbcType=TIMESTAMP},
       decision = #{decision,jdbcType=TINYINT},

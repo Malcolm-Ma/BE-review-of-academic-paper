@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.apex.app.mapper.PaperBaseMapper">
-  <resultMap id="BaseResultMap" type="com.apex.app.domain.model.PaperBase">
+<mapper namespace="com.apex.app.mapper.SubmissionBaseMapper">
+  <resultMap id="BaseResultMap" type="com.apex.app.domain.model.SubmissionBase">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="keywords" jdbcType="VARCHAR" property="keywords" />
@@ -11,7 +11,7 @@
     <result column="contact_email" jdbcType="VARCHAR" property="contactEmail" />
     <result column="org_id" jdbcType="VARCHAR" property="orgId" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.apex.app.domain.model.PaperBase">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.apex.app.domain.model.SubmissionBase">
     <result column="abstracts" jdbcType="LONGVARCHAR" property="abstracts" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -78,7 +78,7 @@
   <sql id="Blob_Column_List">
     abstracts
   </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.apex.app.domain.model.PaperBaseExample" resultMap="ResultMapWithBLOBs">
+  <select id="selectByExampleWithBLOBs" parameterType="com.apex.app.domain.model.SubmissionBaseExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
       distinct
@@ -86,7 +86,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from paper_base
+    from submission_base
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -94,13 +94,13 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExample" parameterType="com.apex.app.domain.model.PaperBaseExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.apex.app.domain.model.SubmissionBaseExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from paper_base
+    from submission_base
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -113,21 +113,21 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from paper_base
+    from submission_base
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from paper_base
+    delete from submission_base
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.apex.app.domain.model.PaperBaseExample">
-    delete from paper_base
+  <delete id="deleteByExample" parameterType="com.apex.app.domain.model.SubmissionBaseExample">
+    delete from submission_base
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.apex.app.domain.model.PaperBase">
-    insert into paper_base (id, title, keywords, 
+  <insert id="insert" parameterType="com.apex.app.domain.model.SubmissionBase">
+    insert into submission_base (id, title, keywords, 
       resource_url, published_time, authors, 
       contact_email, org_id, abstracts
       )
@@ -136,8 +136,8 @@
       #{contactEmail,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{abstracts,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.apex.app.domain.model.PaperBase">
-    insert into paper_base
+  <insert id="insertSelective" parameterType="com.apex.app.domain.model.SubmissionBase">
+    insert into submission_base
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -197,14 +197,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.apex.app.domain.model.PaperBaseExample" resultType="java.lang.Long">
-    select count(*) from paper_base
+  <select id="countByExample" parameterType="com.apex.app.domain.model.SubmissionBaseExample" resultType="java.lang.Long">
+    select count(*) from submission_base
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update paper_base
+    update submission_base
     <set>
       <if test="row.id != null">
         id = #{row.id,jdbcType=VARCHAR},
@@ -239,7 +239,7 @@
     </if>
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
-    update paper_base
+    update submission_base
     set id = #{row.id,jdbcType=VARCHAR},
       title = #{row.title,jdbcType=VARCHAR},
       keywords = #{row.keywords,jdbcType=VARCHAR},
@@ -254,7 +254,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update paper_base
+    update submission_base
     set id = #{row.id,jdbcType=VARCHAR},
       title = #{row.title,jdbcType=VARCHAR},
       keywords = #{row.keywords,jdbcType=VARCHAR},
@@ -267,8 +267,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.apex.app.domain.model.PaperBase">
-    update paper_base
+  <update id="updateByPrimaryKeySelective" parameterType="com.apex.app.domain.model.SubmissionBase">
+    update submission_base
     <set>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
@@ -297,8 +297,8 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.apex.app.domain.model.PaperBase">
-    update paper_base
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.apex.app.domain.model.SubmissionBase">
+    update submission_base
     set title = #{title,jdbcType=VARCHAR},
       keywords = #{keywords,jdbcType=VARCHAR},
       resource_url = #{resourceUrl,jdbcType=VARCHAR},
@@ -309,8 +309,8 @@
       abstracts = #{abstracts,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.apex.app.domain.model.PaperBase">
-    update paper_base
+  <update id="updateByPrimaryKey" parameterType="com.apex.app.domain.model.SubmissionBase">
+    update submission_base
     set title = #{title,jdbcType=VARCHAR},
       keywords = #{keywords,jdbcType=VARCHAR},
       resource_url = #{resourceUrl,jdbcType=VARCHAR},

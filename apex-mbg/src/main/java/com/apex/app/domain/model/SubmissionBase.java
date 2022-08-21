@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
 
-public class PaperBase implements Serializable {
+public class SubmissionBase implements Serializable {
     private String id;
 
     @ApiModelProperty(value = "Paper title")

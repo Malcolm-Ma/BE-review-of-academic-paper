@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.apex.app.mapper.PaperUserMergeMapper">
-  <resultMap id="BaseResultMap" type="com.apex.app.domain.model.PaperUserMerge">
+<mapper namespace="com.apex.app.mapper.BiddingPreferenceMapper">
+  <resultMap id="BaseResultMap" type="com.apex.app.domain.model.BiddingPreference">
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="submission_id" jdbcType="VARCHAR" property="submissionId" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
-    <result column="paper_id" jdbcType="VARCHAR" property="paperId" />
+    <result column="preference" jdbcType="TINYINT" property="preference" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, paper_id
+    id, submission_id, user_id, preference, org_id
   </sql>
-  <select id="selectByExample" parameterType="com.apex.app.domain.model.PaperUserMergeExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.apex.app.domain.model.BiddingPreferenceExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from paper_user_merge
+    from bidding_preference
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -84,67 +86,85 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from paper_user_merge
+    from bidding_preference
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from paper_user_merge
+    delete from bidding_preference
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.apex.app.domain.model.PaperUserMergeExample">
-    delete from paper_user_merge
+  <delete id="deleteByExample" parameterType="com.apex.app.domain.model.BiddingPreferenceExample">
+    delete from bidding_preference
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.apex.app.domain.model.PaperUserMerge">
-    insert into paper_user_merge (id, user_id, paper_id
-      )
-    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{paperId,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="com.apex.app.domain.model.BiddingPreference">
+    insert into bidding_preference (id, submission_id, user_id, 
+      preference, org_id)
+    values (#{id,jdbcType=BIGINT}, #{submissionId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{preference,jdbcType=TINYINT}, #{orgId,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.apex.app.domain.model.PaperUserMerge">
-    insert into paper_user_merge
+  <insert id="insertSelective" parameterType="com.apex.app.domain.model.BiddingPreference">
+    insert into bidding_preference
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
+      <if test="submissionId != null">
+        submission_id,
+      </if>
       <if test="userId != null">
         user_id,
       </if>
-      <if test="paperId != null">
-        paper_id,
+      <if test="preference != null">
+        preference,
+      </if>
+      <if test="orgId != null">
+        org_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
+      <if test="submissionId != null">
+        #{submissionId,jdbcType=VARCHAR},
+      </if>
       <if test="userId != null">
         #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="paperId != null">
-        #{paperId,jdbcType=VARCHAR},
+      <if test="preference != null">
+        #{preference,jdbcType=TINYINT},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.apex.app.domain.model.PaperUserMergeExample" resultType="java.lang.Long">
-    select count(*) from paper_user_merge
+  <select id="countByExample" parameterType="com.apex.app.domain.model.BiddingPreferenceExample" resultType="java.lang.Long">
+    select count(*) from bidding_preference
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update paper_user_merge
+    update bidding_preference
     <set>
       <if test="row.id != null">
         id = #{row.id,jdbcType=BIGINT},
       </if>
+      <if test="row.submissionId != null">
+        submission_id = #{row.submissionId,jdbcType=VARCHAR},
+      </if>
       <if test="row.userId != null">
         user_id = #{row.userId,jdbcType=VARCHAR},
       </if>
-      <if test="row.paperId != null">
-        paper_id = #{row.paperId,jdbcType=VARCHAR},
+      <if test="row.preference != null">
+        preference = #{row.preference,jdbcType=TINYINT},
+      </if>
+      <if test="row.orgId != null">
+        org_id = #{row.orgId,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="example != null">
@@ -152,30 +172,40 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update paper_user_merge
+    update bidding_preference
     set id = #{row.id,jdbcType=BIGINT},
+      submission_id = #{row.submissionId,jdbcType=VARCHAR},
       user_id = #{row.userId,jdbcType=VARCHAR},
-      paper_id = #{row.paperId,jdbcType=VARCHAR}
+      preference = #{row.preference,jdbcType=TINYINT},
+      org_id = #{row.orgId,jdbcType=VARCHAR}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.apex.app.domain.model.PaperUserMerge">
-    update paper_user_merge
+  <update id="updateByPrimaryKeySelective" parameterType="com.apex.app.domain.model.BiddingPreference">
+    update bidding_preference
     <set>
+      <if test="submissionId != null">
+        submission_id = #{submissionId,jdbcType=VARCHAR},
+      </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="paperId != null">
-        paper_id = #{paperId,jdbcType=VARCHAR},
+      <if test="preference != null">
+        preference = #{preference,jdbcType=TINYINT},
+      </if>
+      <if test="orgId != null">
+        org_id = #{orgId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.apex.app.domain.model.PaperUserMerge">
-    update paper_user_merge
-    set user_id = #{userId,jdbcType=VARCHAR},
-      paper_id = #{paperId,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="com.apex.app.domain.model.BiddingPreference">
+    update bidding_preference
+    set submission_id = #{submissionId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      preference = #{preference,jdbcType=TINYINT},
+      org_id = #{orgId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -8,8 +8,8 @@ import com.apex.app.controller.vo.SubmissionListRequest;
 import com.apex.app.domain.bo.ReviewTaskOverallBo;
 import com.apex.app.domain.model.*;
 import com.apex.app.domain.type.ReviewStatusEnum;
-import com.apex.app.mapper.PaperBaseMapper;
-import com.apex.app.mapper.PaperUserMergeMapper;
+import com.apex.app.mapper.SubmissionBaseMapper;
+import com.apex.app.mapper.SubmissionUserMergeMapper;
 import com.apex.app.mapper.ReviewTaskOverallMapper;
 import com.apex.app.service.ReviewService;
 import com.apex.app.service.UserAuthService;
@@ -30,10 +30,10 @@ import java.util.List;
 public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
-    PaperBaseMapper paperBaseMapper;
+    SubmissionBaseMapper submissionBaseMapper;
 
     @Autowired
-    PaperUserMergeMapper paperUserMergeMapper;
+    SubmissionUserMergeMapper submissionUserMergeMapper;
 
     @Autowired
     ReviewTaskOverallMapper reviewTaskOverallMapper;
@@ -44,7 +44,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public ReviewTaskOverallBo createReviewTask(ReviewCreateRequest request) {
         // Prepare to Insert paper base into db
-        PaperBase paper = new PaperBase();
+        SubmissionBase paper = new SubmissionBase();
         BeanUtil.copyProperties(request, paper);
         paper.setId(UUID.randomUUID().toString());
 
@@ -60,14 +60,14 @@ public class ReviewServiceImpl implements ReviewService {
             user = userService.getCurrentUser();
         }
         // Create relation of user and paper
-        PaperUserMerge paperUserMerge = new PaperUserMerge();
-        paperUserMerge.setPaperId(paper.getId());
-        paperUserMerge.setUserId(user.getId());
+        SubmissionUserMerge SubmissionUserMerge = new SubmissionUserMerge();
+        SubmissionUserMerge.setSubmissionId(paper.getId());
+        SubmissionUserMerge.setUserId(user.getId());
 
         // Create review task overall
         ReviewTaskOverall reviewTask = new ReviewTaskOverall();
         reviewTask.setOrgId(request.getOrgId());
-        reviewTask.setPaperId(paper.getId());
+        reviewTask.setSubmissionId(paper.getId());
         reviewTask.setDeadline(request.getDeadline());
         reviewTask.setCreatedTime(new Date());
         reviewTask.setStatus(ReviewStatusEnum.PREPARING.getValue());
@@ -75,9 +75,9 @@ public class ReviewServiceImpl implements ReviewService {
 
         // Insert data into db
         // Insert paper base
-        paperBaseMapper.insert(paper);
+        submissionBaseMapper.insert(paper);
         // Insert relation of user and paper
-        paperUserMergeMapper.insert(paperUserMerge);
+        submissionUserMergeMapper.insert(SubmissionUserMerge);
         // Insert review task overall
         reviewTaskOverallMapper.insert(reviewTask);
 
@@ -95,10 +95,10 @@ public class ReviewServiceImpl implements ReviewService {
         List<ReviewTaskOverallBo> reviewTaskOverallBoList = new ArrayList<>();
 
         for (ReviewTaskOverall task : reviewTaskOveralls) {
-            PaperBase paper = paperBaseMapper.selectByPrimaryKey(task.getPaperId());
-            PaperUserMergeExample mergeExample = new PaperUserMergeExample();
-            mergeExample.createCriteria().andPaperIdEqualTo(paper.getId());
-            List<PaperUserMerge> mergeList = paperUserMergeMapper.selectByExample(mergeExample);
+            SubmissionBase paper = submissionBaseMapper.selectByPrimaryKey(task.getSubmissionId());
+            SubmissionUserMergeExample mergeExample = new SubmissionUserMergeExample();
+            mergeExample.createCriteria().andSubmissionIdEqualTo(paper.getId());
+            List<SubmissionUserMerge> mergeList = submissionUserMergeMapper.selectByExample(mergeExample);
             // Because the relationship between paper_id and user_id is one to one currently,
             // we simply pick up index:0 for the merge record
             UserBase user = userService.getUserById(mergeList.get(0).getUserId());

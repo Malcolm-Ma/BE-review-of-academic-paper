@@ -27,7 +27,7 @@ public class ReviewController {
     ReviewService reviewService;
 
     @ApiOperation("Create review task")
-    @PostMapping("/create")
+    @PostMapping("/submission/create")
     @ResponseBody
     public CommonResult<ReviewTaskOverallBo> createReviewTask(@Validated @RequestBody ReviewCreateRequest request) {
         ReviewTaskOverallBo result = reviewService.createReviewTask(request);

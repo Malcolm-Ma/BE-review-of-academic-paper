@@ -3,12 +3,12 @@ package com.apex.app.domain.model;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 
-public class PaperUserMerge implements Serializable {
+public class SubmissionUserMerge implements Serializable {
     private Long id;
 
     private String userId;
 
-    private String paperId;
+    private String submissionId;
 
     private static final long serialVersionUID = 1L;
 
@@ -28,12 +28,12 @@ public class PaperUserMerge implements Serializable {
         this.userId = userId;
     }
 
-    public String getPaperId() {
-        return paperId;
+    public String getSubmissionId() {
+        return submissionId;
     }
 
-    public void setPaperId(String paperId) {
-        this.paperId = paperId;
+    public void setSubmissionId(String submissionId) {
+        this.submissionId = submissionId;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class PaperUserMerge implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", userId=").append(userId);
-        sb.append(", paperId=").append(paperId);
+        sb.append(", submissionId=").append(submissionId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

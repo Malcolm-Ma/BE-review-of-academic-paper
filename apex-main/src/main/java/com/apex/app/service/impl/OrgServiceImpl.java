@@ -14,7 +14,7 @@ import com.apex.app.domain.bo.OrgMemberBo;
 import com.apex.app.domain.model.*;
 import com.apex.app.domain.type.UserTypeEnum;
 import com.apex.app.mapper.OrgBaseMapper;
-import com.apex.app.mapper.PaperBaseMapper;
+import com.apex.app.mapper.SubmissionBaseMapper;
 import com.apex.app.mapper.UserBaseMapper;
 import com.apex.app.mapper.UserOrgMergeMapper;
 import com.apex.app.service.OrgService;
@@ -48,7 +48,7 @@ public class OrgServiceImpl implements OrgService {
     UserBaseMapper userBaseMapper;
 
     @Autowired
-    PaperBaseMapper paperBaseMapper;
+    SubmissionBaseMapper SubmissionBaseMapper;
 
     @Autowired
     OrgDao orgDao;
@@ -222,11 +222,11 @@ public class OrgServiceImpl implements OrgService {
 
     @Override
     public Integer getSubmissionCount(String orgId) {
-        PaperBaseExample example = new PaperBaseExample();
+        SubmissionBaseExample example = new SubmissionBaseExample();
         example.createCriteria().andOrgIdEqualTo(orgId);
-        List<PaperBase> paperBases = paperBaseMapper.selectByExample(example);
-        if (paperBases != null) {
-            return paperBases.size();
+        List<SubmissionBase> SubmissionBases = SubmissionBaseMapper.selectByExample(example);
+        if (SubmissionBases != null) {
+            return SubmissionBases.size();
         }
         return null;
     }

@@ -3,14 +3,14 @@ package com.apex.app.domain.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaperOrgMergeExample {
+public class BiddingPreferenceExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public PaperOrgMergeExample() {
+    public BiddingPreferenceExample() {
         oredCriteria = new ArrayList<>();
     }
 
@@ -164,73 +164,203 @@ public class PaperOrgMergeExample {
             return (Criteria) this;
         }
 
-        public Criteria andPaperIdIsNull() {
-            addCriterion("paper_id is null");
+        public Criteria andSubmissionIdIsNull() {
+            addCriterion("submission_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andPaperIdIsNotNull() {
-            addCriterion("paper_id is not null");
+        public Criteria andSubmissionIdIsNotNull() {
+            addCriterion("submission_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPaperIdEqualTo(String value) {
-            addCriterion("paper_id =", value, "paperId");
+        public Criteria andSubmissionIdEqualTo(String value) {
+            addCriterion("submission_id =", value, "submissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPaperIdNotEqualTo(String value) {
-            addCriterion("paper_id <>", value, "paperId");
+        public Criteria andSubmissionIdNotEqualTo(String value) {
+            addCriterion("submission_id <>", value, "submissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPaperIdGreaterThan(String value) {
-            addCriterion("paper_id >", value, "paperId");
+        public Criteria andSubmissionIdGreaterThan(String value) {
+            addCriterion("submission_id >", value, "submissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPaperIdGreaterThanOrEqualTo(String value) {
-            addCriterion("paper_id >=", value, "paperId");
+        public Criteria andSubmissionIdGreaterThanOrEqualTo(String value) {
+            addCriterion("submission_id >=", value, "submissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPaperIdLessThan(String value) {
-            addCriterion("paper_id <", value, "paperId");
+        public Criteria andSubmissionIdLessThan(String value) {
+            addCriterion("submission_id <", value, "submissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPaperIdLessThanOrEqualTo(String value) {
-            addCriterion("paper_id <=", value, "paperId");
+        public Criteria andSubmissionIdLessThanOrEqualTo(String value) {
+            addCriterion("submission_id <=", value, "submissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPaperIdLike(String value) {
-            addCriterion("paper_id like", value, "paperId");
+        public Criteria andSubmissionIdLike(String value) {
+            addCriterion("submission_id like", value, "submissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPaperIdNotLike(String value) {
-            addCriterion("paper_id not like", value, "paperId");
+        public Criteria andSubmissionIdNotLike(String value) {
+            addCriterion("submission_id not like", value, "submissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPaperIdIn(List<String> values) {
-            addCriterion("paper_id in", values, "paperId");
+        public Criteria andSubmissionIdIn(List<String> values) {
+            addCriterion("submission_id in", values, "submissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPaperIdNotIn(List<String> values) {
-            addCriterion("paper_id not in", values, "paperId");
+        public Criteria andSubmissionIdNotIn(List<String> values) {
+            addCriterion("submission_id not in", values, "submissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPaperIdBetween(String value1, String value2) {
-            addCriterion("paper_id between", value1, value2, "paperId");
+        public Criteria andSubmissionIdBetween(String value1, String value2) {
+            addCriterion("submission_id between", value1, value2, "submissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPaperIdNotBetween(String value1, String value2) {
-            addCriterion("paper_id not between", value1, value2, "paperId");
+        public Criteria andSubmissionIdNotBetween(String value1, String value2) {
+            addCriterion("submission_id not between", value1, value2, "submissionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdIsNull() {
+            addCriterion("user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdIsNotNull() {
+            addCriterion("user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdEqualTo(String value) {
+            addCriterion("user_id =", value, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdNotEqualTo(String value) {
+            addCriterion("user_id <>", value, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdGreaterThan(String value) {
+            addCriterion("user_id >", value, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdGreaterThanOrEqualTo(String value) {
+            addCriterion("user_id >=", value, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdLessThan(String value) {
+            addCriterion("user_id <", value, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdLessThanOrEqualTo(String value) {
+            addCriterion("user_id <=", value, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdLike(String value) {
+            addCriterion("user_id like", value, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdNotLike(String value) {
+            addCriterion("user_id not like", value, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdIn(List<String> values) {
+            addCriterion("user_id in", values, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdNotIn(List<String> values) {
+            addCriterion("user_id not in", values, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdBetween(String value1, String value2) {
+            addCriterion("user_id between", value1, value2, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdNotBetween(String value1, String value2) {
+            addCriterion("user_id not between", value1, value2, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreferenceIsNull() {
+            addCriterion("preference is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreferenceIsNotNull() {
+            addCriterion("preference is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreferenceEqualTo(Byte value) {
+            addCriterion("preference =", value, "preference");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreferenceNotEqualTo(Byte value) {
+            addCriterion("preference <>", value, "preference");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreferenceGreaterThan(Byte value) {
+            addCriterion("preference >", value, "preference");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreferenceGreaterThanOrEqualTo(Byte value) {
+            addCriterion("preference >=", value, "preference");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreferenceLessThan(Byte value) {
+            addCriterion("preference <", value, "preference");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreferenceLessThanOrEqualTo(Byte value) {
+            addCriterion("preference <=", value, "preference");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreferenceIn(List<Byte> values) {
+            addCriterion("preference in", values, "preference");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreferenceNotIn(List<Byte> values) {
+            addCriterion("preference not in", values, "preference");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreferenceBetween(Byte value1, Byte value2) {
+            addCriterion("preference between", value1, value2, "preference");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreferenceNotBetween(Byte value1, Byte value2) {
+            addCriterion("preference not between", value1, value2, "preference");
             return (Criteria) this;
         }
 

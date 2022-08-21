@@ -28,7 +28,55 @@ def bidding_by_pref(data):
     # Print generation result
     debug_project_user_dict(project_user_dict)
 
-    return {}
+    G = nx.DiGraph()
+    G.add_node('dest', demand=project_size * review_demand - user_size * min_task)
+
+    for proj, selected_user_list in project_user_dict.items():
+        G.add_node(proj, demand=-review_demand)
+        for i, preferred_user_list in enumerate(selected_user_list):
+            if i == 0:
+                cost = -100  # happy to assign first choices
+            elif i == 1:
+                cost = 0  # slightly unhappy to assign second choices
+            else:
+                cost = 50  # very unhappy to assign third choices
+            for user in preferred_user_list:
+                G.add_edge(proj, user, capacity=1, weight=cost)  # Edge taken if person does this project
+    for user in user_data:
+        G.add_node(user, demand=min_task)
+        G.add_edge(user, 'dest', weight=1)  # remove capacity here
+
+    # Run the flow
+    flow_dict = nx.min_cost_flow(G)
+    # reformat the result
+    flow_result_dict = {}
+    for project in project_data:
+        for user, flow in flow_dict[project].items():
+            if flow:
+                pre_res = flow_result_dict.get(user)
+                if pre_res is None:
+                    pre_res = []
+                pre_res.append(project)
+                flow_result_dict[user] = pre_res
+                # print(user, 'joins', project)
+
+    # Generate result record
+    user_project_merge_list = []
+    for user_id, project_id_list in flow_result_dict.items():
+        for project_id in project_id_list:
+            user_project_merge_list.append({
+                'user_id': user_id,
+                'review_id': project_id
+            })
+
+    # Init result dict
+    result = {
+        'result_map': flow_result_dict,
+        'result_record': user_project_merge_list,
+        'summary': {}
+    }
+
+    return result
 
 
 def deliver_project(result_map=None, pref_type='maybe', user_name='', proj_list=None):

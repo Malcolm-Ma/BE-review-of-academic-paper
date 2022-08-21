@@ -11,7 +11,7 @@ public class ReviewTaskOverall implements Serializable {
     private String orgId;
 
     @ApiModelProperty(value = "Paper id which need to be reviewed")
-    private String paperId;
+    private String submissionId;
 
     @ApiModelProperty(value = "reviewing status: 0-> finished; 1 -> ongoing; 2 -> preparing")
     private Byte status;
@@ -40,12 +40,12 @@ public class ReviewTaskOverall implements Serializable {
         this.orgId = orgId;
     }
 
-    public String getPaperId() {
-        return paperId;
+    public String getSubmissionId() {
+        return submissionId;
     }
 
-    public void setPaperId(String paperId) {
-        this.paperId = paperId;
+    public void setSubmissionId(String submissionId) {
+        this.submissionId = submissionId;
     }
 
     public Byte getStatus() {
@@ -88,7 +88,7 @@ public class ReviewTaskOverall implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", orgId=").append(orgId);
-        sb.append(", paperId=").append(paperId);
+        sb.append(", submissionId=").append(submissionId);
         sb.append(", status=").append(status);
         sb.append(", deadline=").append(deadline);
         sb.append(", decision=").append(decision);

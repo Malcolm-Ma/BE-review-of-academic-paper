@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.apex.app.mapper.PaperOrgMergeMapper">
-  <resultMap id="BaseResultMap" type="com.apex.app.domain.model.PaperOrgMerge">
+<mapper namespace="com.apex.app.mapper.SubmissionUserMergeMapper">
+  <resultMap id="BaseResultMap" type="com.apex.app.domain.model.SubmissionUserMerge">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="paper_id" jdbcType="VARCHAR" property="paperId" />
-    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="submission_id" jdbcType="VARCHAR" property="submissionId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,15 +65,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, paper_id, org_id
+    id, user_id, submission_id
   </sql>
-  <select id="selectByExample" parameterType="com.apex.app.domain.model.PaperOrgMergeExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.apex.app.domain.model.SubmissionUserMergeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from paper_org_merge
+    from submission_user_merge
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -84,67 +84,67 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from paper_org_merge
+    from submission_user_merge
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from paper_org_merge
+    delete from submission_user_merge
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.apex.app.domain.model.PaperOrgMergeExample">
-    delete from paper_org_merge
+  <delete id="deleteByExample" parameterType="com.apex.app.domain.model.SubmissionUserMergeExample">
+    delete from submission_user_merge
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.apex.app.domain.model.PaperOrgMerge">
-    insert into paper_org_merge (id, paper_id, org_id
+  <insert id="insert" parameterType="com.apex.app.domain.model.SubmissionUserMerge">
+    insert into submission_user_merge (id, user_id, submission_id
       )
-    values (#{id,jdbcType=BIGINT}, #{paperId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{submissionId,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.apex.app.domain.model.PaperOrgMerge">
-    insert into paper_org_merge
+  <insert id="insertSelective" parameterType="com.apex.app.domain.model.SubmissionUserMerge">
+    insert into submission_user_merge
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="paperId != null">
-        paper_id,
+      <if test="userId != null">
+        user_id,
       </if>
-      <if test="orgId != null">
-        org_id,
+      <if test="submissionId != null">
+        submission_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="paperId != null">
-        #{paperId,jdbcType=VARCHAR},
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="orgId != null">
-        #{orgId,jdbcType=VARCHAR},
+      <if test="submissionId != null">
+        #{submissionId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.apex.app.domain.model.PaperOrgMergeExample" resultType="java.lang.Long">
-    select count(*) from paper_org_merge
+  <select id="countByExample" parameterType="com.apex.app.domain.model.SubmissionUserMergeExample" resultType="java.lang.Long">
+    select count(*) from submission_user_merge
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update paper_org_merge
+    update submission_user_merge
     <set>
       <if test="row.id != null">
         id = #{row.id,jdbcType=BIGINT},
       </if>
-      <if test="row.paperId != null">
-        paper_id = #{row.paperId,jdbcType=VARCHAR},
+      <if test="row.userId != null">
+        user_id = #{row.userId,jdbcType=VARCHAR},
       </if>
-      <if test="row.orgId != null">
-        org_id = #{row.orgId,jdbcType=VARCHAR},
+      <if test="row.submissionId != null">
+        submission_id = #{row.submissionId,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="example != null">
@@ -152,30 +152,30 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update paper_org_merge
+    update submission_user_merge
     set id = #{row.id,jdbcType=BIGINT},
-      paper_id = #{row.paperId,jdbcType=VARCHAR},
-      org_id = #{row.orgId,jdbcType=VARCHAR}
+      user_id = #{row.userId,jdbcType=VARCHAR},
+      submission_id = #{row.submissionId,jdbcType=VARCHAR}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.apex.app.domain.model.PaperOrgMerge">
-    update paper_org_merge
+  <update id="updateByPrimaryKeySelective" parameterType="com.apex.app.domain.model.SubmissionUserMerge">
+    update submission_user_merge
     <set>
-      <if test="paperId != null">
-        paper_id = #{paperId,jdbcType=VARCHAR},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="orgId != null">
-        org_id = #{orgId,jdbcType=VARCHAR},
+      <if test="submissionId != null">
+        submission_id = #{submissionId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.apex.app.domain.model.PaperOrgMerge">
-    update paper_org_merge
-    set paper_id = #{paperId,jdbcType=VARCHAR},
-      org_id = #{orgId,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="com.apex.app.domain.model.SubmissionUserMerge">
+    update submission_user_merge
+    set user_id = #{userId,jdbcType=VARCHAR},
+      submission_id = #{submissionId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

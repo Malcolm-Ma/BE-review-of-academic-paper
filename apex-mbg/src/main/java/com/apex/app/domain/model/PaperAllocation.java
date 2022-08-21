@@ -3,10 +3,12 @@ package com.apex.app.domain.model;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 
-public class PaperOrgMerge implements Serializable {
+public class PaperAllocation implements Serializable {
     private Long id;
 
-    private String paperId;
+    private String userId;
+
+    private String submissionId;
 
     private String orgId;
 
@@ -20,12 +22,20 @@ public class PaperOrgMerge implements Serializable {
         this.id = id;
     }
 
-    public String getPaperId() {
-        return paperId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setPaperId(String paperId) {
-        this.paperId = paperId;
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getSubmissionId() {
+        return submissionId;
+    }
+
+    public void setSubmissionId(String submissionId) {
+        this.submissionId = submissionId;
     }
 
     public String getOrgId() {
@@ -43,7 +53,8 @@ public class PaperOrgMerge implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", paperId=").append(paperId);
+        sb.append(", userId=").append(userId);
+        sb.append(", submissionId=").append(submissionId);
         sb.append(", orgId=").append(orgId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

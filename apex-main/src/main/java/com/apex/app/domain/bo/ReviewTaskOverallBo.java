@@ -1,7 +1,7 @@
 package com.apex.app.domain.bo;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.apex.app.domain.model.PaperBase;
+import com.apex.app.domain.model.SubmissionBase;
 import com.apex.app.domain.model.ReviewTaskOverall;
 import com.apex.app.domain.model.UserBase;
 import io.swagger.annotations.ApiModelProperty;
@@ -24,14 +24,14 @@ public class ReviewTaskOverallBo {
 
     private String orgId;
 
-    private PaperBase paperInfo;
+    private SubmissionBase submissionInfo;
 
     private ReviewTaskOverall reviewTask;
 
-    public ReviewTaskOverallBo(UserBase userBase, String orgId, PaperBase paperInfo, ReviewTaskOverall reviewTask) {
+    public ReviewTaskOverallBo(UserBase userBase, String orgId, SubmissionBase submissionInfo, ReviewTaskOverall reviewTask) {
         setUserInfo(userBase);
         this.orgId = orgId;
-        this.paperInfo = paperInfo;
+        this.submissionInfo = submissionInfo;
         this.reviewTask = reviewTask;
         this.id = reviewTask.getId();
         this.key = reviewTask.getId();
