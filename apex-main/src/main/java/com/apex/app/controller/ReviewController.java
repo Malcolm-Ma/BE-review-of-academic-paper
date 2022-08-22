@@ -2,6 +2,7 @@ package com.apex.app.controller;
 
 import com.apex.app.common.api.CommonResult;
 import com.apex.app.controller.vo.ReviewCreateRequest;
+import com.apex.app.controller.vo.SetBiddingRequest;
 import com.apex.app.controller.vo.SubmissionListRequest;
 import com.apex.app.domain.bo.ReviewTaskOverallBo;
 import com.apex.app.service.ReviewService;
@@ -46,5 +47,13 @@ public class ReviewController {
             return CommonResult.failed();
         }
         return CommonResult.success(result);
+    }
+
+    @ApiOperation("Submit user bidding")
+    @PostMapping("/bidding/pref/set")
+    @ResponseBody
+    public CommonResult SetBidding(@Validated @RequestBody SetBiddingRequest request) {
+        boolean res = reviewService.setBiddingPref(request);
+        return res ? CommonResult.success(null) : CommonResult.failed();
     }
 }

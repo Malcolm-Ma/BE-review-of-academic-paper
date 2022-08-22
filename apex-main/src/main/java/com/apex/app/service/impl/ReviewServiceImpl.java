@@ -4,10 +4,12 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.UUID;
 import com.apex.app.common.exception.Asserts;
 import com.apex.app.controller.vo.ReviewCreateRequest;
+import com.apex.app.controller.vo.SetBiddingRequest;
 import com.apex.app.controller.vo.SubmissionListRequest;
 import com.apex.app.domain.bo.ReviewTaskOverallBo;
 import com.apex.app.domain.model.*;
 import com.apex.app.domain.type.ReviewStatusEnum;
+import com.apex.app.mapper.BiddingPreferenceMapper;
 import com.apex.app.mapper.SubmissionBaseMapper;
 import com.apex.app.mapper.SubmissionUserMergeMapper;
 import com.apex.app.mapper.ReviewTaskOverallMapper;
@@ -37,6 +39,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     ReviewTaskOverallMapper reviewTaskOverallMapper;
+
+    @Autowired
+    BiddingPreferenceMapper biddingPreferenceMapper;
 
     @Autowired
     UserAuthService userService;
@@ -106,5 +111,23 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         return reviewTaskOverallBoList;
+    }
+
+    @Override
+    public boolean setBiddingPref(SetBiddingRequest request) {
+        SubmissionBase submissionBase = submissionBaseMapper.selectByPrimaryKey(request.getSubmissionId());
+        if (submissionBase == null) {
+            Asserts.fail("Invalid submission_id");
+            return false;
+        }
+        if (!submissionBase.getOrgId().equals(request.getOrgId())) {
+            Asserts.fail("Invalid org_id");
+            return false;
+        }
+        BiddingPreference biddingPreference = new BiddingPreference();
+        BeanUtil.copyProperties(request, biddingPreference);
+        biddingPreference.setPreference(request.getBiddingPref().getValue());
+        biddingPreferenceMapper.insert(biddingPreference);
+        return true;
     }
 }
