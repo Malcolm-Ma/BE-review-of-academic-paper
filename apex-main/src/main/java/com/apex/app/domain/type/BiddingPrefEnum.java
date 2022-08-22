@@ -14,4 +14,13 @@ public enum BiddingPrefEnum {
     private final byte value;
 
     private final String desc;
+
+    public static BiddingPrefEnum parseValue(byte value) {
+        for (BiddingPrefEnum enumName : BiddingPrefEnum.values()) {
+            if (enumName.getValue() == value) {
+                return enumName;
+            }
+        }
+        return null;
+    }
 }

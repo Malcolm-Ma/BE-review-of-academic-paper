@@ -86,28 +86,38 @@ public class ReviewServiceImpl implements ReviewService {
         // Insert review task overall
         reviewTaskOverallMapper.insert(reviewTask);
 
-        return new ReviewTaskOverallBo(user, request.getOrgId(), paper, reviewTask);
+        return new ReviewTaskOverallBo(user, request.getOrgId(), paper, reviewTask, null);
     }
 
     @Override
     public List<ReviewTaskOverallBo> getSubmissionList(SubmissionListRequest request) {
         String orgId = request.getOrgId();
 
-        ReviewTaskOverallExample example = new ReviewTaskOverallExample();
-        example.createCriteria().andOrgIdEqualTo(orgId);
-        List<ReviewTaskOverall> reviewTaskOveralls = reviewTaskOverallMapper.selectByExample(example);
+        ReviewTaskOverallExample reviewTaskOverallExample = new ReviewTaskOverallExample();
+        reviewTaskOverallExample.createCriteria().andOrgIdEqualTo(orgId);
+        List<ReviewTaskOverall> reviewTaskOveralls = reviewTaskOverallMapper.selectByExample(reviewTaskOverallExample);
+
+        // Getting bidding preference
+        BiddingPreferenceExample biddingPreferenceExample = new BiddingPreferenceExample();
+        biddingPreferenceExample
+                .createCriteria()
+                .andOrgIdEqualTo(orgId)
+                .andUserIdEqualTo(userService.getCurrentUser().getId());
+        List<BiddingPreference> biddingPreferenceList = biddingPreferenceMapper.selectByExample(biddingPreferenceExample);
 
         List<ReviewTaskOverallBo> reviewTaskOverallBoList = new ArrayList<>();
-
         for (ReviewTaskOverall task : reviewTaskOveralls) {
             SubmissionBase paper = submissionBaseMapper.selectByPrimaryKey(task.getSubmissionId());
+            BiddingPreference curPref = biddingPreferenceList.stream()
+                    .filter(u -> u.getSubmissionId().equals(task.getSubmissionId()))
+                    .findAny().orElse(null);
             SubmissionUserMergeExample mergeExample = new SubmissionUserMergeExample();
             mergeExample.createCriteria().andSubmissionIdEqualTo(paper.getId());
             List<SubmissionUserMerge> mergeList = submissionUserMergeMapper.selectByExample(mergeExample);
             // Because the relationship between paper_id and user_id is one to one currently,
             // we simply pick up index:0 for the merge record
             UserBase user = userService.getUserById(mergeList.get(0).getUserId());
-            reviewTaskOverallBoList.add(new ReviewTaskOverallBo(user, request.getOrgId(), paper, task));
+            reviewTaskOverallBoList.add(new ReviewTaskOverallBo(user, request.getOrgId(), paper, task, curPref));
         }
 
         return reviewTaskOverallBoList;
@@ -124,10 +134,24 @@ public class ReviewServiceImpl implements ReviewService {
             Asserts.fail("Invalid org_id");
             return false;
         }
+        // Check whether the record is existed
+        BiddingPreferenceExample example = new BiddingPreferenceExample();
+        example.createCriteria()
+                .andOrgIdEqualTo(request.getOrgId())
+                .andUserIdEqualTo(userService.getCurrentUser().getId())
+                .andSubmissionIdEqualTo(request.getSubmissionId());
+        List<BiddingPreference> searchList = biddingPreferenceMapper.selectByExample(example);
         BiddingPreference biddingPreference = new BiddingPreference();
-        BeanUtil.copyProperties(request, biddingPreference);
-        biddingPreference.setPreference(request.getBiddingPref().getValue());
-        biddingPreferenceMapper.insert(biddingPreference);
+        if (searchList.size() > 0) {
+            // update
+            biddingPreference.setPreference(request.getBiddingPref().getValue());
+            biddingPreferenceMapper.updateByExampleSelective(biddingPreference, example);
+        } else {
+            // create
+            BeanUtil.copyProperties(request, biddingPreference);
+            biddingPreference.setPreference(request.getBiddingPref().getValue());
+            biddingPreferenceMapper.insert(biddingPreference);
+        }
         return true;
     }
 }
