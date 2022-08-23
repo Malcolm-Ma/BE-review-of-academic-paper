@@ -7,6 +7,7 @@ import com.apex.app.controller.vo.BiddingPrefSummaryResponse;
 import com.apex.app.controller.vo.ReviewCreateRequest;
 import com.apex.app.controller.vo.SetBiddingRequest;
 import com.apex.app.controller.vo.SubmissionListRequest;
+import com.apex.app.dao.ReviewDao;
 import com.apex.app.domain.bo.ReviewTaskOverallBo;
 import com.apex.app.domain.model.*;
 import com.apex.app.domain.type.BiddingPrefEnum;
@@ -44,6 +45,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     BiddingPreferenceMapper biddingPreferenceMapper;
+
+    @Autowired
+    ReviewDao reviewDao;
 
     @Autowired
     UserAuthService userService;
@@ -180,6 +184,14 @@ public class ReviewServiceImpl implements ReviewService {
                 response.setConflict(response.getConflict() + 1);
             }
         }
+
+        Integer total = reviewDao.getSubmissionCount(orgId);
+        if (total == null) {
+            Asserts.fail("Invalid org_id");
+            return null;
+        }
+        response.setTotal(total);
+        response.setUnsigned();
 
         return response;
     }

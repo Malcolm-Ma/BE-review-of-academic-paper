@@ -8,6 +8,7 @@ import com.apex.app.controller.vo.OrgInfoUpdateRequest;
 import com.apex.app.controller.vo.OrgSetMemberRequest;
 import com.apex.app.controller.vo.OrgSetMemberResponse;
 import com.apex.app.dao.OrgDao;
+import com.apex.app.dao.ReviewDao;
 import com.apex.app.domain.bo.OrgInfoBo;
 import com.apex.app.domain.bo.OrgListByUserBo;
 import com.apex.app.domain.bo.OrgMemberBo;
@@ -52,6 +53,9 @@ public class OrgServiceImpl implements OrgService {
 
     @Autowired
     OrgDao orgDao;
+
+    @Autowired
+    ReviewDao reviewDao;
 
     @Override
     public OrgBase create(OrgCreateRequest orgCreateRequest) {
@@ -222,12 +226,6 @@ public class OrgServiceImpl implements OrgService {
 
     @Override
     public Integer getSubmissionCount(String orgId) {
-        SubmissionBaseExample example = new SubmissionBaseExample();
-        example.createCriteria().andOrgIdEqualTo(orgId);
-        List<SubmissionBase> SubmissionBases = SubmissionBaseMapper.selectByExample(example);
-        if (SubmissionBases != null) {
-            return SubmissionBases.size();
-        }
-        return null;
+        return reviewDao.getSubmissionCount(orgId);
     }
 }
