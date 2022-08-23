@@ -3,11 +3,13 @@ package com.apex.app.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.UUID;
 import com.apex.app.common.exception.Asserts;
+import com.apex.app.controller.vo.BiddingPrefSummaryResponse;
 import com.apex.app.controller.vo.ReviewCreateRequest;
 import com.apex.app.controller.vo.SetBiddingRequest;
 import com.apex.app.controller.vo.SubmissionListRequest;
 import com.apex.app.domain.bo.ReviewTaskOverallBo;
 import com.apex.app.domain.model.*;
+import com.apex.app.domain.type.BiddingPrefEnum;
 import com.apex.app.domain.type.ReviewStatusEnum;
 import com.apex.app.mapper.BiddingPreferenceMapper;
 import com.apex.app.mapper.SubmissionBaseMapper;
@@ -153,5 +155,32 @@ public class ReviewServiceImpl implements ReviewService {
             biddingPreferenceMapper.insert(biddingPreference);
         }
         return true;
+    }
+
+    @Override
+    public BiddingPrefSummaryResponse getBiddingPrefSummary(String userId, String orgId) {
+        BiddingPreferenceExample example = new BiddingPreferenceExample();
+        example.createCriteria()
+                .andUserIdEqualTo(userId)
+                .andOrgIdEqualTo(orgId);
+        List<BiddingPreference> result = biddingPreferenceMapper.selectByExample(example);
+        BiddingPrefSummaryResponse response = new BiddingPrefSummaryResponse();
+        for(BiddingPreference preference : result) {
+            byte pref = preference.getPreference();
+            if (pref == BiddingPrefEnum.YES.getValue()) {
+                response.setInterest(response.getInterest() + 1);
+            }
+            if (pref == BiddingPrefEnum.MAYBE.getValue()) {
+                response.setMaybe(response.getMaybe() + 1);
+            }
+            if (pref == BiddingPrefEnum.NO.getValue()) {
+                response.setNo(response.getNo() + 1);
+            }
+            if (pref == BiddingPrefEnum.CONFLICT.getValue()) {
+                response.setConflict(response.getConflict() + 1);
+            }
+        }
+
+        return response;
     }
 }

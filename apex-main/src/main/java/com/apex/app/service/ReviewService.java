@@ -1,5 +1,6 @@
 package com.apex.app.service;
 
+import com.apex.app.controller.vo.BiddingPrefSummaryResponse;
 import com.apex.app.controller.vo.ReviewCreateRequest;
 import com.apex.app.controller.vo.SetBiddingRequest;
 import com.apex.app.controller.vo.SubmissionListRequest;
@@ -19,5 +20,7 @@ public interface ReviewService {
     List<ReviewTaskOverallBo> getSubmissionList(SubmissionListRequest request);
 
     boolean setBiddingPref(SetBiddingRequest request);
+
+    BiddingPrefSummaryResponse getBiddingPrefSummary(String userId, String orgId);
 
 }

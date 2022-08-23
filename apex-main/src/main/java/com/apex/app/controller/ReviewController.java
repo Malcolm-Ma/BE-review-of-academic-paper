@@ -1,6 +1,7 @@
 package com.apex.app.controller;
 
 import com.apex.app.common.api.CommonResult;
+import com.apex.app.controller.vo.BiddingPrefSummaryResponse;
 import com.apex.app.controller.vo.ReviewCreateRequest;
 import com.apex.app.controller.vo.SetBiddingRequest;
 import com.apex.app.controller.vo.SubmissionListRequest;
@@ -8,10 +9,12 @@ import com.apex.app.domain.bo.ReviewTaskOverallBo;
 import com.apex.app.service.ReviewService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -55,5 +58,24 @@ public class ReviewController {
     public CommonResult SetBidding(@Validated @RequestBody SetBiddingRequest request) {
         boolean res = reviewService.setBiddingPref(request);
         return res ? CommonResult.success(null) : CommonResult.failed();
+    }
+
+    @ApiOperation("Get preference bidding summary")
+    @GetMapping("/bidding/pref/summary")
+    @ResponseBody
+    public CommonResult<BiddingPrefSummaryResponse> getBiddingPrefSummary(
+            @ApiParam("User id for query")
+            @Validated
+            @RequestParam("user_id")
+            @NotEmpty
+            String userId,
+            @ApiParam("Org id for query")
+            @Validated
+            @RequestParam("org_id")
+            @NotEmpty
+            String orgId
+    ) {
+        BiddingPrefSummaryResponse res = reviewService.getBiddingPrefSummary(userId, orgId);
+        return CommonResult.success(res);
     }
 }
