@@ -149,6 +149,11 @@ public class ReviewServiceImpl implements ReviewService {
         List<BiddingPreference> searchList = biddingPreferenceMapper.selectByExample(example);
         BiddingPreference biddingPreference = new BiddingPreference();
         if (searchList.size() > 0) {
+            BiddingPreference cur = searchList.get(0);
+            if (request.getBiddingPref().getValue() == cur.getPreference()) {
+                Asserts.fail("The bidding preference has been set to " + request.getBiddingPref().getDesc());
+                return false;
+            }
             // update
             biddingPreference.setPreference(request.getBiddingPref().getValue());
             biddingPreferenceMapper.updateByExampleSelective(biddingPreference, example);

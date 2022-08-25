@@ -26,7 +26,7 @@ def bidding_by_pref(data):
         deliver_project(project_user_dict, 'maybe', user, maybe)
         deliver_project(project_user_dict, 'no', user, no)
     # Print generation result
-    debug_project_user_dict(project_user_dict)
+    # debug_project_user_dict(project_user_dict)
 
     G = nx.DiGraph()
     G.add_node('dest', demand=project_size * review_demand - user_size * min_task)

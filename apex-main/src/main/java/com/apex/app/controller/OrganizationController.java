@@ -1,10 +1,7 @@
 package com.apex.app.controller;
 
 import com.apex.app.common.api.CommonResult;
-import com.apex.app.controller.vo.OrgCreateRequest;
-import com.apex.app.controller.vo.OrgInfoUpdateRequest;
-import com.apex.app.controller.vo.OrgSetMemberRequest;
-import com.apex.app.controller.vo.OrgSetMemberResponse;
+import com.apex.app.controller.vo.*;
 import com.apex.app.domain.bo.OrgInfoBo;
 import com.apex.app.domain.bo.OrgListByUserBo;
 import com.apex.app.domain.bo.OrgMemberBo;
@@ -119,6 +116,23 @@ public class OrganizationController {
         Map<String, Integer> result = new HashMap<>();
         result.put("count", counts);
         return CommonResult.success(result);
+    }
+
+    @ApiOperation("Change to forward the reviewing process")
+    @GetMapping("/process/change")
+    @ResponseBody
+    public CommonResult<ChangeOrgProcessResponse> changeReviewProcess(
+            @ApiParam("Org id")
+            @Validated
+            @RequestParam("org_id")
+            @NotEmpty
+            String orgId
+    ) {
+        ChangeOrgProcessResponse res = orgService.changeReviewProcess(orgId);
+        if (res == null) {
+            return CommonResult.failed();
+        }
+        return CommonResult.success(res);
     }
 
 }

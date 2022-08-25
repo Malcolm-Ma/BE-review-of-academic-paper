@@ -146,8 +146,12 @@ public class UserAuthServiceImpl implements UserAuthService {
     public UserBase getCurrentUser() {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
-        CustomUserDetails customUserDetails = (CustomUserDetails) auth.getPrincipal();
-        return customUserDetails.getUserBase();
+        try {
+            CustomUserDetails customUserDetails = (CustomUserDetails) auth.getPrincipal();
+            return customUserDetails.getUserBase();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

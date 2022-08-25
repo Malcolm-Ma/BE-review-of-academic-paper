@@ -6,10 +6,11 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ReviewStatusEnum {
-
-    FINISHED((byte) 0, "finished"),
-    ONGOING((byte) 1, "ongoing"),
-    PREPARING((byte) 2, "preparing");
+    FINISHED((byte) 4, "finished"),
+    REVIEWING((byte) 3, "reviewing"),
+    BIDDING((byte) 2, "bidding"),
+    COLLECTING((byte) 1, "collecting"),
+    PREPARING((byte) 0, "preparing");
 
     private final byte value;
 

@@ -3,16 +3,14 @@ package com.apex.app.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.apex.app.common.exception.Asserts;
-import com.apex.app.controller.vo.OrgCreateRequest;
-import com.apex.app.controller.vo.OrgInfoUpdateRequest;
-import com.apex.app.controller.vo.OrgSetMemberRequest;
-import com.apex.app.controller.vo.OrgSetMemberResponse;
+import com.apex.app.controller.vo.*;
 import com.apex.app.dao.OrgDao;
 import com.apex.app.dao.ReviewDao;
 import com.apex.app.domain.bo.OrgInfoBo;
 import com.apex.app.domain.bo.OrgListByUserBo;
 import com.apex.app.domain.bo.OrgMemberBo;
 import com.apex.app.domain.model.*;
+import com.apex.app.domain.type.ReviewStatusEnum;
 import com.apex.app.domain.type.UserTypeEnum;
 import com.apex.app.mapper.OrgBaseMapper;
 import com.apex.app.mapper.SubmissionBaseMapper;
@@ -227,5 +225,30 @@ public class OrgServiceImpl implements OrgService {
     @Override
     public Integer getSubmissionCount(String orgId) {
         return reviewDao.getSubmissionCount(orgId);
+    }
+
+    @Override
+    public ChangeOrgProcessResponse changeReviewProcess(String orgId) {
+        UserBase curUser = userAuthService.getCurrentUser();
+        OrgInfoBo orgInfo = getOrgDetail(orgId);
+        // Check if the current user is admin
+        if (orgInfo.getManagerList().stream().noneMatch(u -> u.getId().equals(curUser.getId()))) {
+            Asserts.fail("Current user is not a manager");
+            return null;
+        }
+        if (orgInfo.getReviewProcess() >= ReviewStatusEnum.FINISHED.getValue()) {
+            Asserts.fail("Organizations that complete the review are not allowed to change the process");
+            return null;
+        }
+        OrgBase orgBase = new OrgBase();
+        orgBase.setId(orgId);
+        orgBase.setReviewProcess((byte) (orgInfo.getReviewProcess() + 1));
+        int res = orgBaseMapper.updateByPrimaryKeySelective(orgBase);
+        if (res == 0) {
+            Asserts.fail("Fail to update process");
+            return null;
+        }
+        orgInfo.setReviewProcess(orgBase.getReviewProcess());
+        return new ChangeOrgProcessResponse(orgInfo);
     }
 }
