@@ -10,4 +10,24 @@
         where s.org_id = #{org_id}
     </select>
 
+    <select id="getSubmissionIdList" resultType="java.lang.String">
+        select id
+        from submission_base s
+        where s.org_id = #{org_id}
+    </select>
+
+    <insert id="insertPaperAllocation">
+        insert into paper_allocation
+        (user_id, submission_id, org_id)
+        values
+            <foreach collection="allocationList" item="allocation" separator=",">
+                (#{allocation.userId}, #{allocation.submissionId}, #{allocation.orgId})
+            </foreach>
+    </insert>
+
+    <delete id="deleteAllocationByOrgId">
+        delete from paper_allocation
+        where org_id = #{org_id}
+    </delete>
+
 </mapper>

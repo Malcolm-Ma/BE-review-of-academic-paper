@@ -61,6 +61,7 @@ public class OrgServiceImpl implements OrgService {
         BeanUtils.copyProperties(orgCreateRequest, orgBase);
         orgBase.setCreateTime(new Date());
         orgBase.setActiveStatus(1);
+        orgBase.setReviewProcess((byte) 0);
 
         // Check if there are orgs with the same email address
         OrgBaseExample example = new OrgBaseExample();

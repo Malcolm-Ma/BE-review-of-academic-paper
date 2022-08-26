@@ -2,12 +2,13 @@ package com.apex.app.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.UUID;
+import cn.hutool.http.HttpRequest;
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
 import com.apex.app.common.exception.Asserts;
-import com.apex.app.controller.vo.BiddingPrefSummaryResponse;
-import com.apex.app.controller.vo.ReviewCreateRequest;
-import com.apex.app.controller.vo.SetBiddingRequest;
-import com.apex.app.controller.vo.SubmissionListRequest;
+import com.apex.app.controller.vo.*;
 import com.apex.app.dao.ReviewDao;
+import com.apex.app.dao.UserDao;
 import com.apex.app.domain.bo.ReviewTaskOverallBo;
 import com.apex.app.domain.model.*;
 import com.apex.app.domain.type.BiddingPrefEnum;
@@ -18,13 +19,13 @@ import com.apex.app.mapper.SubmissionUserMergeMapper;
 import com.apex.app.mapper.ReviewTaskOverallMapper;
 import com.apex.app.service.ReviewService;
 import com.apex.app.service.UserAuthService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Core paper reviewing service implementation
@@ -50,7 +51,13 @@ public class ReviewServiceImpl implements ReviewService {
     ReviewDao reviewDao;
 
     @Autowired
+    UserDao userDao;
+
+    @Autowired
     UserAuthService userService;
+
+    @Value("${bidding-system.url}")
+    String biddingSystemUrl;
 
     @Override
     public ReviewTaskOverallBo createReviewTask(ReviewCreateRequest request) {
@@ -91,6 +98,13 @@ public class ReviewServiceImpl implements ReviewService {
         submissionUserMergeMapper.insert(SubmissionUserMerge);
         // Insert review task overall
         reviewTaskOverallMapper.insert(reviewTask);
+
+        BiddingPreference hostPref = new BiddingPreference();
+        hostPref.setPreference(BiddingPrefEnum.CONFLICT.getValue());
+        hostPref.setUserId(user.getId());
+        hostPref.setOrgId(request.getOrgId());
+        hostPref.setSubmissionId(paper.getId());
+        biddingPreferenceMapper.insert(hostPref);
 
         return new ReviewTaskOverallBo(user, request.getOrgId(), paper, reviewTask, null);
     }
@@ -174,7 +188,7 @@ public class ReviewServiceImpl implements ReviewService {
                 .andOrgIdEqualTo(orgId);
         List<BiddingPreference> result = biddingPreferenceMapper.selectByExample(example);
         BiddingPrefSummaryResponse response = new BiddingPrefSummaryResponse();
-        for(BiddingPreference preference : result) {
+        for (BiddingPreference preference : result) {
             byte pref = preference.getPreference();
             if (pref == BiddingPrefEnum.YES.getValue()) {
                 response.setInterest(response.getInterest() + 1);
@@ -200,4 +214,79 @@ public class ReviewServiceImpl implements ReviewService {
 
         return response;
     }
+
+    @Override
+    public AllocateBiddingResponse allocateBidding(AllocateBiddingRequest request) {
+        String orgId = request.getOrgId();
+        BiddingPreferenceExample preferenceExample = new BiddingPreferenceExample();
+        preferenceExample.createCriteria().andOrgIdEqualTo(orgId);
+        List<BiddingPreference> biddingPreferenceList = biddingPreferenceMapper.selectByExample(preferenceExample);
+        if (biddingPreferenceList.size() == 0) {
+            Asserts.fail("Invalid org_id, please try again");
+            return null;
+        }
+        List<String> submissionIdList = reviewDao.getSubmissionIdList(orgId);
+        Map<String, UserBase> userMap = userDao.getUserMapByOrgId(orgId);
+        List<String> userIdList = userMap.keySet().stream().toList();
+        Map<String, List<List<String>>> userPrefMap = new HashMap<>();
+        for (String userId : userIdList) {
+            List<String> prefYes = new ArrayList<>();
+            List<String> prefNo = new ArrayList<>();
+            // initially treat maybe as a whole submission
+            List<String> prefMaybe = new ArrayList<>(submissionIdList);
+            List<BiddingPreference> userBiddingList = biddingPreferenceList.stream()
+                    .filter(u -> u.getUserId().equals(userId)).toList();
+            for (BiddingPreference bidding : userBiddingList) {
+                if (bidding.getPreference() == BiddingPrefEnum.YES.getValue()) {
+                    prefYes.add(bidding.getSubmissionId());
+                    prefMaybe.remove(bidding.getSubmissionId());
+                }
+                if (bidding.getPreference() == BiddingPrefEnum.CONFLICT.getValue()) {
+                    prefMaybe.remove(bidding.getSubmissionId());
+                }
+                if (bidding.getPreference() == BiddingPrefEnum.NO.getValue()) {
+                    prefNo.add(bidding.getSubmissionId());
+                    prefMaybe.remove(bidding.getSubmissionId());
+                }
+            }
+            userPrefMap.put(userId, new ArrayList<>(Arrays.asList(prefYes, prefMaybe, prefNo)));
+        }
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("review_demand", request.getReviewDemand());
+        requestBody.put("min_task_per_user", request.getMinTaskPerUser());
+        requestBody.put("project_id_list", submissionIdList);
+        requestBody.put("user_id_list", userIdList);
+        requestBody.put("user_pref", userPrefMap);
+        JSONObject requestJson = new JSONObject(requestBody);
+        try {
+            String json = requestJson.toString();
+            String resultStr = HttpRequest.post(biddingSystemUrl).body(json).execute().body();
+            JSONObject responseJson = new JSONObject(resultStr);
+            if (responseJson.getInt("code") != 200) {
+                Asserts.fail("Fail to make paper bidding, please try again");
+                return null;
+            }
+            JSONArray resultRecord = responseJson.getByPath("data.result_record", JSONArray.class);
+            List<PaperAllocation> resultRecordList = new ArrayList<>();
+            for (int i = 0; i < resultRecord.size(); i++) {
+                JSONObject object = resultRecord.getJSONObject(i);
+                String resSubmissionId = object.get("review_id", String.class);
+                String resUserId = object.get("user_id", String.class);
+                PaperAllocation allocation = new PaperAllocation();
+                allocation.setOrgId(orgId);
+                allocation.setSubmissionId(resSubmissionId);
+                allocation.setUserId(resUserId);
+                resultRecordList.add(allocation);
+            }
+            reviewDao.deleteAllocationByOrgId(orgId);
+            reviewDao.insertPaperAllocation(resultRecordList);
+
+            return new AllocateBiddingResponse();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

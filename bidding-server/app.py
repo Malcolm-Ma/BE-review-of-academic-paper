@@ -17,8 +17,9 @@ def make_bidding():
     # Receive and process json data requests
     data = json.loads(request.data)  # Convert json string to dict
     res = bidding_by_pref(data)
-    if res is None:
-        return requestUtil.http_result(status=False, message='Invalid min_task')
+    if isinstance(res, str):
+        # Error in result
+        return requestUtil.http_result(status=False, message=res)
     return requestUtil.http_result(data=res)
 
 

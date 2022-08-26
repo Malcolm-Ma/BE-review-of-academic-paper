@@ -1,10 +1,7 @@
 package com.apex.app.controller;
 
 import com.apex.app.common.api.CommonResult;
-import com.apex.app.controller.vo.BiddingPrefSummaryResponse;
-import com.apex.app.controller.vo.ReviewCreateRequest;
-import com.apex.app.controller.vo.SetBiddingRequest;
-import com.apex.app.controller.vo.SubmissionListRequest;
+import com.apex.app.controller.vo.*;
 import com.apex.app.domain.bo.ReviewTaskOverallBo;
 import com.apex.app.service.ReviewService;
 import io.swagger.annotations.Api;
@@ -77,5 +74,16 @@ public class ReviewController {
     ) {
         BiddingPrefSummaryResponse res = reviewService.getBiddingPrefSummary(userId, orgId);
         return CommonResult.success(res);
+    }
+
+    @ApiOperation("Make allocation of review based on paper bidding")
+    @PostMapping("/bidding/allocate")
+    @ResponseBody
+    public CommonResult<AllocateBiddingResponse> allocateBidding(@Validated @RequestBody AllocateBiddingRequest request) {
+        AllocateBiddingResponse response = reviewService.allocateBidding(request);
+        if (response == null) {
+            return CommonResult.failed();
+        }
+        return CommonResult.success(response);
     }
 }

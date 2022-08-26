@@ -20,7 +20,7 @@ spring:
   servlet:
     multipart:
       enabled: true # enable file uploading
-      max-file-size: 10MB # limited file size of 10 MB
+      max-file-size: 100MB # limited file size of 10 MB
   redis:
     host: localhost # Redis server address
     database: 0 # Redis index（default 0）
@@ -75,3 +75,6 @@ redis:
   expire:
     common: 86400 # 24 hours
     authCode: 90 # auth code expire time (seconds)
+
+bidding-system:
+  url: "http://127.0.0.1:5000/bidding"

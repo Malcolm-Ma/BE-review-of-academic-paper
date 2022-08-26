@@ -7,11 +7,12 @@ import pandas as pd
 import pymysql
 import random
 import datetime
+from tqdm import tqdm
 
 # Constants
 SERVICE_URL = 'http://localhost:8080'
-USER_COUNT = 50
-ORG_COUNT = 10
+USER_COUNT = 400
+ORG_COUNT = 20
 
 ADMIN_EMAIL = 'admin@apex.org'
 ADMIN_PASSWORD = 'admin'
@@ -54,10 +55,9 @@ def create_user():
     }
 
     req = requests.post(SERVICE_URL + '/user/register', json=data)
-    result = json.loads(req.text)
-
-    print(req.status_code)
-    print(result)
+    # result = json.loads(req.text)
+    # print(req.status_code)
+    # print(result)
 
     return email, password
 
@@ -66,7 +66,7 @@ def create_user_batch():
     email_list = []
     password_list = []
 
-    for i in range(USER_COUNT):
+    for i in tqdm(range(USER_COUNT)):
         cur_email, cur_password = create_user()
         email_list.append(cur_email)
         password_list.append(cur_password)
@@ -100,10 +100,10 @@ def insert_user_to_org(org_list):
                 user_id_list.append(i[0])
     except Exception as e:
         print(e)
-    print(user_id_list)
+    # print(user_id_list)
 
     for org_id in org_list:
-        sample_id = random.sample(user_id_list, 20)
+        sample_id = random.sample(user_id_list, 70)
         for user_id in sample_id:
             date_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             sql = "INSERT INTO user_org_merge (org_id, user_id, type, create_time) VALUES ('{0}','{1}','{2}','{3}')" \
@@ -132,45 +132,126 @@ def get_org_list_by_user_id(header, user_id):
 
 
 def create_review_task(header, org_list):
-    for org_id in org_list:
+    for org_id in tqdm(org_list):
         # get user id list
         user_id_list = get_user_id_from_org(headers, org_id)
         # generate fake data
         for user_id in user_id_list:
-            author_list = []
-            for i in range(fake.random_int(min=1, max=5)):
-                author_list.append(fake.name())
-            params = {
-                "abstracts": fake.text(),
-                "authors": ",".join(author_list),
-                "contact_email": fake.safe_email(),
-                "deadline": "2022-09-02T22:53:27.379Z",
-                "keywords": ",".join(fake.words(unique=True)),
-                "org_id": org_id,
-                "published_time": "2022-08-01T00:00:27.379Z",
-                "resource_url": "https://minio.malcolmpro.com/apex/02-08-2022/fbbf07d3-1659463084353.pdf",
-                "title": fake.sentence(),
-                "user_id": user_id,
-            }
-            print(params)
-            req = requests.post(SERVICE_URL + '/review/create', json=params, headers=header)
-            result = json.loads(req.text)
-            print(result['data'])
+            for _ in range(2):
+                author_list = []
+                for i in range(fake.random_int(min=1, max=5)):
+                    author_list.append(fake.name())
+                params = {
+                    "abstracts": fake.text(),
+                    "authors": ",".join(author_list),
+                    "contact_email": fake.safe_email(),
+                    "deadline": "2022-09-02T22:53:27.379Z",
+                    "keywords": ",".join(fake.words(unique=True)),
+                    "org_id": org_id,
+                    "published_time": "2022-08-01T00:00:27.379Z",
+                    "resource_url": "https://minio.malcolmpro.com/apex/02-08-2022/fbbf07d3-1659463084353.pdf",
+                    "title": fake.sentence(),
+                    "user_id": user_id,
+                }
+                # print(params)
+                req = requests.post(SERVICE_URL + '/review/submission/create', json=params, headers=header)
+                result = json.loads(req.text)
+                # print(result)
+
+
+def bidding_interest(header):
+    org_list = []
+    sql = "SELECT id from org_base"
+    try:
+        with sql_conn.cursor() as cursor:
+            cursor.execute(sql)
+            select_result = cursor.fetchall()
+            for i in select_result:
+                org_list.append(i[0])
+    except Exception as e:
+        print(e)
+    for org_id in tqdm(org_list):
+        user_id_list = []
+        sql = "SELECT user_id from user_org_merge WHERE user_id != 'admin' and org_id = '{}'".format(org_id)
+        try:
+            with sql_conn.cursor() as cursor:
+                cursor.execute(sql)
+                select_result = cursor.fetchall()
+                for i in select_result:
+                    user_id_list.append(i[0])
+        except Exception as e:
+            print(e)
+        # print(user_id_list)
+
+        submission_id_list = []
+        sql = "SELECT id from submission_base WHERE org_id = '{0}'".format(org_id)
+        try:
+            with sql_conn.cursor() as cursor:
+                cursor.execute(sql)
+                select_result = cursor.fetchall()
+                for i in select_result:
+                    submission_id_list.append(i[0])
+        except Exception as e:
+            print(e)
+        # print(user_id_list)
+
+        # random bind interest
+        review_demand = 3
+        submission_num = len(submission_id_list)
+        user_count = len(user_id_list)
+        min_task = int(submission_num * review_demand / user_count)
+        user_pref = {}
+        for user in user_id_list:
+            random_project = random.sample(submission_id_list, submission_num)  # random sort project
+            # interest_count = fake.random_int(min=0, max=PROJECT_NUM / 2)
+            # interest_count = MIN_TASK
+            conflict_count = fake.random_int(min=0, max=int(submission_num / 10))
+            interest_count = fake.random_int(min=0, max=min_task * 2)
+            maybe_count = fake.random_int(min=int(submission_num / 2), max=submission_num - interest_count)
+            no_count = submission_num - interest_count - maybe_count - conflict_count
+            # slice random list
+            interest_projects = random_project[:interest_count]
+            maybe_projects = random_project[interest_count: (interest_count + maybe_count)]
+            conflict_project = random_project[(interest_count + maybe_count): (interest_count + maybe_count + conflict_count)]
+            no_projects = []
+            if no_count != 0:
+                no_projects = random_project[-no_count:]
+            user_pref[user] = [interest_projects, maybe_projects, no_projects, conflict_project]
+
+        for user_id, interest_pref in user_pref.items():
+            [yes_projects, maybe_projects, no_projects, conflict_project] = interest_pref
+            insert_preference(org_id, user_id, yes_projects, 3)
+            insert_preference(org_id, user_id, maybe_projects, 2)
+            insert_preference(org_id, user_id, no_projects, 1)
+            insert_preference(org_id, user_id, conflict_project, 0)
+
+
+def insert_preference(org_id, user_id, submission_list, preference):
+    if preference == 2 and fake.random_int(min=0, max=9) > 3:
+        return
+
+    data = [[org_id, user_id, i, preference] for i in submission_list]
+    sql = "INSERT INTO bidding_preference (org_id, user_id, submission_id, preference) values(%s, %s, %s, %s)"
+    cur = sql_conn.cursor()
+    cur.executemany(sql, data)
+    sql_conn.commit()
 
 
 if __name__ == '__main__':
-    # create user in batch
-    # create_user_batch()
-
     # get token
     headers = set_token()
 
-    # create org
+    # # create user in batch
+    # create_user_batch()
+    #
+    # # create org
     # org_id_list = create_org(headers)
-
+    #
     # insert_user_to_org(org_id_list)
+    #
+    # admin_org_id_list = get_org_list_by_user_id(headers, 'admin')
+    # create_review_task(headers, admin_org_id_list)
 
-    admin_org_id_list = get_org_list_by_user_id(headers, 'admin')
-    create_review_task(headers, admin_org_id_list)
+    bidding_interest(headers)
 
 sql_conn.close()

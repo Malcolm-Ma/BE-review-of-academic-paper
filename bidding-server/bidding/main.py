@@ -16,7 +16,7 @@ def bidding_by_pref(data):
     if min_task is None:
         min_task = min_task_limit
     if min_task > min_task_limit:
-        return None
+        return "The parameter min_task_per_user is beyond the limit"
 
     # Generate perf dict in project view
     project_user_dict = {}
@@ -47,36 +47,39 @@ def bidding_by_pref(data):
         G.add_edge(user, 'dest', weight=1)  # remove capacity here
 
     # Run the flow
-    flow_dict = nx.min_cost_flow(G)
-    # reformat the result
-    flow_result_dict = {}
-    for project in project_data:
-        for user, flow in flow_dict[project].items():
-            if flow:
-                pre_res = flow_result_dict.get(user)
-                if pre_res is None:
-                    pre_res = []
-                pre_res.append(project)
-                flow_result_dict[user] = pre_res
-                # print(user, 'joins', project)
+    try:
+        flow_dict = nx.min_cost_flow(G)
+        # reformat the result
+        flow_result_dict = {}
+        for project in project_data:
+            for user, flow in flow_dict[project].items():
+                if flow:
+                    pre_res = flow_result_dict.get(user)
+                    if pre_res is None:
+                        pre_res = []
+                    pre_res.append(project)
+                    flow_result_dict[user] = pre_res
+                    # print(user, 'joins', project)
 
-    # Generate result record
-    user_project_merge_list = []
-    for user_id, project_id_list in flow_result_dict.items():
-        for project_id in project_id_list:
-            user_project_merge_list.append({
-                'user_id': user_id,
-                'review_id': project_id
-            })
+        # Generate result record
+        user_project_merge_list = []
+        for user_id, project_id_list in flow_result_dict.items():
+            for project_id in project_id_list:
+                user_project_merge_list.append({
+                    'user_id': user_id,
+                    'review_id': project_id
+                })
 
-    # Init result dict
-    result = {
-        'result_map': flow_result_dict,
-        'result_record': user_project_merge_list,
-        'summary': {}
-    }
+        # Init result dict
+        result = {
+            'result_map': flow_result_dict,
+            'result_record': user_project_merge_list,
+            'summary': {}
+        }
 
-    return result
+        return result
+    except:
+        return "Fail to make bidding using networkX"
 
 
 def deliver_project(result_map=None, pref_type='maybe', user_name='', proj_list=None):
@@ -112,4 +115,3 @@ def debug_project_user_dict(data):
         print(pref_list[1])
         print('--no--')
         print(pref_list[2])
-
