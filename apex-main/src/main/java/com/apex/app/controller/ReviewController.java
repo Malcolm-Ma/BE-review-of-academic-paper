@@ -2,6 +2,7 @@ package com.apex.app.controller;
 
 import com.apex.app.common.api.CommonResult;
 import com.apex.app.controller.vo.*;
+import com.apex.app.domain.bo.PaperAllocationMapBo;
 import com.apex.app.domain.bo.ReviewTaskOverallBo;
 import com.apex.app.service.ReviewService;
 import io.swagger.annotations.Api;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Review Controller
@@ -85,5 +87,19 @@ public class ReviewController {
             return CommonResult.failed();
         }
         return CommonResult.success(response);
+    }
+
+    @ApiOperation("Get the paper allocation result")
+    @GetMapping("/allocation_result/get")
+    @ResponseBody
+    public CommonResult allocateBidding(
+            @ApiParam("Org id for query")
+            @Validated
+            @RequestParam("org_id")
+            @NotEmpty
+            String orgId
+    ) {
+        Map<String, PaperAllocationMapBo> res = reviewService.getAllocationResult(orgId);
+        return CommonResult.success(res);
     }
 }

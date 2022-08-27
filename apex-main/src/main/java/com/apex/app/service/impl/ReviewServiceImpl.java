@@ -9,6 +9,7 @@ import com.apex.app.common.exception.Asserts;
 import com.apex.app.controller.vo.*;
 import com.apex.app.dao.ReviewDao;
 import com.apex.app.dao.UserDao;
+import com.apex.app.domain.bo.PaperAllocationMapBo;
 import com.apex.app.domain.bo.ReviewTaskOverallBo;
 import com.apex.app.domain.model.*;
 import com.apex.app.domain.type.BiddingPrefEnum;
@@ -289,4 +290,9 @@ public class ReviewServiceImpl implements ReviewService {
         }
     }
 
+    @Override
+    public Map<String, PaperAllocationMapBo> getAllocationResult(String orgId) {
+        Map<String, PaperAllocationMapBo> res = reviewDao.getAllocationResult(orgId);
+        return res;
+    }
 }
