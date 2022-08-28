@@ -10,6 +10,7 @@ import com.apex.app.controller.vo.*;
 import com.apex.app.dao.ReviewDao;
 import com.apex.app.dao.UserDao;
 import com.apex.app.domain.bo.PaperAllocationMapBo;
+import com.apex.app.domain.bo.ReviewTaskInfoBo;
 import com.apex.app.domain.bo.ReviewTaskOverallBo;
 import com.apex.app.domain.model.*;
 import com.apex.app.domain.type.BiddingPrefEnum;
@@ -293,6 +294,23 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Map<String, PaperAllocationMapBo> getAllocationResult(String orgId) {
         Map<String, PaperAllocationMapBo> res = reviewDao.getAllocationResult(orgId);
+        if (res.size() == 0) {
+            return null;
+        }
         return res;
     }
+
+    @Override
+    public List<ReviewTaskInfoBo> getReviewTaskByUser(GetReviewTaskRequest request) {
+        String userId = request.getUserId();
+        if (request.getUserId() == null) {
+            userId = userService.getCurrentUser().getId();
+        }
+        List<ReviewTaskInfoBo> res = reviewDao.getReviewTaskByUserId(request.getOrgId(), userId);
+        if (res.size() == 0) {
+            return null;
+        }
+        return res;
+    }
+
 }

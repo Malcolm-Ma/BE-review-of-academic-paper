@@ -2,6 +2,7 @@ package com.apex.app.service;
 
 import com.apex.app.controller.vo.*;
 import com.apex.app.domain.bo.PaperAllocationMapBo;
+import com.apex.app.domain.bo.ReviewTaskInfoBo;
 import com.apex.app.domain.bo.ReviewTaskOverallBo;
 
 import java.util.List;
@@ -25,5 +26,7 @@ public interface ReviewService {
     AllocateBiddingResponse allocateBidding(AllocateBiddingRequest request);
 
     Map<String, PaperAllocationMapBo> getAllocationResult(String orgId);
+
+    List<ReviewTaskInfoBo> getReviewTaskByUser(GetReviewTaskRequest request);
 
 }

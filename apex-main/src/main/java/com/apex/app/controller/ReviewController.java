@@ -3,6 +3,7 @@ package com.apex.app.controller;
 import com.apex.app.common.api.CommonResult;
 import com.apex.app.controller.vo.*;
 import com.apex.app.domain.bo.PaperAllocationMapBo;
+import com.apex.app.domain.bo.ReviewTaskInfoBo;
 import com.apex.app.domain.bo.ReviewTaskOverallBo;
 import com.apex.app.service.ReviewService;
 import io.swagger.annotations.Api;
@@ -101,5 +102,19 @@ public class ReviewController {
     ) {
         Map<String, PaperAllocationMapBo> res = reviewService.getAllocationResult(orgId);
         return CommonResult.success(res);
+    }
+
+    @ApiOperation("Get review task")
+    @PostMapping("/task/get")
+    @ResponseBody
+    public CommonResult<List<ReviewTaskInfoBo>> allocateBidding(@Validated @RequestBody GetReviewTaskRequest request) {
+        if (request.isAdminView()) {
+            return null;
+        }
+        List<ReviewTaskInfoBo> response = reviewService.getReviewTaskByUser(request);
+        if (response == null) {
+            return CommonResult.failed("Invalid org_id or user_id");
+        }
+        return CommonResult.success(response);
     }
 }
