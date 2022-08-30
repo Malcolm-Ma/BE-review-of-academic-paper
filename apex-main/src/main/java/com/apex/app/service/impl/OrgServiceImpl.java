@@ -252,4 +252,18 @@ public class OrgServiceImpl implements OrgService {
         orgInfo.setReviewProcess(orgBase.getReviewProcess());
         return new ChangeOrgProcessResponse(orgInfo);
     }
+
+    @Override
+    public Boolean checkUserBelonging(String orgId, String userId) {
+        String curUserId = userId;
+        if (curUserId == null) {
+            curUserId = userAuthService.getCurrentUser().getId();
+        }
+        UserOrgMergeExample example = new UserOrgMergeExample();
+        example.createCriteria()
+                .andOrgIdEqualTo(orgId)
+                .andUserIdEqualTo(curUserId);
+        List<UserOrgMerge> res = userOrgMergeMapper.selectByExample(example);
+        return res.size() > 0;
+    }
 }

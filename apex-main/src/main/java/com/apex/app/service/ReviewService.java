@@ -29,4 +29,6 @@ public interface ReviewService {
 
     List<ReviewTaskInfoBo> getReviewTaskByUser(GetReviewTaskRequest request);
 
+    Boolean createNewReview(NewReviewRequest request);
+
 }

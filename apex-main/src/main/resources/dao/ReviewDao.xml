@@ -49,9 +49,9 @@
         select pa.submission_id,
                pa.user_id,
                ub.email,
-               ub.full_name fullName,
-               ub.last_name lastName,
-               ub.first_name firstName,
+               ub.full_name     fullName,
+               ub.last_name     lastName,
+               ub.first_name    firstName,
                ub.avatar,
                ub.title,
                ub.enable_status enableStatus
@@ -61,21 +61,21 @@
     </select>
 
     <resultMap id="BaseResultMap" type="com.apex.app.domain.model.ReviewTaskOverall">
-        <id column="id" jdbcType="VARCHAR" property="id" />
-        <result column="org_id" jdbcType="VARCHAR" property="orgId" />
-        <result column="submission_id" jdbcType="VARCHAR" property="submissionId" />
-        <result column="status" jdbcType="TINYINT" property="status" />
-        <result column="deadline" jdbcType="TIMESTAMP" property="deadline" />
-        <result column="decision" jdbcType="TINYINT" property="decision" />
-        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="org_id" jdbcType="VARCHAR" property="orgId"/>
+        <result column="submission_id" jdbcType="VARCHAR" property="submissionId"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="deadline" jdbcType="TIMESTAMP" property="deadline"/>
+        <result column="decision" jdbcType="TINYINT" property="decision"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
     </resultMap>
 
     <resultMap id="ReviewTaskResultMap" type="com.apex.app.domain.bo.ReviewTaskInfoBo" extends="BaseResultMap">
         <association property="submissionInfo" javaType="com.apex.app.domain.model.SubmissionBase">
             <id column="submission_id" property="id"/>
-            <result property="title" column="title" />
-            <result property="abstract" column="abstract" />
-            <result property="keywords" column="keywords" />
+            <result property="title" column="title"/>
+            <result property="abstract" column="abstract"/>
+            <result property="keywords" column="keywords"/>
             <result property="resourceUrl" column="resource_url"/>
             <result property="publishedTime" column="published_time"/>
             <result property="authors" column="authors"/>
@@ -83,27 +83,31 @@
             <result property="orgId" column="org_id"/>
         </association>
     </resultMap>
-    
+
     <select id="getReviewTaskByUserId" resultMap="ReviewTaskResultMap">
         select rt.id,
-               rt.org_id,
-               rt.submission_id,
-               rt.status,
-               rt.deadline,
-               rt.decision,
-               rt.created_time,
-               s.title,
-               s.abstracts,
-               s.keywords,
-               s.resource_url,
-               s.published_time,
-               s.authors,
-               s.contact_email,
-               s.org_id
+        rt.org_id,
+        rt.submission_id,
+        rt.status,
+        rt.deadline,
+        rt.decision,
+        rt.created_time,
+        s.title,
+        s.abstracts,
+        s.keywords,
+        s.resource_url,
+        s.published_time,
+        s.authors,
+        s.contact_email,
+        s.org_id
         from paper_allocation pa
-            left join submission_base s on s.id = pa.submission_id
-            left join review_task_overall rt on pa.submission_id = rt.submission_id
-        where pa.org_id = #{org_id} and pa.user_id = #{user_id}
+        left join submission_base s on s.id = pa.submission_id
+        left join review_task_overall rt on pa.submission_id = rt.submission_id
+        where pa.org_id = #{org_id}
+        and pa.user_id = #{user_id}
+        <if test="review_id != null">
+            and rt.id = #{review_id}
+        </if>
     </select>
 
 </mapper>

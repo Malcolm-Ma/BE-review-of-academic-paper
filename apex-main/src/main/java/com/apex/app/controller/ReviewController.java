@@ -117,4 +117,13 @@ public class ReviewController {
         }
         return CommonResult.success(response);
     }
+
+    @ApiOperation("submit review evaluation")
+    @PostMapping("/create")
+    @ResponseBody
+    public CommonResult allocateBidding(@Validated @RequestBody NewReviewRequest request) {
+
+        Boolean response = reviewService.createNewReview(request);
+        return CommonResult.success(response);
+    }
 }

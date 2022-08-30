@@ -4,18 +4,18 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
 
-public class UserReviewEvaluation implements Serializable {
+public class ReviewEvaluation implements Serializable {
     private Long id;
 
     private String userId;
 
-    private String taskId;
+    private String reviewId;
 
     private Date reviewDate;
 
-    private Byte index;
+    private Byte reviewIndex;
 
-    private Short totalScore;
+    private Short overallEvaluation;
 
     private Byte confidence;
 
@@ -23,7 +23,7 @@ public class UserReviewEvaluation implements Serializable {
     private Byte asShortPaper;
 
     @ApiModelProperty(value = "status of review: 0->superseded by others; 1->active;")
-    private Byte status;
+    private Byte activeStatus;
 
     private String evaluationContent;
 
@@ -47,12 +47,12 @@ public class UserReviewEvaluation implements Serializable {
         this.userId = userId;
     }
 
-    public String getTaskId() {
-        return taskId;
+    public String getReviewId() {
+        return reviewId;
     }
 
-    public void setTaskId(String taskId) {
-        this.taskId = taskId;
+    public void setReviewId(String reviewId) {
+        this.reviewId = reviewId;
     }
 
     public Date getReviewDate() {
@@ -63,20 +63,20 @@ public class UserReviewEvaluation implements Serializable {
         this.reviewDate = reviewDate;
     }
 
-    public Byte getIndex() {
-        return index;
+    public Byte getReviewIndex() {
+        return reviewIndex;
     }
 
-    public void setIndex(Byte index) {
-        this.index = index;
+    public void setReviewIndex(Byte reviewIndex) {
+        this.reviewIndex = reviewIndex;
     }
 
-    public Short getTotalScore() {
-        return totalScore;
+    public Short getOverallEvaluation() {
+        return overallEvaluation;
     }
 
-    public void setTotalScore(Short totalScore) {
-        this.totalScore = totalScore;
+    public void setOverallEvaluation(Short overallEvaluation) {
+        this.overallEvaluation = overallEvaluation;
     }
 
     public Byte getConfidence() {
@@ -95,12 +95,12 @@ public class UserReviewEvaluation implements Serializable {
         this.asShortPaper = asShortPaper;
     }
 
-    public Byte getStatus() {
-        return status;
+    public Byte getActiveStatus() {
+        return activeStatus;
     }
 
-    public void setStatus(Byte status) {
-        this.status = status;
+    public void setActiveStatus(Byte activeStatus) {
+        this.activeStatus = activeStatus;
     }
 
     public String getEvaluationContent() {
@@ -127,13 +127,13 @@ public class UserReviewEvaluation implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", userId=").append(userId);
-        sb.append(", taskId=").append(taskId);
+        sb.append(", reviewId=").append(reviewId);
         sb.append(", reviewDate=").append(reviewDate);
-        sb.append(", index=").append(index);
-        sb.append(", totalScore=").append(totalScore);
+        sb.append(", reviewIndex=").append(reviewIndex);
+        sb.append(", overallEvaluation=").append(overallEvaluation);
         sb.append(", confidence=").append(confidence);
         sb.append(", asShortPaper=").append(asShortPaper);
-        sb.append(", status=").append(status);
+        sb.append(", activeStatus=").append(activeStatus);
         sb.append(", evaluationContent=").append(evaluationContent);
         sb.append(", confidenceRemark=").append(confidenceRemark);
         sb.append(", serialVersionUID=").append(serialVersionUID);

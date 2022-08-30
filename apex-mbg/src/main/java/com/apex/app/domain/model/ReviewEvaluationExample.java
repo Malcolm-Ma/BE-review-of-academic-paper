@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class UserReviewEvaluationExample {
+public class ReviewEvaluationExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public UserReviewEvaluationExample() {
+    public ReviewEvaluationExample() {
         oredCriteria = new ArrayList<>();
     }
 
@@ -235,73 +235,73 @@ public class UserReviewEvaluationExample {
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdIsNull() {
-            addCriterion("task_id is null");
+        public Criteria andReviewIdIsNull() {
+            addCriterion("review_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdIsNotNull() {
-            addCriterion("task_id is not null");
+        public Criteria andReviewIdIsNotNull() {
+            addCriterion("review_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdEqualTo(String value) {
-            addCriterion("task_id =", value, "taskId");
+        public Criteria andReviewIdEqualTo(String value) {
+            addCriterion("review_id =", value, "reviewId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdNotEqualTo(String value) {
-            addCriterion("task_id <>", value, "taskId");
+        public Criteria andReviewIdNotEqualTo(String value) {
+            addCriterion("review_id <>", value, "reviewId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdGreaterThan(String value) {
-            addCriterion("task_id >", value, "taskId");
+        public Criteria andReviewIdGreaterThan(String value) {
+            addCriterion("review_id >", value, "reviewId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdGreaterThanOrEqualTo(String value) {
-            addCriterion("task_id >=", value, "taskId");
+        public Criteria andReviewIdGreaterThanOrEqualTo(String value) {
+            addCriterion("review_id >=", value, "reviewId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdLessThan(String value) {
-            addCriterion("task_id <", value, "taskId");
+        public Criteria andReviewIdLessThan(String value) {
+            addCriterion("review_id <", value, "reviewId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdLessThanOrEqualTo(String value) {
-            addCriterion("task_id <=", value, "taskId");
+        public Criteria andReviewIdLessThanOrEqualTo(String value) {
+            addCriterion("review_id <=", value, "reviewId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdLike(String value) {
-            addCriterion("task_id like", value, "taskId");
+        public Criteria andReviewIdLike(String value) {
+            addCriterion("review_id like", value, "reviewId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdNotLike(String value) {
-            addCriterion("task_id not like", value, "taskId");
+        public Criteria andReviewIdNotLike(String value) {
+            addCriterion("review_id not like", value, "reviewId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdIn(List<String> values) {
-            addCriterion("task_id in", values, "taskId");
+        public Criteria andReviewIdIn(List<String> values) {
+            addCriterion("review_id in", values, "reviewId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdNotIn(List<String> values) {
-            addCriterion("task_id not in", values, "taskId");
+        public Criteria andReviewIdNotIn(List<String> values) {
+            addCriterion("review_id not in", values, "reviewId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdBetween(String value1, String value2) {
-            addCriterion("task_id between", value1, value2, "taskId");
+        public Criteria andReviewIdBetween(String value1, String value2) {
+            addCriterion("review_id between", value1, value2, "reviewId");
             return (Criteria) this;
         }
 
-        public Criteria andTaskIdNotBetween(String value1, String value2) {
-            addCriterion("task_id not between", value1, value2, "taskId");
+        public Criteria andReviewIdNotBetween(String value1, String value2) {
+            addCriterion("review_id not between", value1, value2, "reviewId");
             return (Criteria) this;
         }
 
@@ -365,123 +365,123 @@ public class UserReviewEvaluationExample {
             return (Criteria) this;
         }
 
-        public Criteria andIndexIsNull() {
-            addCriterion("index is null");
+        public Criteria andReviewIndexIsNull() {
+            addCriterion("review_index is null");
             return (Criteria) this;
         }
 
-        public Criteria andIndexIsNotNull() {
-            addCriterion("index is not null");
+        public Criteria andReviewIndexIsNotNull() {
+            addCriterion("review_index is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIndexEqualTo(Byte value) {
-            addCriterion("index =", value, "index");
+        public Criteria andReviewIndexEqualTo(Byte value) {
+            addCriterion("review_index =", value, "reviewIndex");
             return (Criteria) this;
         }
 
-        public Criteria andIndexNotEqualTo(Byte value) {
-            addCriterion("index <>", value, "index");
+        public Criteria andReviewIndexNotEqualTo(Byte value) {
+            addCriterion("review_index <>", value, "reviewIndex");
             return (Criteria) this;
         }
 
-        public Criteria andIndexGreaterThan(Byte value) {
-            addCriterion("index >", value, "index");
+        public Criteria andReviewIndexGreaterThan(Byte value) {
+            addCriterion("review_index >", value, "reviewIndex");
             return (Criteria) this;
         }
 
-        public Criteria andIndexGreaterThanOrEqualTo(Byte value) {
-            addCriterion("index >=", value, "index");
+        public Criteria andReviewIndexGreaterThanOrEqualTo(Byte value) {
+            addCriterion("review_index >=", value, "reviewIndex");
             return (Criteria) this;
         }
 
-        public Criteria andIndexLessThan(Byte value) {
-            addCriterion("index <", value, "index");
+        public Criteria andReviewIndexLessThan(Byte value) {
+            addCriterion("review_index <", value, "reviewIndex");
             return (Criteria) this;
         }
 
-        public Criteria andIndexLessThanOrEqualTo(Byte value) {
-            addCriterion("index <=", value, "index");
+        public Criteria andReviewIndexLessThanOrEqualTo(Byte value) {
+            addCriterion("review_index <=", value, "reviewIndex");
             return (Criteria) this;
         }
 
-        public Criteria andIndexIn(List<Byte> values) {
-            addCriterion("index in", values, "index");
+        public Criteria andReviewIndexIn(List<Byte> values) {
+            addCriterion("review_index in", values, "reviewIndex");
             return (Criteria) this;
         }
 
-        public Criteria andIndexNotIn(List<Byte> values) {
-            addCriterion("index not in", values, "index");
+        public Criteria andReviewIndexNotIn(List<Byte> values) {
+            addCriterion("review_index not in", values, "reviewIndex");
             return (Criteria) this;
         }
 
-        public Criteria andIndexBetween(Byte value1, Byte value2) {
-            addCriterion("index between", value1, value2, "index");
+        public Criteria andReviewIndexBetween(Byte value1, Byte value2) {
+            addCriterion("review_index between", value1, value2, "reviewIndex");
             return (Criteria) this;
         }
 
-        public Criteria andIndexNotBetween(Byte value1, Byte value2) {
-            addCriterion("index not between", value1, value2, "index");
+        public Criteria andReviewIndexNotBetween(Byte value1, Byte value2) {
+            addCriterion("review_index not between", value1, value2, "reviewIndex");
             return (Criteria) this;
         }
 
-        public Criteria andTotalScoreIsNull() {
-            addCriterion("total_score is null");
+        public Criteria andOverallEvaluationIsNull() {
+            addCriterion("overall_evaluation is null");
             return (Criteria) this;
         }
 
-        public Criteria andTotalScoreIsNotNull() {
-            addCriterion("total_score is not null");
+        public Criteria andOverallEvaluationIsNotNull() {
+            addCriterion("overall_evaluation is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTotalScoreEqualTo(Short value) {
-            addCriterion("total_score =", value, "totalScore");
+        public Criteria andOverallEvaluationEqualTo(Short value) {
+            addCriterion("overall_evaluation =", value, "overallEvaluation");
             return (Criteria) this;
         }
 
-        public Criteria andTotalScoreNotEqualTo(Short value) {
-            addCriterion("total_score <>", value, "totalScore");
+        public Criteria andOverallEvaluationNotEqualTo(Short value) {
+            addCriterion("overall_evaluation <>", value, "overallEvaluation");
             return (Criteria) this;
         }
 
-        public Criteria andTotalScoreGreaterThan(Short value) {
-            addCriterion("total_score >", value, "totalScore");
+        public Criteria andOverallEvaluationGreaterThan(Short value) {
+            addCriterion("overall_evaluation >", value, "overallEvaluation");
             return (Criteria) this;
         }
 
-        public Criteria andTotalScoreGreaterThanOrEqualTo(Short value) {
-            addCriterion("total_score >=", value, "totalScore");
+        public Criteria andOverallEvaluationGreaterThanOrEqualTo(Short value) {
+            addCriterion("overall_evaluation >=", value, "overallEvaluation");
             return (Criteria) this;
         }
 
-        public Criteria andTotalScoreLessThan(Short value) {
-            addCriterion("total_score <", value, "totalScore");
+        public Criteria andOverallEvaluationLessThan(Short value) {
+            addCriterion("overall_evaluation <", value, "overallEvaluation");
             return (Criteria) this;
         }
 
-        public Criteria andTotalScoreLessThanOrEqualTo(Short value) {
-            addCriterion("total_score <=", value, "totalScore");
+        public Criteria andOverallEvaluationLessThanOrEqualTo(Short value) {
+            addCriterion("overall_evaluation <=", value, "overallEvaluation");
             return (Criteria) this;
         }
 
-        public Criteria andTotalScoreIn(List<Short> values) {
-            addCriterion("total_score in", values, "totalScore");
+        public Criteria andOverallEvaluationIn(List<Short> values) {
+            addCriterion("overall_evaluation in", values, "overallEvaluation");
             return (Criteria) this;
         }
 
-        public Criteria andTotalScoreNotIn(List<Short> values) {
-            addCriterion("total_score not in", values, "totalScore");
+        public Criteria andOverallEvaluationNotIn(List<Short> values) {
+            addCriterion("overall_evaluation not in", values, "overallEvaluation");
             return (Criteria) this;
         }
 
-        public Criteria andTotalScoreBetween(Short value1, Short value2) {
-            addCriterion("total_score between", value1, value2, "totalScore");
+        public Criteria andOverallEvaluationBetween(Short value1, Short value2) {
+            addCriterion("overall_evaluation between", value1, value2, "overallEvaluation");
             return (Criteria) this;
         }
 
-        public Criteria andTotalScoreNotBetween(Short value1, Short value2) {
-            addCriterion("total_score not between", value1, value2, "totalScore");
+        public Criteria andOverallEvaluationNotBetween(Short value1, Short value2) {
+            addCriterion("overall_evaluation not between", value1, value2, "overallEvaluation");
             return (Criteria) this;
         }
 
@@ -605,63 +605,63 @@ public class UserReviewEvaluationExample {
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNull() {
-            addCriterion("status is null");
+        public Criteria andActiveStatusIsNull() {
+            addCriterion("active_status is null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNotNull() {
-            addCriterion("status is not null");
+        public Criteria andActiveStatusIsNotNull() {
+            addCriterion("active_status is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusEqualTo(Byte value) {
-            addCriterion("status =", value, "status");
+        public Criteria andActiveStatusEqualTo(Byte value) {
+            addCriterion("active_status =", value, "activeStatus");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotEqualTo(Byte value) {
-            addCriterion("status <>", value, "status");
+        public Criteria andActiveStatusNotEqualTo(Byte value) {
+            addCriterion("active_status <>", value, "activeStatus");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThan(Byte value) {
-            addCriterion("status >", value, "status");
+        public Criteria andActiveStatusGreaterThan(Byte value) {
+            addCriterion("active_status >", value, "activeStatus");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThanOrEqualTo(Byte value) {
-            addCriterion("status >=", value, "status");
+        public Criteria andActiveStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("active_status >=", value, "activeStatus");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThan(Byte value) {
-            addCriterion("status <", value, "status");
+        public Criteria andActiveStatusLessThan(Byte value) {
+            addCriterion("active_status <", value, "activeStatus");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThanOrEqualTo(Byte value) {
-            addCriterion("status <=", value, "status");
+        public Criteria andActiveStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("active_status <=", value, "activeStatus");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIn(List<Byte> values) {
-            addCriterion("status in", values, "status");
+        public Criteria andActiveStatusIn(List<Byte> values) {
+            addCriterion("active_status in", values, "activeStatus");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotIn(List<Byte> values) {
-            addCriterion("status not in", values, "status");
+        public Criteria andActiveStatusNotIn(List<Byte> values) {
+            addCriterion("active_status not in", values, "activeStatus");
             return (Criteria) this;
         }
 
-        public Criteria andStatusBetween(Byte value1, Byte value2) {
-            addCriterion("status between", value1, value2, "status");
+        public Criteria andActiveStatusBetween(Byte value1, Byte value2) {
+            addCriterion("active_status between", value1, value2, "activeStatus");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotBetween(Byte value1, Byte value2) {
-            addCriterion("status not between", value1, value2, "status");
+        public Criteria andActiveStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("active_status not between", value1, value2, "activeStatus");
             return (Criteria) this;
         }
     }

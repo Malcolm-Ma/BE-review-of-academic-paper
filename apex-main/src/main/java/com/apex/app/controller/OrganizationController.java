@@ -135,4 +135,22 @@ public class OrganizationController {
         return CommonResult.success(res);
     }
 
+    @ApiOperation("check User belonging")
+    @GetMapping("/belong/check")
+    @ResponseBody
+    public CommonResult<Boolean> checkUserBelonging(
+            @ApiParam("Org id")
+            @Validated
+            @RequestParam("org_id")
+            @NotEmpty
+            String orgId,
+            @ApiParam("User id")
+            @Validated
+            @RequestParam("user_id")
+            String userId
+    ) {
+        Boolean res = orgService.checkUserBelonging(orgId, userId);
+        return CommonResult.success(res);
+    }
+
 }

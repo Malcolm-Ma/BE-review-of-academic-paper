@@ -27,6 +27,6 @@ public interface ReviewDao {
     @MapKey("submissionId")
     Map<String, PaperAllocationMapBo> getAllocationResult(@Param("org_id") String orgId);
 
-    List<ReviewTaskInfoBo> getReviewTaskByUserId(@Param("org_id") String orgId, @Param("user_id") String userId);
+    List<ReviewTaskInfoBo> getReviewTaskByUserId(@Param("org_id") String orgId, @Param("user_id") String userId, @Param("review_id") String reviewId);
 
 }

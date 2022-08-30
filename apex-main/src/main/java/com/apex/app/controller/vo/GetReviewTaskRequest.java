@@ -1,5 +1,6 @@
 package com.apex.app.controller.vo;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -14,6 +15,9 @@ public class GetReviewTaskRequest {
     private String orgId;
 
     private String userId;
+
+    @ApiModelProperty(value = "For getting specific review record")
+    private String reviewId;
 
     private boolean adminView;
 

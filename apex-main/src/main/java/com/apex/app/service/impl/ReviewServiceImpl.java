@@ -15,10 +15,8 @@ import com.apex.app.domain.bo.ReviewTaskOverallBo;
 import com.apex.app.domain.model.*;
 import com.apex.app.domain.type.BiddingPrefEnum;
 import com.apex.app.domain.type.ReviewStatusEnum;
-import com.apex.app.mapper.BiddingPreferenceMapper;
-import com.apex.app.mapper.SubmissionBaseMapper;
-import com.apex.app.mapper.SubmissionUserMergeMapper;
-import com.apex.app.mapper.ReviewTaskOverallMapper;
+import com.apex.app.mapper.*;
+import com.apex.app.service.OrgService;
 import com.apex.app.service.ReviewService;
 import com.apex.app.service.UserAuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +26,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Core paper reviewing service implementation
@@ -50,6 +49,9 @@ public class ReviewServiceImpl implements ReviewService {
     BiddingPreferenceMapper biddingPreferenceMapper;
 
     @Autowired
+    ReviewEvaluationMapper reviewEvaluationMapper;
+
+    @Autowired
     ReviewDao reviewDao;
 
     @Autowired
@@ -57,6 +59,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     UserAuthService userService;
+
+    @Autowired
+    OrgService orgService;
 
     @Value("${bidding-system.url}")
     String biddingSystemUrl;
@@ -306,11 +311,52 @@ public class ReviewServiceImpl implements ReviewService {
         if (request.getUserId() == null) {
             userId = userService.getCurrentUser().getId();
         }
-        List<ReviewTaskInfoBo> res = reviewDao.getReviewTaskByUserId(request.getOrgId(), userId);
+        List<ReviewTaskInfoBo> res = reviewDao.getReviewTaskByUserId(request.getOrgId(), userId, request.getReviewId());
         if (res.size() == 0) {
             return null;
         }
         return res;
     }
 
+    @Override
+    public Boolean createNewReview(NewReviewRequest request) {
+        String userId = userService.getCurrentUser().getId();
+        ReviewTaskOverall task = reviewTaskOverallMapper.selectByPrimaryKey(request.getReviewId());
+        String curOrgId = task.getOrgId();
+        if (!orgService.checkUserBelonging(curOrgId, userId)) {
+            Asserts.fail("Current user is not belong to the organization");
+            return false;
+        }
+        if (request.getOverallEvaluation() < -3 && request.getOverallEvaluation() > 3) {
+            Asserts.fail("Invalid evaluation score");
+            return false;
+        }
+        if (request.getConfidence() < 1 && request.getConfidence() > 5) {
+            Asserts.fail("Invalid confidence score");
+            return false;
+        }
+        ReviewEvaluationExample example = new ReviewEvaluationExample();
+        example.setOrderByClause("`review_index` DESC");
+        example.createCriteria()
+                .andReviewIdEqualTo(request.getReviewId())
+                .andUserIdEqualTo(userId);
+        List<ReviewEvaluation> records = reviewEvaluationMapper.selectByExample(example);
+        ReviewEvaluation newReview = new ReviewEvaluation();
+        BeanUtil.copyProperties(request, newReview);
+        newReview.setUserId(userId);
+        newReview.setReviewDate(new Date());
+        newReview.setReviewIndex((byte) (records.size() + 1));
+        newReview.setActiveStatus((byte) 1);
+        if (records.size() > 0) {
+            List<ReviewEvaluation> updateItems = records.stream()
+                    .filter(u -> u.getActiveStatus().equals((byte) 1))
+                    .toList();
+            updateItems.forEach(i -> {
+                i.setActiveStatus((byte) 0);
+                reviewEvaluationMapper.updateByPrimaryKey(i);
+            });
+        }
+        reviewEvaluationMapper.insert(newReview);
+        return true;
+    }
 }

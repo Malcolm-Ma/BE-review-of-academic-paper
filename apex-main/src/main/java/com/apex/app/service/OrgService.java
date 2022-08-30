@@ -59,4 +59,6 @@ public interface OrgService {
 
     ChangeOrgProcessResponse changeReviewProcess(String orgId);
 
+    Boolean checkUserBelonging(String orgId, String userId);
+
 }
