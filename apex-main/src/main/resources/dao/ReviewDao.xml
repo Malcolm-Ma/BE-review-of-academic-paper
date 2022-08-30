@@ -70,18 +70,20 @@
         <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
     </resultMap>
 
+    <resultMap id="SubmissionResultMap" type="com.apex.app.domain.model.SubmissionBase">
+        <id column="submission_id" property="id"/>
+        <result property="title" column="title"/>
+        <result property="abstract" column="abstract"/>
+        <result property="keywords" column="keywords"/>
+        <result property="resourceUrl" column="resource_url"/>
+        <result property="publishedTime" column="published_time"/>
+        <result property="authors" column="authors"/>
+        <result property="contactEmail" column="contact_email"/>
+        <result property="orgId" column="org_id"/>
+    </resultMap>
+
     <resultMap id="ReviewTaskResultMap" type="com.apex.app.domain.bo.ReviewTaskInfoBo" extends="BaseResultMap">
-        <association property="submissionInfo" javaType="com.apex.app.domain.model.SubmissionBase">
-            <id column="submission_id" property="id"/>
-            <result property="title" column="title"/>
-            <result property="abstract" column="abstract"/>
-            <result property="keywords" column="keywords"/>
-            <result property="resourceUrl" column="resource_url"/>
-            <result property="publishedTime" column="published_time"/>
-            <result property="authors" column="authors"/>
-            <result property="contactEmail" column="contact_email"/>
-            <result property="orgId" column="org_id"/>
-        </association>
+        <association property="submissionInfo" resultMap="SubmissionResultMap"/>
     </resultMap>
 
     <select id="getReviewTaskByUserId" resultMap="ReviewTaskResultMap">
@@ -108,6 +110,75 @@
         <if test="review_id != null">
             and rt.id = #{review_id}
         </if>
+    </select>
+
+    <resultMap id="ReviewSummaryResultMap" type="com.apex.app.domain.bo.ReviewSummaryBo" extends="BaseResultMap">
+        <association property="submissionInfo" resultMap="SubmissionResultMap"/>
+        <collection property="reviewEvaluationList" ofType="com.apex.app.domain.model.ReviewEvaluation">
+            <id column="evaluation_id" jdbcType="BIGINT" property="id"/>
+            <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+            <result column="review_id" jdbcType="VARCHAR" property="reviewId"/>
+            <result column="review_date" jdbcType="TIMESTAMP" property="reviewDate"/>
+            <result column="review_index" jdbcType="TINYINT" property="reviewIndex"/>
+            <result column="overall_evaluation" jdbcType="SMALLINT" property="overallEvaluation"/>
+            <result column="confidence" jdbcType="TINYINT" property="confidence"/>
+            <result column="as_short_paper" jdbcType="TINYINT" property="asShortPaper"/>
+            <result column="active_status" jdbcType="TINYINT" property="activeStatus"/>
+            <result column="evaluation_content" jdbcType="LONGVARCHAR" property="evaluationContent"/>
+            <result column="confidence_remark" jdbcType="LONGVARCHAR" property="confidenceRemark"/>
+        </collection>
+        <collection property="reviewerList" ofType="com.apex.app.domain.bo.UserDisplayBo">
+            <id column="user_id" jdbcType="VARCHAR" property="id" />
+            <result column="full_name" jdbcType="VARCHAR" property="fullName" />
+            <result column="email" jdbcType="VARCHAR" property="email" />
+            <result column="userTitle" jdbcType="VARCHAR" property="title" />
+            <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+            <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+            <result column="enable_status" jdbcType="INTEGER" property="enableStatus" />
+            <result column="first_name" jdbcType="VARCHAR" property="firstName" />
+            <result column="last_name" jdbcType="VARCHAR" property="lastName" />
+        </collection>
+    </resultMap>
+
+    <select id="getReviewSummary" resultMap="ReviewSummaryResultMap">
+        select rto.id,
+               rto.org_id,
+               rto.submission_id,
+               rto.status,
+               rto.deadline,
+               rto.decision,
+               rto.created_time,
+               re.id evaluation_id,
+               re.user_id,
+               re.review_id,
+               re.review_date,
+               re.review_index,
+               re.overall_evaluation,
+               re.confidence,
+               re.evaluation_content,
+               re.confidence_remark,
+               re.as_short_paper,
+               re.active_status,
+               sb.contact_email,
+               sb.authors,
+               sb.published_time,
+               sb.resource_url,
+               sb.keywords,
+               sb.abstracts,
+               sb.title,
+               ub.full_name,
+               ub.email,
+               ub.title userTitle,
+               ub.avatar,
+               ub.create_time,
+               ub.enable_status,
+               ub.first_name,
+               ub.last_name
+        from review_evaluation re
+                 left join review_task_overall rto on re.review_id = rto.id
+            left join submission_base sb on rto.submission_id = sb.id
+                 left join user_base ub on re.user_id = ub.id
+        where re.review_id = #{review_id}
     </select>
 
 </mapper>

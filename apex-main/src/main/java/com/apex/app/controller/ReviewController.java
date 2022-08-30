@@ -3,6 +3,7 @@ package com.apex.app.controller;
 import com.apex.app.common.api.CommonResult;
 import com.apex.app.controller.vo.*;
 import com.apex.app.domain.bo.PaperAllocationMapBo;
+import com.apex.app.domain.bo.ReviewSummaryBo;
 import com.apex.app.domain.bo.ReviewTaskInfoBo;
 import com.apex.app.domain.bo.ReviewTaskOverallBo;
 import com.apex.app.service.ReviewService;
@@ -126,4 +127,19 @@ public class ReviewController {
         Boolean response = reviewService.createNewReview(request);
         return CommonResult.success(response);
     }
+
+    @ApiOperation("Get review summary")
+    @PostMapping("/summary/get")
+    @ResponseBody
+    public CommonResult<ReviewSummaryBo> gerReviewSummary(@Validated @RequestBody GetReviewTaskRequest request) {
+        if (request.isAdminView()) {
+            return null;
+        }
+        ReviewSummaryBo response = reviewService.getReviewSummary(request);
+        if (response == null) {
+            return CommonResult.failed("Invalid org_id or user_id");
+        }
+        return CommonResult.success(response);
+    }
+
 }

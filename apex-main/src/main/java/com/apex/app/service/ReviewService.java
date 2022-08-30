@@ -2,6 +2,7 @@ package com.apex.app.service;
 
 import com.apex.app.controller.vo.*;
 import com.apex.app.domain.bo.PaperAllocationMapBo;
+import com.apex.app.domain.bo.ReviewSummaryBo;
 import com.apex.app.domain.bo.ReviewTaskInfoBo;
 import com.apex.app.domain.bo.ReviewTaskOverallBo;
 
@@ -30,5 +31,7 @@ public interface ReviewService {
     List<ReviewTaskInfoBo> getReviewTaskByUser(GetReviewTaskRequest request);
 
     Boolean createNewReview(NewReviewRequest request);
+
+    ReviewSummaryBo getReviewSummary(GetReviewTaskRequest request);
 
 }

@@ -10,6 +10,7 @@ import com.apex.app.controller.vo.*;
 import com.apex.app.dao.ReviewDao;
 import com.apex.app.dao.UserDao;
 import com.apex.app.domain.bo.PaperAllocationMapBo;
+import com.apex.app.domain.bo.ReviewSummaryBo;
 import com.apex.app.domain.bo.ReviewTaskInfoBo;
 import com.apex.app.domain.bo.ReviewTaskOverallBo;
 import com.apex.app.domain.model.*;
@@ -322,6 +323,10 @@ public class ReviewServiceImpl implements ReviewService {
     public Boolean createNewReview(NewReviewRequest request) {
         String userId = userService.getCurrentUser().getId();
         ReviewTaskOverall task = reviewTaskOverallMapper.selectByPrimaryKey(request.getReviewId());
+        if (task == null) {
+            Asserts.fail("Invalid review id");
+            return false;
+        }
         String curOrgId = task.getOrgId();
         if (!orgService.checkUserBelonging(curOrgId, userId)) {
             Asserts.fail("Current user is not belong to the organization");
@@ -358,5 +363,22 @@ public class ReviewServiceImpl implements ReviewService {
         }
         reviewEvaluationMapper.insert(newReview);
         return true;
+    }
+
+    @Override
+    public ReviewSummaryBo getReviewSummary(GetReviewTaskRequest request) {
+        String userId = userService.getCurrentUser().getId();
+        ReviewTaskOverall task = reviewTaskOverallMapper.selectByPrimaryKey(request.getReviewId());
+        if (task == null) {
+            Asserts.fail("Invalid review id");
+            return null;
+        }
+        String curOrgId = task.getOrgId();
+        if (!orgService.checkUserBelonging(curOrgId, userId)) {
+            Asserts.fail("Current user is not belong to the organization");
+            return null;
+        }
+        ReviewSummaryBo res = reviewDao.getReviewSummary(request.getReviewId());
+        return res;
     }
 }
