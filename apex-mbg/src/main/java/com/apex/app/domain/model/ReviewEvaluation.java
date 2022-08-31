@@ -25,6 +25,9 @@ public class ReviewEvaluation implements Serializable {
     @ApiModelProperty(value = "status of review: 0->superseded by others; 1->active;")
     private Byte activeStatus;
 
+    @ApiModelProperty(value = "evaluation type: 0->comment, 1->review")
+    private Byte type;
+
     private String evaluationContent;
 
     private String confidenceRemark;
@@ -103,6 +106,14 @@ public class ReviewEvaluation implements Serializable {
         this.activeStatus = activeStatus;
     }
 
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
+
     public String getEvaluationContent() {
         return evaluationContent;
     }
@@ -134,6 +145,7 @@ public class ReviewEvaluation implements Serializable {
         sb.append(", confidence=").append(confidence);
         sb.append(", asShortPaper=").append(asShortPaper);
         sb.append(", activeStatus=").append(activeStatus);
+        sb.append(", type=").append(type);
         sb.append(", evaluationContent=").append(evaluationContent);
         sb.append(", confidenceRemark=").append(confidenceRemark);
         sb.append(", serialVersionUID=").append(serialVersionUID);

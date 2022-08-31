@@ -2,10 +2,7 @@ package com.apex.app.controller;
 
 import com.apex.app.common.api.CommonResult;
 import com.apex.app.controller.vo.*;
-import com.apex.app.domain.bo.PaperAllocationMapBo;
-import com.apex.app.domain.bo.ReviewSummaryBo;
-import com.apex.app.domain.bo.ReviewTaskInfoBo;
-import com.apex.app.domain.bo.ReviewTaskOverallBo;
+import com.apex.app.domain.bo.*;
 import com.apex.app.service.ReviewService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -140,6 +137,20 @@ public class ReviewController {
             return CommonResult.failed("Invalid org_id or user_id");
         }
         return CommonResult.success(response);
+    }
+
+    @ApiOperation("Get user of conflict of interest")
+    @GetMapping("/conflict_interest/get")
+    @ResponseBody
+    public CommonResult<List<UserDisplayBo>> getConflictInterestUsers(
+            @ApiParam("Submission id for query")
+            @Validated
+            @RequestParam("submission_id")
+            @NotEmpty
+            String submission
+    ) {
+        List<UserDisplayBo> result = reviewService.getConflictInterestUsers(submission);
+        return CommonResult.success(result);
     }
 
 }

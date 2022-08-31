@@ -1,10 +1,7 @@
 package com.apex.app.service;
 
 import com.apex.app.controller.vo.*;
-import com.apex.app.domain.bo.PaperAllocationMapBo;
-import com.apex.app.domain.bo.ReviewSummaryBo;
-import com.apex.app.domain.bo.ReviewTaskInfoBo;
-import com.apex.app.domain.bo.ReviewTaskOverallBo;
+import com.apex.app.domain.bo.*;
 
 import java.util.List;
 import java.util.Map;
@@ -33,5 +30,7 @@ public interface ReviewService {
     Boolean createNewReview(NewReviewRequest request);
 
     ReviewSummaryBo getReviewSummary(GetReviewTaskRequest request);
+
+    List<UserDisplayBo> getConflictInterestUsers(String submissionId);
 
 }

@@ -9,10 +9,7 @@ import com.apex.app.common.exception.Asserts;
 import com.apex.app.controller.vo.*;
 import com.apex.app.dao.ReviewDao;
 import com.apex.app.dao.UserDao;
-import com.apex.app.domain.bo.PaperAllocationMapBo;
-import com.apex.app.domain.bo.ReviewSummaryBo;
-import com.apex.app.domain.bo.ReviewTaskInfoBo;
-import com.apex.app.domain.bo.ReviewTaskOverallBo;
+import com.apex.app.domain.bo.*;
 import com.apex.app.domain.model.*;
 import com.apex.app.domain.type.BiddingPrefEnum;
 import com.apex.app.domain.type.ReviewStatusEnum;
@@ -345,12 +342,13 @@ public class ReviewServiceImpl implements ReviewService {
         example.createCriteria()
                 .andReviewIdEqualTo(request.getReviewId())
                 .andUserIdEqualTo(userId);
+        EvaluationCountsBo evaluationCounts = reviewDao.getEvaluationCounts(request.getReviewId());
         List<ReviewEvaluation> records = reviewEvaluationMapper.selectByExample(example);
         ReviewEvaluation newReview = new ReviewEvaluation();
         BeanUtil.copyProperties(request, newReview);
         newReview.setUserId(userId);
         newReview.setReviewDate(new Date());
-        newReview.setReviewIndex((byte) (records.size() + 1));
+        newReview.setReviewIndex((byte) (evaluationCounts.getReviewCount() + 1));
         newReview.setActiveStatus((byte) 1);
         if (records.size() > 0) {
             List<ReviewEvaluation> updateItems = records.stream()
@@ -380,5 +378,10 @@ public class ReviewServiceImpl implements ReviewService {
         }
         ReviewSummaryBo res = reviewDao.getReviewSummary(request.getReviewId());
         return res;
+    }
+
+    @Override
+    public List<UserDisplayBo> getConflictInterestUsers(String submissionId) {
+        return reviewDao.getConflictInterestUsers(submissionId);
     }
 }

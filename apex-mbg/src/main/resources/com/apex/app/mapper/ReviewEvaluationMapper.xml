@@ -11,6 +11,7 @@
     <result column="confidence" jdbcType="TINYINT" property="confidence" />
     <result column="as_short_paper" jdbcType="TINYINT" property="asShortPaper" />
     <result column="active_status" jdbcType="TINYINT" property="activeStatus" />
+    <result column="type" jdbcType="TINYINT" property="type" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.apex.app.domain.model.ReviewEvaluation">
     <result column="evaluation_content" jdbcType="LONGVARCHAR" property="evaluationContent" />
@@ -76,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, user_id, review_id, review_date, review_index, overall_evaluation, confidence, 
-    as_short_paper, active_status
+    as_short_paper, active_status, type
   </sql>
   <sql id="Blob_Column_List">
     evaluation_content, confidence_remark
@@ -133,12 +134,12 @@
     insert into review_evaluation (id, user_id, review_id, 
       review_date, review_index, overall_evaluation, 
       confidence, as_short_paper, active_status, 
-      evaluation_content, confidence_remark
+      type, evaluation_content, confidence_remark
       )
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{reviewId,jdbcType=VARCHAR}, 
       #{reviewDate,jdbcType=TIMESTAMP}, #{reviewIndex,jdbcType=TINYINT}, #{overallEvaluation,jdbcType=SMALLINT}, 
       #{confidence,jdbcType=TINYINT}, #{asShortPaper,jdbcType=TINYINT}, #{activeStatus,jdbcType=TINYINT}, 
-      #{evaluationContent,jdbcType=LONGVARCHAR}, #{confidenceRemark,jdbcType=LONGVARCHAR}
+      #{type,jdbcType=TINYINT}, #{evaluationContent,jdbcType=LONGVARCHAR}, #{confidenceRemark,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.apex.app.domain.model.ReviewEvaluation">
@@ -170,6 +171,9 @@
       </if>
       <if test="activeStatus != null">
         active_status,
+      </if>
+      <if test="type != null">
+        type,
       </if>
       <if test="evaluationContent != null">
         evaluation_content,
@@ -205,6 +209,9 @@
       </if>
       <if test="activeStatus != null">
         #{activeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
       </if>
       <if test="evaluationContent != null">
         #{evaluationContent,jdbcType=LONGVARCHAR},
@@ -250,6 +257,9 @@
       <if test="row.activeStatus != null">
         active_status = #{row.activeStatus,jdbcType=TINYINT},
       </if>
+      <if test="row.type != null">
+        type = #{row.type,jdbcType=TINYINT},
+      </if>
       <if test="row.evaluationContent != null">
         evaluation_content = #{row.evaluationContent,jdbcType=LONGVARCHAR},
       </if>
@@ -272,6 +282,7 @@
       confidence = #{row.confidence,jdbcType=TINYINT},
       as_short_paper = #{row.asShortPaper,jdbcType=TINYINT},
       active_status = #{row.activeStatus,jdbcType=TINYINT},
+      type = #{row.type,jdbcType=TINYINT},
       evaluation_content = #{row.evaluationContent,jdbcType=LONGVARCHAR},
       confidence_remark = #{row.confidenceRemark,jdbcType=LONGVARCHAR}
     <if test="example != null">
@@ -288,7 +299,8 @@
       overall_evaluation = #{row.overallEvaluation,jdbcType=SMALLINT},
       confidence = #{row.confidence,jdbcType=TINYINT},
       as_short_paper = #{row.asShortPaper,jdbcType=TINYINT},
-      active_status = #{row.activeStatus,jdbcType=TINYINT}
+      active_status = #{row.activeStatus,jdbcType=TINYINT},
+      type = #{row.type,jdbcType=TINYINT}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -320,6 +332,9 @@
       <if test="activeStatus != null">
         active_status = #{activeStatus,jdbcType=TINYINT},
       </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
       <if test="evaluationContent != null">
         evaluation_content = #{evaluationContent,jdbcType=LONGVARCHAR},
       </if>
@@ -339,6 +354,7 @@
       confidence = #{confidence,jdbcType=TINYINT},
       as_short_paper = #{asShortPaper,jdbcType=TINYINT},
       active_status = #{activeStatus,jdbcType=TINYINT},
+      type = #{type,jdbcType=TINYINT},
       evaluation_content = #{evaluationContent,jdbcType=LONGVARCHAR},
       confidence_remark = #{confidenceRemark,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
@@ -352,7 +368,8 @@
       overall_evaluation = #{overallEvaluation,jdbcType=SMALLINT},
       confidence = #{confidence,jdbcType=TINYINT},
       as_short_paper = #{asShortPaper,jdbcType=TINYINT},
-      active_status = #{activeStatus,jdbcType=TINYINT}
+      active_status = #{activeStatus,jdbcType=TINYINT},
+      type = #{type,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

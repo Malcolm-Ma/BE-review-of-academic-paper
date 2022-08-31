@@ -128,15 +128,15 @@
             <result column="confidence_remark" jdbcType="LONGVARCHAR" property="confidenceRemark"/>
         </collection>
         <collection property="reviewerList" ofType="com.apex.app.domain.bo.UserDisplayBo">
-            <id column="user_id" jdbcType="VARCHAR" property="id" />
-            <result column="full_name" jdbcType="VARCHAR" property="fullName" />
-            <result column="email" jdbcType="VARCHAR" property="email" />
-            <result column="userTitle" jdbcType="VARCHAR" property="title" />
-            <result column="avatar" jdbcType="VARCHAR" property="avatar" />
-            <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-            <result column="enable_status" jdbcType="INTEGER" property="enableStatus" />
-            <result column="first_name" jdbcType="VARCHAR" property="firstName" />
-            <result column="last_name" jdbcType="VARCHAR" property="lastName" />
+            <id column="user_id" jdbcType="VARCHAR" property="id"/>
+            <result column="full_name" jdbcType="VARCHAR" property="fullName"/>
+            <result column="email" jdbcType="VARCHAR" property="email"/>
+            <result column="userTitle" jdbcType="VARCHAR" property="title"/>
+            <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+            <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+            <result column="enable_status" jdbcType="INTEGER" property="enableStatus"/>
+            <result column="first_name" jdbcType="VARCHAR" property="firstName"/>
+            <result column="last_name" jdbcType="VARCHAR" property="lastName"/>
         </collection>
     </resultMap>
 
@@ -148,7 +148,7 @@
                rto.deadline,
                rto.decision,
                rto.created_time,
-               re.id evaluation_id,
+               re.id    evaluation_id,
                re.user_id,
                re.review_id,
                re.review_date,
@@ -174,11 +174,34 @@
                ub.enable_status,
                ub.first_name,
                ub.last_name
-        from review_evaluation re
-                 left join review_task_overall rto on re.review_id = rto.id
-            left join submission_base sb on rto.submission_id = sb.id
+        from review_task_overall rto
+                 left join review_evaluation re on re.review_id = rto.id
+                 left join submission_base sb on rto.submission_id = sb.id
                  left join user_base ub on re.user_id = ub.id
-        where re.review_id = #{review_id}
+        where rto.id = #{review_id}
+    </select>
+
+    <select id="getConflictInterestUsers" resultType="com.apex.app.domain.bo.UserDisplayBo">
+        select ub.id,
+               ub.full_name     fullName,
+               ub.email,
+               ub.create_time   createTime,
+               ub.enable_status enableStatus,
+               ub.title,
+               ub.last_name     lastName,
+               ub.first_name    firstName,
+               ub.avatar
+        from bidding_preference bp
+                 left join user_base ub on bp.user_id = ub.id
+        where bp.submission_id = #{submission_id}
+          and bp.preference = 0
+    </select>
+
+    <select id="getEvaluationCounts" resultType="com.apex.app.domain.bo.EvaluationCountsBo">
+        select sum(if(r.type = 1, 1, 0)) reviewCount,
+               sum(if(r.type = 0, 1, 0)) commentCount
+        from review_evaluation r
+        where r.review_id = #{review_id}
     </select>
 
 </mapper>

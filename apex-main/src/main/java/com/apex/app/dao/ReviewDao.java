@@ -1,8 +1,6 @@
 package com.apex.app.dao;
 
-import com.apex.app.domain.bo.PaperAllocationMapBo;
-import com.apex.app.domain.bo.ReviewSummaryBo;
-import com.apex.app.domain.bo.ReviewTaskInfoBo;
+import com.apex.app.domain.bo.*;
 import com.apex.app.domain.model.PaperAllocation;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
@@ -31,5 +29,9 @@ public interface ReviewDao {
     List<ReviewTaskInfoBo> getReviewTaskByUserId(@Param("org_id") String orgId, @Param("user_id") String userId, @Param("review_id") String reviewId);
 
     ReviewSummaryBo getReviewSummary(@Param("review_id") String reviewId);
+
+    List<UserDisplayBo> getConflictInterestUsers(@Param("submission_id") String submissionId);
+
+    EvaluationCountsBo getEvaluationCounts(@Param("review_id") String reviewId);
 
 }
