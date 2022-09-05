@@ -91,7 +91,7 @@ public class ReviewController {
     @ApiOperation("Get the paper allocation result")
     @GetMapping("/allocation_result/get")
     @ResponseBody
-    public CommonResult allocateBidding(
+    public CommonResult getBiddingResult(
             @ApiParam("Org id for query")
             @Validated
             @RequestParam("org_id")
@@ -105,7 +105,7 @@ public class ReviewController {
     @ApiOperation("Get review task")
     @PostMapping("/task/get")
     @ResponseBody
-    public CommonResult<List<ReviewTaskInfoBo>> allocateBidding(@Validated @RequestBody GetReviewTaskRequest request) {
+    public CommonResult<List<ReviewTaskInfoBo>> getReviewTaskByUser(@Validated @RequestBody GetReviewTaskRequest request) {
         if (request.isAdminView()) {
             return null;
         }
@@ -116,10 +116,10 @@ public class ReviewController {
         return CommonResult.success(response);
     }
 
-    @ApiOperation("submit review evaluation")
+    @ApiOperation("Submit review evaluation")
     @PostMapping("/create")
     @ResponseBody
-    public CommonResult allocateBidding(@Validated @RequestBody NewReviewRequest request) {
+    public CommonResult submitNewReview(@Validated @RequestBody NewReviewRequest request) {
 
         Boolean response = reviewService.createNewReview(request);
         return CommonResult.success(response);
@@ -134,7 +134,7 @@ public class ReviewController {
         }
         ReviewSummaryBo response = reviewService.getReviewSummary(request);
         if (response == null) {
-            return CommonResult.failed("Invalid org_id or user_id");
+            return CommonResult.failed();
         }
         return CommonResult.success(response);
     }
@@ -151,6 +151,15 @@ public class ReviewController {
     ) {
         List<UserDisplayBo> result = reviewService.getConflictInterestUsers(submission);
         return CommonResult.success(result);
+    }
+
+    @ApiOperation("Submit review comment")
+    @PostMapping("/comment/create")
+    @ResponseBody
+    public CommonResult createReviewComment(@Validated @RequestBody CreateCommentRequest request) {
+
+        Boolean response = reviewService.createComment(request);
+        return CommonResult.success(response);
     }
 
 }

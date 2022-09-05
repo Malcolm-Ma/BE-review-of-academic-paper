@@ -12,7 +12,7 @@ def bidding_by_pref(data):
     project_size = len(project_data)
     user_size = len(user_data)
     # Check params
-    min_task_limit = project_size * review_demand / user_size
+    min_task_limit = int(project_size * review_demand / user_size)
     if min_task is None:
         min_task = min_task_limit
     if min_task > min_task_limit:
@@ -74,7 +74,9 @@ def bidding_by_pref(data):
         result = {
             'result_map': flow_result_dict,
             'result_record': user_project_merge_list,
-            'summary': {}
+            'summary': {
+                'min_task_per_user': min_task,
+            }
         }
 
         return result

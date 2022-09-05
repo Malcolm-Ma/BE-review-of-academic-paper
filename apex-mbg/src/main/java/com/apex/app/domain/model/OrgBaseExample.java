@@ -554,6 +554,186 @@ public class OrgBaseExample {
             addCriterion("review_process not between", value1, value2, "reviewProcess");
             return (Criteria) this;
         }
+
+        public Criteria andBiddingDdlIsNull() {
+            addCriterion("bidding_ddl is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBiddingDdlIsNotNull() {
+            addCriterion("bidding_ddl is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBiddingDdlEqualTo(Date value) {
+            addCriterion("bidding_ddl =", value, "biddingDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBiddingDdlNotEqualTo(Date value) {
+            addCriterion("bidding_ddl <>", value, "biddingDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBiddingDdlGreaterThan(Date value) {
+            addCriterion("bidding_ddl >", value, "biddingDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBiddingDdlGreaterThanOrEqualTo(Date value) {
+            addCriterion("bidding_ddl >=", value, "biddingDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBiddingDdlLessThan(Date value) {
+            addCriterion("bidding_ddl <", value, "biddingDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBiddingDdlLessThanOrEqualTo(Date value) {
+            addCriterion("bidding_ddl <=", value, "biddingDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBiddingDdlIn(List<Date> values) {
+            addCriterion("bidding_ddl in", values, "biddingDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBiddingDdlNotIn(List<Date> values) {
+            addCriterion("bidding_ddl not in", values, "biddingDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBiddingDdlBetween(Date value1, Date value2) {
+            addCriterion("bidding_ddl between", value1, value2, "biddingDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBiddingDdlNotBetween(Date value1, Date value2) {
+            addCriterion("bidding_ddl not between", value1, value2, "biddingDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewDdlIsNull() {
+            addCriterion("review_ddl is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewDdlIsNotNull() {
+            addCriterion("review_ddl is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewDdlEqualTo(Date value) {
+            addCriterion("review_ddl =", value, "reviewDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewDdlNotEqualTo(Date value) {
+            addCriterion("review_ddl <>", value, "reviewDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewDdlGreaterThan(Date value) {
+            addCriterion("review_ddl >", value, "reviewDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewDdlGreaterThanOrEqualTo(Date value) {
+            addCriterion("review_ddl >=", value, "reviewDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewDdlLessThan(Date value) {
+            addCriterion("review_ddl <", value, "reviewDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewDdlLessThanOrEqualTo(Date value) {
+            addCriterion("review_ddl <=", value, "reviewDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewDdlIn(List<Date> values) {
+            addCriterion("review_ddl in", values, "reviewDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewDdlNotIn(List<Date> values) {
+            addCriterion("review_ddl not in", values, "reviewDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewDdlBetween(Date value1, Date value2) {
+            addCriterion("review_ddl between", value1, value2, "reviewDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReviewDdlNotBetween(Date value1, Date value2) {
+            addCriterion("review_ddl not between", value1, value2, "reviewDdl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeIsNull() {
+            addCriterion("blind_mode is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeIsNotNull() {
+            addCriterion("blind_mode is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeEqualTo(Boolean value) {
+            addCriterion("blind_mode =", value, "blindMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeNotEqualTo(Boolean value) {
+            addCriterion("blind_mode <>", value, "blindMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeGreaterThan(Boolean value) {
+            addCriterion("blind_mode >", value, "blindMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("blind_mode >=", value, "blindMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeLessThan(Boolean value) {
+            addCriterion("blind_mode <", value, "blindMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeLessThanOrEqualTo(Boolean value) {
+            addCriterion("blind_mode <=", value, "blindMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeIn(List<Boolean> values) {
+            addCriterion("blind_mode in", values, "blindMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeNotIn(List<Boolean> values) {
+            addCriterion("blind_mode not in", values, "blindMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeBetween(Boolean value1, Boolean value2) {
+            addCriterion("blind_mode between", value1, value2, "blindMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("blind_mode not between", value1, value2, "blindMode");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

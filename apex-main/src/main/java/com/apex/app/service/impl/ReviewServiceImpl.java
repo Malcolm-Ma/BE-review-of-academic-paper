@@ -71,7 +71,7 @@ public class ReviewServiceImpl implements ReviewService {
         BeanUtil.copyProperties(request, paper);
         paper.setId(UUID.randomUUID().toString());
 
-        UserBase user = null;
+        UserBase user;
         if (request.getUserId() != null) {
             try {
                 user = userService.getUserById(request.getUserId());
@@ -91,7 +91,7 @@ public class ReviewServiceImpl implements ReviewService {
         ReviewTaskOverall reviewTask = new ReviewTaskOverall();
         reviewTask.setOrgId(request.getOrgId());
         reviewTask.setSubmissionId(paper.getId());
-        reviewTask.setDeadline(request.getDeadline());
+//        reviewTask.setDeadline(request.getDeadline());
         reviewTask.setCreatedTime(new Date());
         reviewTask.setStatus(ReviewStatusEnum.PREPARING.getValue());
         reviewTask.setId(UUID.randomUUID().toString());
@@ -286,8 +286,10 @@ public class ReviewServiceImpl implements ReviewService {
             }
             reviewDao.deleteAllocationByOrgId(orgId);
             reviewDao.insertPaperAllocation(resultRecordList);
-
-            return new AllocateBiddingResponse();
+            AllocateBiddingResponse res = new AllocateBiddingResponse();
+            BeanUtil.copyProperties(request, res);
+            res.setMinTaskPerUser(responseJson.getInt("data.summary.min_task_per_user"));
+            return res;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -310,9 +312,6 @@ public class ReviewServiceImpl implements ReviewService {
             userId = userService.getCurrentUser().getId();
         }
         List<ReviewTaskInfoBo> res = reviewDao.getReviewTaskByUserId(request.getOrgId(), userId, request.getReviewId());
-        if (res.size() == 0) {
-            return null;
-        }
         return res;
     }
 
@@ -341,12 +340,14 @@ public class ReviewServiceImpl implements ReviewService {
         example.setOrderByClause("`review_index` DESC");
         example.createCriteria()
                 .andReviewIdEqualTo(request.getReviewId())
+                .andTypeEqualTo((byte) 1)
                 .andUserIdEqualTo(userId);
         EvaluationCountsBo evaluationCounts = reviewDao.getEvaluationCounts(request.getReviewId());
         List<ReviewEvaluation> records = reviewEvaluationMapper.selectByExample(example);
         ReviewEvaluation newReview = new ReviewEvaluation();
         BeanUtil.copyProperties(request, newReview);
         newReview.setUserId(userId);
+        newReview.setType((byte) 1);
         newReview.setReviewDate(new Date());
         newReview.setReviewIndex((byte) (evaluationCounts.getReviewCount() + 1));
         newReview.setActiveStatus((byte) 1);
@@ -383,5 +384,31 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<UserDisplayBo> getConflictInterestUsers(String submissionId) {
         return reviewDao.getConflictInterestUsers(submissionId);
+    }
+
+    @Override
+    public Boolean createComment(CreateCommentRequest request) {
+        String userId = userService.getCurrentUser().getId();
+        ReviewTaskOverall task = reviewTaskOverallMapper.selectByPrimaryKey(request.getReviewId());
+        if (task == null) {
+            Asserts.fail("Invalid review id");
+            return false;
+        }
+        String curOrgId = task.getOrgId();
+        if (!orgService.checkUserBelonging(curOrgId, userId)) {
+            Asserts.fail("Current user is not belong to the organization");
+            return false;
+        }
+        EvaluationCountsBo evaluationCounts = reviewDao.getEvaluationCounts(request.getReviewId());
+        ReviewEvaluation newReview = new ReviewEvaluation();
+        newReview.setReviewId(request.getReviewId());
+        newReview.setEvaluationContent(request.getComment());
+        newReview.setUserId(userId);
+        newReview.setReviewDate(new Date());
+        newReview.setReviewIndex((byte) (evaluationCounts.getCommentCount() + 1));
+        newReview.setActiveStatus((byte) 1);
+        newReview.setType((byte) 0);
+        reviewEvaluationMapper.insert(newReview);
+        return true;
     }
 }

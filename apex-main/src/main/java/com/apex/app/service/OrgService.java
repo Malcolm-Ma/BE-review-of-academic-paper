@@ -57,7 +57,7 @@ public interface OrgService {
     Integer getSubmissionCount(String orgId);
 
 
-    ChangeOrgProcessResponse changeReviewProcess(String orgId);
+    ChangeOrgProcessResponse changeReviewProcess(ChangeOrgProcessRequest request);
 
     Boolean checkUserBelonging(String orgId, String userId);
 

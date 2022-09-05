@@ -116,14 +116,15 @@
         <association property="submissionInfo" resultMap="SubmissionResultMap"/>
         <collection property="reviewEvaluationList" ofType="com.apex.app.domain.model.ReviewEvaluation">
             <id column="evaluation_id" jdbcType="BIGINT" property="id"/>
-            <result column="user_id" jdbcType="VARCHAR" property="userId"/>
-            <result column="review_id" jdbcType="VARCHAR" property="reviewId"/>
-            <result column="review_date" jdbcType="TIMESTAMP" property="reviewDate"/>
-            <result column="review_index" jdbcType="TINYINT" property="reviewIndex"/>
-            <result column="overall_evaluation" jdbcType="SMALLINT" property="overallEvaluation"/>
-            <result column="confidence" jdbcType="TINYINT" property="confidence"/>
-            <result column="as_short_paper" jdbcType="TINYINT" property="asShortPaper"/>
-            <result column="active_status" jdbcType="TINYINT" property="activeStatus"/>
+            <result column="user_id" jdbcType="VARCHAR" property="userId" />
+            <result column="review_id" jdbcType="VARCHAR" property="reviewId" />
+            <result column="review_date" jdbcType="TIMESTAMP" property="reviewDate" />
+            <result column="review_index" jdbcType="TINYINT" property="reviewIndex" />
+            <result column="overall_evaluation" jdbcType="SMALLINT" property="overallEvaluation" />
+            <result column="confidence" jdbcType="TINYINT" property="confidence" />
+            <result column="as_short_paper" jdbcType="TINYINT" property="asShortPaper" />
+            <result column="active_status" jdbcType="TINYINT" property="activeStatus" />
+            <result column="type" jdbcType="TINYINT" property="type" />
             <result column="evaluation_content" jdbcType="LONGVARCHAR" property="evaluationContent"/>
             <result column="confidence_remark" jdbcType="LONGVARCHAR" property="confidenceRemark"/>
         </collection>
@@ -159,6 +160,7 @@
                re.confidence_remark,
                re.as_short_paper,
                re.active_status,
+               re.type,
                sb.contact_email,
                sb.authors,
                sb.published_time,
@@ -179,6 +181,7 @@
                  left join submission_base sb on rto.submission_id = sb.id
                  left join user_base ub on re.user_id = ub.id
         where rto.id = #{review_id}
+        order by re.review_date ASC, re.review_index ASC
     </select>
 
     <select id="getConflictInterestUsers" resultType="com.apex.app.domain.bo.UserDisplayBo">

@@ -119,16 +119,14 @@ public class OrganizationController {
     }
 
     @ApiOperation("Change to forward the reviewing process")
-    @GetMapping("/process/change")
+    @PostMapping("/process/change")
     @ResponseBody
     public CommonResult<ChangeOrgProcessResponse> changeReviewProcess(
-            @ApiParam("Org id")
             @Validated
-            @RequestParam("org_id")
-            @NotEmpty
-            String orgId
+            @RequestBody
+            ChangeOrgProcessRequest request
     ) {
-        ChangeOrgProcessResponse res = orgService.changeReviewProcess(orgId);
+        ChangeOrgProcessResponse res = orgService.changeReviewProcess(request);
         if (res == null) {
             return CommonResult.failed();
         }

@@ -20,6 +20,12 @@ public class OrgBase implements Serializable {
     @ApiModelProperty(value = "0 -> preparing; 1 -> collecting; 2 -> bidding; 3 -> reviewing; 4 -> finished")
     private Byte reviewProcess;
 
+    private Date biddingDdl;
+
+    private Date reviewDdl;
+
+    private Boolean blindMode;
+
     private String description;
 
     private static final long serialVersionUID = 1L;
@@ -80,6 +86,30 @@ public class OrgBase implements Serializable {
         this.reviewProcess = reviewProcess;
     }
 
+    public Date getBiddingDdl() {
+        return biddingDdl;
+    }
+
+    public void setBiddingDdl(Date biddingDdl) {
+        this.biddingDdl = biddingDdl;
+    }
+
+    public Date getReviewDdl() {
+        return reviewDdl;
+    }
+
+    public void setReviewDdl(Date reviewDdl) {
+        this.reviewDdl = reviewDdl;
+    }
+
+    public Boolean getBlindMode() {
+        return blindMode;
+    }
+
+    public void setBlindMode(Boolean blindMode) {
+        this.blindMode = blindMode;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -101,6 +131,9 @@ public class OrgBase implements Serializable {
         sb.append(", email=").append(email);
         sb.append(", submissionDdl=").append(submissionDdl);
         sb.append(", reviewProcess=").append(reviewProcess);
+        sb.append(", biddingDdl=").append(biddingDdl);
+        sb.append(", reviewDdl=").append(reviewDdl);
+        sb.append(", blindMode=").append(blindMode);
         sb.append(", description=").append(description);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

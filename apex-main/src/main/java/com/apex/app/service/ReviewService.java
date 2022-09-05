@@ -33,4 +33,6 @@ public interface ReviewService {
 
     List<UserDisplayBo> getConflictInterestUsers(String submissionId);
 
+    Boolean createComment(CreateCommentRequest request);
+
 }

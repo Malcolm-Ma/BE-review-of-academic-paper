@@ -19,8 +19,7 @@ public class AllocateBiddingRequest {
     @ApiModelProperty(value = "Demand of review times per paper", required = true)
     private Integer reviewDemand;
 
-    @NotNull
-    @ApiModelProperty(value = "Minimum papers to review of a user (Has a potential limit)", required = true)
+    @ApiModelProperty(value = "Minimum papers to review of a user (Has a potential limit)")
     private Integer minTaskPerUser;
 
 }

@@ -102,7 +102,7 @@ public class OrgServiceImpl implements OrgService {
         OrgBase targetOrg = orgBaseMapper.selectByPrimaryKey(orgInfoUpdateRequest.getId());
         BeanUtil.copyProperties(orgInfoUpdateRequest, targetOrg, CopyOptions.create().ignoreNullValue().ignoreError());
         orgBaseMapper.updateByPrimaryKey(targetOrg);
-        log.info("Update org info: {}", targetOrg);
+        log.info("Update org info:{}", targetOrg);
 
         return targetOrg;
     }
@@ -229,9 +229,9 @@ public class OrgServiceImpl implements OrgService {
     }
 
     @Override
-    public ChangeOrgProcessResponse changeReviewProcess(String orgId) {
+    public ChangeOrgProcessResponse changeReviewProcess(ChangeOrgProcessRequest request) {
         UserBase curUser = userAuthService.getCurrentUser();
-        OrgInfoBo orgInfo = getOrgDetail(orgId);
+        OrgInfoBo orgInfo = getOrgDetail(request.getOrgId());
         // Check if the current user is admin
         if (orgInfo.getManagerList().stream().noneMatch(u -> u.getId().equals(curUser.getId()))) {
             Asserts.fail("Current user is not a manager");
@@ -242,8 +242,17 @@ public class OrgServiceImpl implements OrgService {
             return null;
         }
         OrgBase orgBase = new OrgBase();
-        orgBase.setId(orgId);
+        orgBase.setId(request.getOrgId());
         orgBase.setReviewProcess((byte) (orgInfo.getReviewProcess() + 1));
+        if (orgInfo.getReviewProcess() == ReviewStatusEnum.PREPARING.getValue()) {
+            orgBase.setSubmissionDdl(request.getSubmissionDdl());
+        }
+        if (orgInfo.getReviewProcess() == ReviewStatusEnum.COLLECTING.getValue()) {
+            orgBase.setBiddingDdl(request.getBiddingDdl());
+        }
+        if (orgInfo.getReviewProcess() == ReviewStatusEnum.BIDDING.getValue()) {
+            orgBase.setReviewDdl(request.getReviewingDdl());
+        }
         int res = orgBaseMapper.updateByPrimaryKeySelective(orgBase);
         if (res == 0) {
             Asserts.fail("Fail to update process");

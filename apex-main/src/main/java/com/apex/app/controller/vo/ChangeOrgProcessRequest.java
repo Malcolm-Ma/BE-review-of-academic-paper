@@ -4,17 +4,21 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * @author Mingze Ma
  */
 @Data
-public class AllocateBiddingResponse {
+public class ChangeOrgProcessRequest {
 
+    @NotEmpty
+    @ApiModelProperty(required = true)
     private String orgId;
 
-    private Integer reviewDemand;
+    private Date submissionDdl;
 
-    private Integer minTaskPerUser;
+    private Date biddingDdl;
+
+    private Date reviewingDdl;
 }

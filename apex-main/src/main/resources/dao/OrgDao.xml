@@ -27,6 +27,7 @@
                org.active_status activeStatus,
                org.description description,
                org.email email,
+               org.blind_mode blindMode,
                m.type userType
         from user_org_merge m
                  left join org_base org on m.org_id = org.id

@@ -9,6 +9,9 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="submission_ddl" jdbcType="TIMESTAMP" property="submissionDdl" />
     <result column="review_process" jdbcType="TINYINT" property="reviewProcess" />
+    <result column="bidding_ddl" jdbcType="TIMESTAMP" property="biddingDdl" />
+    <result column="review_ddl" jdbcType="TIMESTAMP" property="reviewDdl" />
+    <result column="blind_mode" jdbcType="BIT" property="blindMode" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.apex.app.domain.model.OrgBase">
     <result column="description" jdbcType="LONGVARCHAR" property="description" />
@@ -72,7 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, create_time, active_status, email, submission_ddl, review_process
+    id, name, create_time, active_status, email, submission_ddl, review_process, bidding_ddl, 
+    review_ddl, blind_mode
   </sql>
   <sql id="Blob_Column_List">
     description
@@ -128,10 +132,12 @@
   <insert id="insert" parameterType="com.apex.app.domain.model.OrgBase">
     insert into org_base (id, name, create_time, 
       active_status, email, submission_ddl, 
-      review_process, description)
+      review_process, bidding_ddl, review_ddl, 
+      blind_mode, description)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{activeStatus,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{submissionDdl,jdbcType=TIMESTAMP}, 
-      #{reviewProcess,jdbcType=TINYINT}, #{description,jdbcType=LONGVARCHAR})
+      #{reviewProcess,jdbcType=TINYINT}, #{biddingDdl,jdbcType=TIMESTAMP}, #{reviewDdl,jdbcType=TIMESTAMP}, 
+      #{blindMode,jdbcType=BIT}, #{description,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.apex.app.domain.model.OrgBase">
     insert into org_base
@@ -156,6 +162,15 @@
       </if>
       <if test="reviewProcess != null">
         review_process,
+      </if>
+      <if test="biddingDdl != null">
+        bidding_ddl,
+      </if>
+      <if test="reviewDdl != null">
+        review_ddl,
+      </if>
+      <if test="blindMode != null">
+        blind_mode,
       </if>
       <if test="description != null">
         description,
@@ -182,6 +197,15 @@
       </if>
       <if test="reviewProcess != null">
         #{reviewProcess,jdbcType=TINYINT},
+      </if>
+      <if test="biddingDdl != null">
+        #{biddingDdl,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reviewDdl != null">
+        #{reviewDdl,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blindMode != null">
+        #{blindMode,jdbcType=BIT},
       </if>
       <if test="description != null">
         #{description,jdbcType=LONGVARCHAR},
@@ -218,6 +242,15 @@
       <if test="row.reviewProcess != null">
         review_process = #{row.reviewProcess,jdbcType=TINYINT},
       </if>
+      <if test="row.biddingDdl != null">
+        bidding_ddl = #{row.biddingDdl,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.reviewDdl != null">
+        review_ddl = #{row.reviewDdl,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.blindMode != null">
+        blind_mode = #{row.blindMode,jdbcType=BIT},
+      </if>
       <if test="row.description != null">
         description = #{row.description,jdbcType=LONGVARCHAR},
       </if>
@@ -235,6 +268,9 @@
       email = #{row.email,jdbcType=VARCHAR},
       submission_ddl = #{row.submissionDdl,jdbcType=TIMESTAMP},
       review_process = #{row.reviewProcess,jdbcType=TINYINT},
+      bidding_ddl = #{row.biddingDdl,jdbcType=TIMESTAMP},
+      review_ddl = #{row.reviewDdl,jdbcType=TIMESTAMP},
+      blind_mode = #{row.blindMode,jdbcType=BIT},
       description = #{row.description,jdbcType=LONGVARCHAR}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -248,7 +284,10 @@
       active_status = #{row.activeStatus,jdbcType=INTEGER},
       email = #{row.email,jdbcType=VARCHAR},
       submission_ddl = #{row.submissionDdl,jdbcType=TIMESTAMP},
-      review_process = #{row.reviewProcess,jdbcType=TINYINT}
+      review_process = #{row.reviewProcess,jdbcType=TINYINT},
+      bidding_ddl = #{row.biddingDdl,jdbcType=TIMESTAMP},
+      review_ddl = #{row.reviewDdl,jdbcType=TIMESTAMP},
+      blind_mode = #{row.blindMode,jdbcType=BIT}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -274,6 +313,15 @@
       <if test="reviewProcess != null">
         review_process = #{reviewProcess,jdbcType=TINYINT},
       </if>
+      <if test="biddingDdl != null">
+        bidding_ddl = #{biddingDdl,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reviewDdl != null">
+        review_ddl = #{reviewDdl,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blindMode != null">
+        blind_mode = #{blindMode,jdbcType=BIT},
+      </if>
       <if test="description != null">
         description = #{description,jdbcType=LONGVARCHAR},
       </if>
@@ -288,6 +336,9 @@
       email = #{email,jdbcType=VARCHAR},
       submission_ddl = #{submissionDdl,jdbcType=TIMESTAMP},
       review_process = #{reviewProcess,jdbcType=TINYINT},
+      bidding_ddl = #{biddingDdl,jdbcType=TIMESTAMP},
+      review_ddl = #{reviewDdl,jdbcType=TIMESTAMP},
+      blind_mode = #{blindMode,jdbcType=BIT},
       description = #{description,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -298,7 +349,10 @@
       active_status = #{activeStatus,jdbcType=INTEGER},
       email = #{email,jdbcType=VARCHAR},
       submission_ddl = #{submissionDdl,jdbcType=TIMESTAMP},
-      review_process = #{reviewProcess,jdbcType=TINYINT}
+      review_process = #{reviewProcess,jdbcType=TINYINT},
+      bidding_ddl = #{biddingDdl,jdbcType=TIMESTAMP},
+      review_ddl = #{reviewDdl,jdbcType=TIMESTAMP},
+      blind_mode = #{blindMode,jdbcType=BIT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
