@@ -35,4 +35,6 @@ public interface ReviewService {
 
     Boolean createComment(CreateCommentRequest request);
 
+    Boolean generateReviewingResult(GenerateResultRequest request);
+
 }

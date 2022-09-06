@@ -7,7 +7,7 @@
     <result column="submission_id" jdbcType="VARCHAR" property="submissionId" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="deadline" jdbcType="TIMESTAMP" property="deadline" />
-    <result column="decision" jdbcType="TINYINT" property="decision" />
+    <result column="decision" jdbcType="DOUBLE" property="decision" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="blind_mode" jdbcType="BIT" property="blindMode" />
   </resultMap>
@@ -107,7 +107,7 @@
       status, deadline, decision, 
       created_time, blind_mode)
     values (#{id,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{submissionId,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{deadline,jdbcType=TIMESTAMP}, #{decision,jdbcType=TINYINT}, 
+      #{status,jdbcType=TINYINT}, #{deadline,jdbcType=TIMESTAMP}, #{decision,jdbcType=DOUBLE}, 
       #{createdTime,jdbcType=TIMESTAMP}, #{blindMode,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.apex.app.domain.model.ReviewTaskOverall">
@@ -155,7 +155,7 @@
         #{deadline,jdbcType=TIMESTAMP},
       </if>
       <if test="decision != null">
-        #{decision,jdbcType=TINYINT},
+        #{decision,jdbcType=DOUBLE},
       </if>
       <if test="createdTime != null">
         #{createdTime,jdbcType=TIMESTAMP},
@@ -190,7 +190,7 @@
         deadline = #{row.deadline,jdbcType=TIMESTAMP},
       </if>
       <if test="row.decision != null">
-        decision = #{row.decision,jdbcType=TINYINT},
+        decision = #{row.decision,jdbcType=DOUBLE},
       </if>
       <if test="row.createdTime != null">
         created_time = #{row.createdTime,jdbcType=TIMESTAMP},
@@ -210,7 +210,7 @@
       submission_id = #{row.submissionId,jdbcType=VARCHAR},
       status = #{row.status,jdbcType=TINYINT},
       deadline = #{row.deadline,jdbcType=TIMESTAMP},
-      decision = #{row.decision,jdbcType=TINYINT},
+      decision = #{row.decision,jdbcType=DOUBLE},
       created_time = #{row.createdTime,jdbcType=TIMESTAMP},
       blind_mode = #{row.blindMode,jdbcType=BIT}
     <if test="example != null">
@@ -233,7 +233,7 @@
         deadline = #{deadline,jdbcType=TIMESTAMP},
       </if>
       <if test="decision != null">
-        decision = #{decision,jdbcType=TINYINT},
+        decision = #{decision,jdbcType=DOUBLE},
       </if>
       <if test="createdTime != null">
         created_time = #{createdTime,jdbcType=TIMESTAMP},
@@ -250,7 +250,7 @@
       submission_id = #{submissionId,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       deadline = #{deadline,jdbcType=TIMESTAMP},
-      decision = #{decision,jdbcType=TINYINT},
+      decision = #{decision,jdbcType=DOUBLE},
       created_time = #{createdTime,jdbcType=TIMESTAMP},
       blind_mode = #{blindMode,jdbcType=BIT}
     where id = #{id,jdbcType=VARCHAR}

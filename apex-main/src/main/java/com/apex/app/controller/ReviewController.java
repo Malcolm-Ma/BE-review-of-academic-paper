@@ -159,4 +159,13 @@ public class ReviewController {
         return CommonResult.success(response);
     }
 
+    @ApiOperation("Generate paper reviewing result")
+    @PostMapping("/result/generate")
+    @ResponseBody
+    public CommonResult<Boolean> generateReviewingResult(@Validated @RequestBody GenerateResultRequest request) {
+
+        Boolean response = reviewService.generateReviewingResult(request);
+        return CommonResult.success(response);
+    }
+
 }

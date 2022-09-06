@@ -445,52 +445,52 @@ public class ReviewTaskOverallExample {
             return (Criteria) this;
         }
 
-        public Criteria andDecisionEqualTo(Byte value) {
+        public Criteria andDecisionEqualTo(Double value) {
             addCriterion("decision =", value, "decision");
             return (Criteria) this;
         }
 
-        public Criteria andDecisionNotEqualTo(Byte value) {
+        public Criteria andDecisionNotEqualTo(Double value) {
             addCriterion("decision <>", value, "decision");
             return (Criteria) this;
         }
 
-        public Criteria andDecisionGreaterThan(Byte value) {
+        public Criteria andDecisionGreaterThan(Double value) {
             addCriterion("decision >", value, "decision");
             return (Criteria) this;
         }
 
-        public Criteria andDecisionGreaterThanOrEqualTo(Byte value) {
+        public Criteria andDecisionGreaterThanOrEqualTo(Double value) {
             addCriterion("decision >=", value, "decision");
             return (Criteria) this;
         }
 
-        public Criteria andDecisionLessThan(Byte value) {
+        public Criteria andDecisionLessThan(Double value) {
             addCriterion("decision <", value, "decision");
             return (Criteria) this;
         }
 
-        public Criteria andDecisionLessThanOrEqualTo(Byte value) {
+        public Criteria andDecisionLessThanOrEqualTo(Double value) {
             addCriterion("decision <=", value, "decision");
             return (Criteria) this;
         }
 
-        public Criteria andDecisionIn(List<Byte> values) {
+        public Criteria andDecisionIn(List<Double> values) {
             addCriterion("decision in", values, "decision");
             return (Criteria) this;
         }
 
-        public Criteria andDecisionNotIn(List<Byte> values) {
+        public Criteria andDecisionNotIn(List<Double> values) {
             addCriterion("decision not in", values, "decision");
             return (Criteria) this;
         }
 
-        public Criteria andDecisionBetween(Byte value1, Byte value2) {
+        public Criteria andDecisionBetween(Double value1, Double value2) {
             addCriterion("decision between", value1, value2, "decision");
             return (Criteria) this;
         }
 
-        public Criteria andDecisionNotBetween(Byte value1, Byte value2) {
+        public Criteria andDecisionNotBetween(Double value1, Double value2) {
             addCriterion("decision not between", value1, value2, "decision");
             return (Criteria) this;
         }

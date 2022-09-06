@@ -369,6 +369,7 @@ public class ReviewServiceImpl implements ReviewService {
             });
         }
         reviewEvaluationMapper.insert(newReview);
+        generateReviewingResultSingle(request.getReviewId());
         return true;
     }
 
@@ -419,5 +420,45 @@ public class ReviewServiceImpl implements ReviewService {
         newReview.setType((byte) 0);
         reviewEvaluationMapper.insert(newReview);
         return true;
+    }
+
+    private Boolean generateReviewingResultSingle(String reviewId) {
+        ReviewEvaluationExample example = new ReviewEvaluationExample();
+        example.createCriteria()
+                .andReviewIdEqualTo(reviewId)
+                .andTypeEqualTo((byte) 1)
+                .andActiveStatusEqualTo((byte) 1);
+        List<ReviewEvaluation> reviewEvaluations = reviewEvaluationMapper.selectByExample(example);
+        ReviewTaskOverall curReviewFlow = reviewTaskOverallMapper.selectByPrimaryKey(reviewId);
+        Double decision = 0.0;
+        if (reviewEvaluations.size() > 0) {
+            for (ReviewEvaluation evaluation : reviewEvaluations) {
+                decision += evaluation.getOverallEvaluation();
+            }
+            decision = decision / reviewEvaluations.size();
+        } else {
+            decision = 0.0;
+        }
+        curReviewFlow.setDecision(decision);
+        Integer res = reviewTaskOverallMapper.updateByPrimaryKey(curReviewFlow);
+        return res == 1;
+    }
+
+    @Override
+    public Boolean generateReviewingResult(GenerateResultRequest request) {
+        if (request.getReviewId() != null) {
+            return generateReviewingResultSingle(request.getReviewId());
+        } else {
+            ReviewTaskOverallExample example = new ReviewTaskOverallExample();
+            example.createCriteria()
+                    .andOrgIdEqualTo(request.getOrgId());
+            List<ReviewTaskOverall> reviewTaskOveralls = reviewTaskOverallMapper.selectByExample(example);
+            boolean result = true;
+            for (ReviewTaskOverall review : reviewTaskOveralls) {
+                Boolean resSingle = generateReviewingResultSingle(review.getId());
+                result = resSingle && result;
+            }
+            return result;
+        }
     }
 }

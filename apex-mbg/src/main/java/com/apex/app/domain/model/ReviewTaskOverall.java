@@ -18,7 +18,7 @@ public class ReviewTaskOverall implements Serializable {
 
     private Date deadline;
 
-    private Byte decision;
+    private Double decision;
 
     private Date createdTime;
 
@@ -66,11 +66,11 @@ public class ReviewTaskOverall implements Serializable {
         this.deadline = deadline;
     }
 
-    public Byte getDecision() {
+    public Double getDecision() {
         return decision;
     }
 
-    public void setDecision(Byte decision) {
+    public void setDecision(Double decision) {
         this.decision = decision;
     }
 
