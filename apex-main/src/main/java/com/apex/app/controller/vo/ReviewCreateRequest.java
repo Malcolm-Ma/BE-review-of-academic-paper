@@ -19,7 +19,6 @@ public class ReviewCreateRequest {
     @NotEmpty
     private String orgId;
 
-    @NotNull
     private Date deadline;
 
     @NotEmpty

@@ -21,4 +21,8 @@ public class ChangeOrgProcessRequest {
     private Date biddingDdl;
 
     private Date reviewingDdl;
+
+    public ChangeOrgProcessRequest(String orgId) {
+        this.orgId = orgId;
+    }
 }

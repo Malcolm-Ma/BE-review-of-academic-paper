@@ -458,6 +458,7 @@ public class ReviewServiceImpl implements ReviewService {
                 Boolean resSingle = generateReviewingResultSingle(review.getId());
                 result = resSingle && result;
             }
+            orgService.changeReviewProcess(new ChangeOrgProcessRequest(request.getOrgId()));
             return result;
         }
     }
