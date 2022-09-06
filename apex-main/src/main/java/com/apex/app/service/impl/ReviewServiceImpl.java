@@ -309,12 +309,17 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<ReviewTaskInfoBo> getReviewTaskByUser(GetReviewTaskRequest request) {
+    public List<ReviewTaskInfoBo> getReviewTask(GetReviewTaskRequest request) {
         String userId = request.getUserId();
         if (request.getUserId() == null) {
             userId = userService.getCurrentUser().getId();
         }
-        List<ReviewTaskInfoBo> res = reviewDao.getReviewTaskByUserId(request.getOrgId(), userId, request.getReviewId());
+        List<ReviewTaskInfoBo> res = null;
+        if (request.isAdminView()) {
+            res = reviewDao.getReviewTask(request.getOrgId(), null, request.getReviewId());
+            return res;
+        }
+        res = reviewDao.getReviewTask(request.getOrgId(), userId, request.getReviewId());
         return res;
     }
 

@@ -86,7 +86,7 @@
         <association property="submissionInfo" resultMap="SubmissionResultMap"/>
     </resultMap>
 
-    <select id="getReviewTaskByUserId" resultMap="ReviewTaskResultMap">
+    <select id="getReviewTask" resultMap="ReviewTaskResultMap">
         select rt.id,
         rt.org_id,
         rt.submission_id,
@@ -106,7 +106,9 @@
         left join submission_base s on s.id = pa.submission_id
         left join review_task_overall rt on pa.submission_id = rt.submission_id
         where pa.org_id = #{org_id}
-        and pa.user_id = #{user_id}
+        <if test="user_id != null">
+            and pa.user_id = #{user_id}
+        </if>
         <if test="review_id != null">
             and rt.id = #{review_id}
         </if>

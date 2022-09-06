@@ -106,10 +106,7 @@ public class ReviewController {
     @PostMapping("/task/get")
     @ResponseBody
     public CommonResult<List<ReviewTaskInfoBo>> getReviewTaskByUser(@Validated @RequestBody GetReviewTaskRequest request) {
-        if (request.isAdminView()) {
-            return null;
-        }
-        List<ReviewTaskInfoBo> response = reviewService.getReviewTaskByUser(request);
+        List<ReviewTaskInfoBo> response = reviewService.getReviewTask(request);
         if (response == null) {
             return CommonResult.failed("Invalid org_id or user_id");
         }

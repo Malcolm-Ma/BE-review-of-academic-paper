@@ -25,7 +25,7 @@ public interface ReviewService {
 
     Map<String, PaperAllocationMapBo> getAllocationResult(String orgId);
 
-    List<ReviewTaskInfoBo> getReviewTaskByUser(GetReviewTaskRequest request);
+    List<ReviewTaskInfoBo> getReviewTask(GetReviewTaskRequest request);
 
     Boolean createNewReview(NewReviewRequest request);
 
