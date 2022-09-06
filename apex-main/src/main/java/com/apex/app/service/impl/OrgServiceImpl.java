@@ -275,4 +275,28 @@ public class OrgServiceImpl implements OrgService {
         List<UserOrgMerge> res = userOrgMergeMapper.selectByExample(example);
         return res.size() > 0;
     }
+
+    @Override
+    public Boolean setDoubleBlindMode(String orgId, Boolean status) {
+        OrgBase orgBase = orgBaseMapper.selectByPrimaryKey(orgId);
+        if (orgBase == null) {
+            Asserts.fail("Invalid orgId");
+            return null;
+        }
+        Boolean prevMode = orgBase.getBlindMode();
+        if (prevMode.equals(status)) {
+            return prevMode;
+        }
+        orgBase.setBlindMode(status);
+        UserOrgMergeExample example = new UserOrgMergeExample();
+        example.createCriteria().andOrgIdEqualTo(orgId);
+        List<UserOrgMerge> merges = userOrgMergeMapper.selectByExample(example);
+        for (int i = 0; i < merges.size(); i++) {
+            UserOrgMerge merge = merges.get(i);
+            merge.setAnonymousName("Anonymous #" + (i + 1));
+            userOrgMergeMapper.updateByPrimaryKey(merge);
+        }
+        orgBaseMapper.updateByPrimaryKeySelective(orgBase);
+        return status;
+    }
 }

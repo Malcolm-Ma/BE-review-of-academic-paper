@@ -116,15 +116,15 @@
         <association property="submissionInfo" resultMap="SubmissionResultMap"/>
         <collection property="reviewEvaluationList" ofType="com.apex.app.domain.model.ReviewEvaluation">
             <id column="evaluation_id" jdbcType="BIGINT" property="id"/>
-            <result column="user_id" jdbcType="VARCHAR" property="userId" />
-            <result column="review_id" jdbcType="VARCHAR" property="reviewId" />
-            <result column="review_date" jdbcType="TIMESTAMP" property="reviewDate" />
-            <result column="review_index" jdbcType="TINYINT" property="reviewIndex" />
-            <result column="overall_evaluation" jdbcType="SMALLINT" property="overallEvaluation" />
-            <result column="confidence" jdbcType="TINYINT" property="confidence" />
-            <result column="as_short_paper" jdbcType="TINYINT" property="asShortPaper" />
-            <result column="active_status" jdbcType="TINYINT" property="activeStatus" />
-            <result column="type" jdbcType="TINYINT" property="type" />
+            <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+            <result column="review_id" jdbcType="VARCHAR" property="reviewId"/>
+            <result column="review_date" jdbcType="TIMESTAMP" property="reviewDate"/>
+            <result column="review_index" jdbcType="TINYINT" property="reviewIndex"/>
+            <result column="overall_evaluation" jdbcType="SMALLINT" property="overallEvaluation"/>
+            <result column="confidence" jdbcType="TINYINT" property="confidence"/>
+            <result column="as_short_paper" jdbcType="TINYINT" property="asShortPaper"/>
+            <result column="active_status" jdbcType="TINYINT" property="activeStatus"/>
+            <result column="type" jdbcType="TINYINT" property="type"/>
             <result column="evaluation_content" jdbcType="LONGVARCHAR" property="evaluationContent"/>
             <result column="confidence_remark" jdbcType="LONGVARCHAR" property="confidenceRemark"/>
         </collection>
@@ -143,43 +143,57 @@
 
     <select id="getReviewSummary" resultMap="ReviewSummaryResultMap">
         select rto.id,
-               rto.org_id,
-               rto.submission_id,
-               rto.status,
-               rto.deadline,
-               rto.decision,
-               rto.created_time,
-               re.id    evaluation_id,
-               re.user_id,
-               re.review_id,
-               re.review_date,
-               re.review_index,
-               re.overall_evaluation,
-               re.confidence,
-               re.evaluation_content,
-               re.confidence_remark,
-               re.as_short_paper,
-               re.active_status,
-               re.type,
-               sb.contact_email,
-               sb.authors,
-               sb.published_time,
-               sb.resource_url,
-               sb.keywords,
-               sb.abstracts,
-               sb.title,
-               ub.full_name,
-               ub.email,
-               ub.title userTitle,
-               ub.avatar,
-               ub.create_time,
-               ub.enable_status,
-               ub.first_name,
-               ub.last_name
+        rto.org_id,
+        rto.submission_id,
+        rto.status,
+        rto.deadline,
+        rto.decision,
+        rto.created_time,
+        re.id evaluation_id,
+        re.user_id,
+        re.review_id,
+        re.review_date,
+        re.review_index,
+        re.overall_evaluation,
+        re.confidence,
+        re.evaluation_content,
+        re.confidence_remark,
+        re.as_short_paper,
+        re.active_status,
+        re.type,
+        sb.contact_email,
+        sb.authors,
+        sb.published_time,
+        sb.resource_url,
+        sb.keywords,
+        sb.abstracts,
+        sb.title,
+        <choose>
+            <when test="blind_mode">
+                uom.anonymous_name full_name
+            </when>
+            <otherwise>
+                ub.full_name,
+                ub.email,
+                ub.title userTitle,
+                ub.avatar,
+                ub.create_time,
+                ub.enable_status,
+                ub.first_name,
+                ub.last_name
+            </otherwise>
+        </choose>
         from review_task_overall rto
-                 left join review_evaluation re on re.review_id = rto.id
-                 left join submission_base sb on rto.submission_id = sb.id
-                 left join user_base ub on re.user_id = ub.id
+        left join review_evaluation re on re.review_id = rto.id
+        left join submission_base sb on rto.submission_id = sb.id
+        <choose>
+            <when test="blind_mode">
+                left join user_org_merge uom on re.user_id = uom.user_id and rto.org_id = uom.org_id
+            </when>
+            <otherwise>
+                left join user_base ub on re.user_id = ub.id
+            </otherwise>
+        </choose>
         where rto.id = #{review_id}
         order by re.review_date ASC, re.review_index ASC
     </select>

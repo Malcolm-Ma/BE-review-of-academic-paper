@@ -56,9 +56,10 @@ public interface OrgService {
 
     Integer getSubmissionCount(String orgId);
 
-
     ChangeOrgProcessResponse changeReviewProcess(ChangeOrgProcessRequest request);
 
     Boolean checkUserBelonging(String orgId, String userId);
+
+    Boolean setDoubleBlindMode(String orgId, Boolean status);
 
 }

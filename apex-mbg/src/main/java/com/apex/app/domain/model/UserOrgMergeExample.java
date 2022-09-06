@@ -424,6 +424,76 @@ public class UserOrgMergeExample {
             addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
+
+        public Criteria andAnonymousNameIsNull() {
+            addCriterion("anonymous_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousNameIsNotNull() {
+            addCriterion("anonymous_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousNameEqualTo(String value) {
+            addCriterion("anonymous_name =", value, "anonymousName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousNameNotEqualTo(String value) {
+            addCriterion("anonymous_name <>", value, "anonymousName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousNameGreaterThan(String value) {
+            addCriterion("anonymous_name >", value, "anonymousName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousNameGreaterThanOrEqualTo(String value) {
+            addCriterion("anonymous_name >=", value, "anonymousName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousNameLessThan(String value) {
+            addCriterion("anonymous_name <", value, "anonymousName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousNameLessThanOrEqualTo(String value) {
+            addCriterion("anonymous_name <=", value, "anonymousName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousNameLike(String value) {
+            addCriterion("anonymous_name like", value, "anonymousName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousNameNotLike(String value) {
+            addCriterion("anonymous_name not like", value, "anonymousName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousNameIn(List<String> values) {
+            addCriterion("anonymous_name in", values, "anonymousName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousNameNotIn(List<String> values) {
+            addCriterion("anonymous_name not in", values, "anonymousName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousNameBetween(String value1, String value2) {
+            addCriterion("anonymous_name between", value1, value2, "anonymousName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnonymousNameNotBetween(String value1, String value2) {
+            addCriterion("anonymous_name not between", value1, value2, "anonymousName");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

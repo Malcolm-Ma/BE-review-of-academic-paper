@@ -7,6 +7,7 @@
     <result column="org_id" jdbcType="VARCHAR" property="orgId" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="anonymous_name" jdbcType="VARCHAR" property="anonymousName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, org_id, type, create_time
+    id, user_id, org_id, type, create_time, anonymous_name
   </sql>
   <select id="selectByExample" parameterType="com.apex.app.domain.model.UserOrgMergeExample" resultMap="BaseResultMap">
     select
@@ -101,9 +102,11 @@
   </delete>
   <insert id="insert" parameterType="com.apex.app.domain.model.UserOrgMerge">
     insert into user_org_merge (id, user_id, org_id, 
-      type, create_time)
+      type, create_time, anonymous_name
+      )
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, 
-      #{type,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+      #{type,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{anonymousName,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.apex.app.domain.model.UserOrgMerge">
     insert into user_org_merge
@@ -123,6 +126,9 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="anonymousName != null">
+        anonymous_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -139,6 +145,9 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="anonymousName != null">
+        #{anonymousName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -166,6 +175,9 @@
       <if test="row.createTime != null">
         create_time = #{row.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="row.anonymousName != null">
+        anonymous_name = #{row.anonymousName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +189,8 @@
       user_id = #{row.userId,jdbcType=VARCHAR},
       org_id = #{row.orgId,jdbcType=VARCHAR},
       type = #{row.type,jdbcType=INTEGER},
-      create_time = #{row.createTime,jdbcType=TIMESTAMP}
+      create_time = #{row.createTime,jdbcType=TIMESTAMP},
+      anonymous_name = #{row.anonymousName,jdbcType=VARCHAR}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +210,9 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="anonymousName != null">
+        anonymous_name = #{anonymousName,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -205,7 +221,8 @@
     set user_id = #{userId,jdbcType=VARCHAR},
       org_id = #{orgId,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      anonymous_name = #{anonymousName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

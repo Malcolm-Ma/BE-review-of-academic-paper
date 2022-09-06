@@ -554,6 +554,66 @@ public class ReviewTaskOverallExample {
             addCriterion("created_time not between", value1, value2, "createdTime");
             return (Criteria) this;
         }
+
+        public Criteria andBlindModeIsNull() {
+            addCriterion("blind_mode is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeIsNotNull() {
+            addCriterion("blind_mode is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeEqualTo(Boolean value) {
+            addCriterion("blind_mode =", value, "blindMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeNotEqualTo(Boolean value) {
+            addCriterion("blind_mode <>", value, "blindMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeGreaterThan(Boolean value) {
+            addCriterion("blind_mode >", value, "blindMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("blind_mode >=", value, "blindMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeLessThan(Boolean value) {
+            addCriterion("blind_mode <", value, "blindMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeLessThanOrEqualTo(Boolean value) {
+            addCriterion("blind_mode <=", value, "blindMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeIn(List<Boolean> values) {
+            addCriterion("blind_mode in", values, "blindMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeNotIn(List<Boolean> values) {
+            addCriterion("blind_mode not in", values, "blindMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeBetween(Boolean value1, Boolean value2) {
+            addCriterion("blind_mode between", value1, value2, "blindMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlindModeNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("blind_mode not between", value1, value2, "blindMode");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

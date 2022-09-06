@@ -16,6 +16,8 @@ public class UserOrgMerge implements Serializable {
 
     private Date createTime;
 
+    private String anonymousName;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -58,6 +60,14 @@ public class UserOrgMerge implements Serializable {
         this.createTime = createTime;
     }
 
+    public String getAnonymousName() {
+        return anonymousName;
+    }
+
+    public void setAnonymousName(String anonymousName) {
+        this.anonymousName = anonymousName;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -69,6 +79,7 @@ public class UserOrgMerge implements Serializable {
         sb.append(", orgId=").append(orgId);
         sb.append(", type=").append(type);
         sb.append(", createTime=").append(createTime);
+        sb.append(", anonymousName=").append(anonymousName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

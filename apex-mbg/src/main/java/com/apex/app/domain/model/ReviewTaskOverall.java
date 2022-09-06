@@ -22,6 +22,8 @@ public class ReviewTaskOverall implements Serializable {
 
     private Date createdTime;
 
+    private Boolean blindMode;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -80,6 +82,14 @@ public class ReviewTaskOverall implements Serializable {
         this.createdTime = createdTime;
     }
 
+    public Boolean getBlindMode() {
+        return blindMode;
+    }
+
+    public void setBlindMode(Boolean blindMode) {
+        this.blindMode = blindMode;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -93,6 +103,7 @@ public class ReviewTaskOverall implements Serializable {
         sb.append(", deadline=").append(deadline);
         sb.append(", decision=").append(decision);
         sb.append(", createdTime=").append(createdTime);
+        sb.append(", blindMode=").append(blindMode);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

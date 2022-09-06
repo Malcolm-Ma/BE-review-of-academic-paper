@@ -50,6 +50,9 @@ public class ReviewServiceImpl implements ReviewService {
     ReviewEvaluationMapper reviewEvaluationMapper;
 
     @Autowired
+    OrgBaseMapper orgBaseMapper;
+
+    @Autowired
     ReviewDao reviewDao;
 
     @Autowired
@@ -231,7 +234,7 @@ public class ReviewServiceImpl implements ReviewService {
             return null;
         }
         List<String> submissionIdList = reviewDao.getSubmissionIdList(orgId);
-        Map<String, UserBase> userMap = userDao.getUserMapByOrgId(orgId);
+        Map<String, UserBase> userMap = userDao.getUserMapByOrgId(orgId, true);
         List<String> userIdList = userMap.keySet().stream().toList();
         Map<String, List<List<String>>> userPrefMap = new HashMap<>();
         for (String userId : userIdList) {
@@ -373,11 +376,12 @@ public class ReviewServiceImpl implements ReviewService {
             return null;
         }
         String curOrgId = task.getOrgId();
+        OrgBase org = orgBaseMapper.selectByPrimaryKey(curOrgId);
         if (!orgService.checkUserBelonging(curOrgId, userId)) {
             Asserts.fail("Current user is not belong to the organization");
             return null;
         }
-        ReviewSummaryBo res = reviewDao.getReviewSummary(request.getReviewId());
+        ReviewSummaryBo res = reviewDao.getReviewSummary(request.getReviewId(), org.getBlindMode());
         return res;
     }
 

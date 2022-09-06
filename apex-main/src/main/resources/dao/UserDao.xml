@@ -25,17 +25,20 @@
 
     <select id="getUserMapByOrgId" resultType="com.apex.app.domain.model.UserBase">
         select ub.id,
-            ub.full_name             fullName,
-            ub.email,
-            ub.create_time           createTime,
-            ub.enable_status         enableStatus,
-            ub.title,
-            ub.last_name             lastName,
-            ub.first_name            firstName,
-            ub.avatar
+        ub.full_name fullName,
+        ub.email,
+        ub.create_time createTime,
+        ub.enable_status enableStatus,
+        ub.title,
+        ub.last_name lastName,
+        ub.first_name firstName,
+        ub.avatar
         from user_base ub
-                left join user_org_merge uom on ub.id = uom.user_id
+        left join user_org_merge uom on ub.id = uom.user_id
         where uom.org_id = #{org_id}
+        <if test="exclude_admin">
+            and uom.type = 1
+        </if>
     </select>
 
 </mapper>

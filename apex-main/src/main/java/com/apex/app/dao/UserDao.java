@@ -26,5 +26,5 @@ public interface UserDao {
     List<UserSearchResultBo> searchUser(@Param("query") String query, @Param("limit") int limit);
 
     @MapKey("id")
-    Map<String, UserBase> getUserMapByOrgId(@Param("org_id") String orgId);
+    Map<String, UserBase> getUserMapByOrgId(@Param("org_id") String orgId, @Param("exclude_admin") Boolean excludeAdmin);
 }

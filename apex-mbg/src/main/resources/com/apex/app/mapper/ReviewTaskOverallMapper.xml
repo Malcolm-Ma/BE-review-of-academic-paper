@@ -9,6 +9,7 @@
     <result column="deadline" jdbcType="TIMESTAMP" property="deadline" />
     <result column="decision" jdbcType="TINYINT" property="decision" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="blind_mode" jdbcType="BIT" property="blindMode" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, org_id, submission_id, status, deadline, decision, created_time
+    id, org_id, submission_id, status, deadline, decision, created_time, blind_mode
   </sql>
   <select id="selectByExample" parameterType="com.apex.app.domain.model.ReviewTaskOverallExample" resultMap="BaseResultMap">
     select
@@ -104,10 +105,10 @@
   <insert id="insert" parameterType="com.apex.app.domain.model.ReviewTaskOverall">
     insert into review_task_overall (id, org_id, submission_id, 
       status, deadline, decision, 
-      created_time)
+      created_time, blind_mode)
     values (#{id,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{submissionId,jdbcType=VARCHAR}, 
       #{status,jdbcType=TINYINT}, #{deadline,jdbcType=TIMESTAMP}, #{decision,jdbcType=TINYINT}, 
-      #{createdTime,jdbcType=TIMESTAMP})
+      #{createdTime,jdbcType=TIMESTAMP}, #{blindMode,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.apex.app.domain.model.ReviewTaskOverall">
     insert into review_task_overall
@@ -133,6 +134,9 @@
       <if test="createdTime != null">
         created_time,
       </if>
+      <if test="blindMode != null">
+        blind_mode,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -155,6 +159,9 @@
       </if>
       <if test="createdTime != null">
         #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blindMode != null">
+        #{blindMode,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -188,6 +195,9 @@
       <if test="row.createdTime != null">
         created_time = #{row.createdTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="row.blindMode != null">
+        blind_mode = #{row.blindMode,jdbcType=BIT},
+      </if>
     </set>
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -201,7 +211,8 @@
       status = #{row.status,jdbcType=TINYINT},
       deadline = #{row.deadline,jdbcType=TIMESTAMP},
       decision = #{row.decision,jdbcType=TINYINT},
-      created_time = #{row.createdTime,jdbcType=TIMESTAMP}
+      created_time = #{row.createdTime,jdbcType=TIMESTAMP},
+      blind_mode = #{row.blindMode,jdbcType=BIT}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -227,6 +238,9 @@
       <if test="createdTime != null">
         created_time = #{createdTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="blindMode != null">
+        blind_mode = #{blindMode,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -237,7 +251,8 @@
       status = #{status,jdbcType=TINYINT},
       deadline = #{deadline,jdbcType=TIMESTAMP},
       decision = #{decision,jdbcType=TINYINT},
-      created_time = #{createdTime,jdbcType=TIMESTAMP}
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      blind_mode = #{blindMode,jdbcType=BIT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

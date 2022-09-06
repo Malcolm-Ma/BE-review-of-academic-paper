@@ -28,7 +28,7 @@ public interface ReviewDao {
 
     List<ReviewTaskInfoBo> getReviewTaskByUserId(@Param("org_id") String orgId, @Param("user_id") String userId, @Param("review_id") String reviewId);
 
-    ReviewSummaryBo getReviewSummary(@Param("review_id") String reviewId);
+    ReviewSummaryBo getReviewSummary(@Param("review_id") String reviewId, @Param("blind_mode") Boolean mode);
 
     List<UserDisplayBo> getConflictInterestUsers(@Param("submission_id") String submissionId);
 

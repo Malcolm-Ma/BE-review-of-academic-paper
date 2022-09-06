@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -149,6 +150,23 @@ public class OrganizationController {
     ) {
         Boolean res = orgService.checkUserBelonging(orgId, userId);
         return CommonResult.success(res);
+    }
+
+    @ApiOperation("Set double-blind mode")
+    @PostMapping("/double_blind/set")
+    @ResponseBody
+    public CommonResult setDoubleBlind(
+            @Validated
+            @RequestBody
+            DoubleBlindModeRequest request
+    ) {
+        Boolean res = orgService.setDoubleBlindMode(request.getOrgId(), request.getStatus());
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("current_mode", res);
+        if (res != null) {
+            return CommonResult.success(result);
+        }
+        return CommonResult.failed();
     }
 
 }
