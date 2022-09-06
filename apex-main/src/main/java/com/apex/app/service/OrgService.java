@@ -62,4 +62,6 @@ public interface OrgService {
 
     Boolean setDoubleBlindMode(String orgId, Boolean status);
 
+    Integer changeMemberType(MemberTypeChangeRequest request);
+
 }

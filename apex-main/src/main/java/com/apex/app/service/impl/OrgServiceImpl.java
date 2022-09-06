@@ -9,14 +9,13 @@ import com.apex.app.dao.ReviewDao;
 import com.apex.app.domain.bo.OrgInfoBo;
 import com.apex.app.domain.bo.OrgListByUserBo;
 import com.apex.app.domain.bo.OrgMemberBo;
+import com.apex.app.domain.bo.PaperAllocationMapBo;
 import com.apex.app.domain.model.*;
 import com.apex.app.domain.type.ReviewStatusEnum;
 import com.apex.app.domain.type.UserTypeEnum;
-import com.apex.app.mapper.OrgBaseMapper;
-import com.apex.app.mapper.SubmissionBaseMapper;
-import com.apex.app.mapper.UserBaseMapper;
-import com.apex.app.mapper.UserOrgMergeMapper;
+import com.apex.app.mapper.*;
 import com.apex.app.service.OrgService;
+import com.apex.app.service.ReviewService;
 import com.apex.app.service.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -48,6 +47,9 @@ public class OrgServiceImpl implements OrgService {
 
     @Autowired
     SubmissionBaseMapper SubmissionBaseMapper;
+
+    @Autowired
+    PaperAllocationMapper paperAllocationMapper;
 
     @Autowired
     OrgDao orgDao;
@@ -126,8 +128,14 @@ public class OrgServiceImpl implements OrgService {
             return null;
         }
         BeanUtils.copyProperties(orgBaseMapper.selectByPrimaryKey(orgId), orgInfo);
+        UserBase curUser = userAuthService.getCurrentUser();
         List<OrgMemberBo> allMemberList = orgDao.getOrgMemberList(orgId);
-        orgInfo.appendMembers(allMemberList);
+        if (selectedOrg.getBlindMode()) {
+            if (allMemberList.stream().noneMatch(m -> m.getType() > 1 && m.getId().equals(curUser.getId()))) {
+                orgInfo.appendMembers(allMemberList, true);
+            }
+        }
+        orgInfo.appendMembers(allMemberList, false);
 
         return orgInfo;
     }
@@ -251,6 +259,14 @@ public class OrgServiceImpl implements OrgService {
             orgBase.setBiddingDdl(request.getBiddingDdl());
         }
         if (orgInfo.getReviewProcess() == ReviewStatusEnum.BIDDING.getValue()) {
+            // check bidding result
+            PaperAllocationExample allocationExample = new PaperAllocationExample();
+            allocationExample.createCriteria().andOrgIdEqualTo(orgBase.getId());
+            List<PaperAllocation> allocation = paperAllocationMapper.selectByExample(allocationExample);
+            if (allocation.size() == 0) {
+                Asserts.fail("Current org did not allocate bidding, please try again");
+                return null;
+            }
             orgBase.setReviewDdl(request.getReviewingDdl());
         }
         int res = orgBaseMapper.updateByPrimaryKeySelective(orgBase);
@@ -298,5 +314,21 @@ public class OrgServiceImpl implements OrgService {
         }
         orgBaseMapper.updateByPrimaryKeySelective(orgBase);
         return status;
+    }
+
+    @Override
+    public Integer changeMemberType(MemberTypeChangeRequest request) {
+        if (!checkUserBelonging(request.getOrgId(), request.getUserId())) {
+            Asserts.fail("Invalid user id or org id");
+            return null;
+        }
+        UserOrgMergeExample example = new UserOrgMergeExample();
+        example.createCriteria()
+                .andOrgIdEqualTo(request.getOrgId())
+                .andUserIdEqualTo(request.getUserId());
+        UserOrgMerge newMerge = new UserOrgMerge();
+        newMerge.setType(request.getNewType());
+        userOrgMergeMapper.updateByExampleSelective(newMerge, example);
+        return request.getNewType();
     }
 }

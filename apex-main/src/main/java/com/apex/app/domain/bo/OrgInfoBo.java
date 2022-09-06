@@ -31,16 +31,25 @@ public class OrgInfoBo extends OrgBase {
         disabledList = new ArrayList<>();
     }
 
-    public void appendMembers(List<OrgMemberBo> allMemberList) {
+    public void appendMembers(List<OrgMemberBo> allMemberList, Boolean blindMode) {
         for (OrgMemberBo member : allMemberList) {
+            OrgMemberBo newMember = new OrgMemberBo();
+            if (blindMode) {
+                newMember.setId(member.getId());
+                newMember.setMemberSince(member.getMemberSince());
+                newMember.setType(member.getType());
+                newMember.setEnableStatus(member.getEnableStatus());
+            } else {
+                newMember = member;
+            }
             if (member.getType() >= 2) {
-                managerList.add(member);
+                managerList.add(newMember);
             }
             if (member.getType() == 1) {
-                memberList.add(member);
+                memberList.add(newMember);
             }
             if (member.getType() == 0) {
-                disabledList.add(member);
+                disabledList.add(newMember);
             }
         }
     }

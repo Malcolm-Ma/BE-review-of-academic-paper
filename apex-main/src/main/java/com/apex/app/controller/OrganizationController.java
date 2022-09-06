@@ -169,4 +169,21 @@ public class OrganizationController {
         return CommonResult.failed();
     }
 
+    @ApiOperation("Change member type")
+    @PostMapping("/member/change")
+    @ResponseBody
+    public CommonResult changeMemberType(
+            @Validated
+            @RequestBody
+            MemberTypeChangeRequest request
+    ) {
+        Integer res = orgService.changeMemberType(request);
+        Map<String, Integer> result = new HashMap<>();
+        result.put("current_type", res);
+        if (res != null) {
+            return CommonResult.success(result);
+        }
+        return CommonResult.failed();
+    }
+
 }
