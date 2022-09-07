@@ -64,4 +64,6 @@ public interface OrgService {
 
     Integer changeMemberType(MemberTypeChangeRequest request);
 
+    Boolean checkManagership(String orgId, String userId);
+
 }

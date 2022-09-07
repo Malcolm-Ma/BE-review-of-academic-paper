@@ -37,4 +37,5 @@ public interface ReviewService {
 
     Boolean generateReviewingResult(GenerateResultRequest request);
 
+    Boolean reviseReview(ReviseReviewRequest request);
 }

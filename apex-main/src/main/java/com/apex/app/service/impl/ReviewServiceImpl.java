@@ -69,6 +69,12 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public ReviewTaskOverallBo createReviewTask(ReviewCreateRequest request) {
+        // get this org
+        OrgBase org = orgBaseMapper.selectByPrimaryKey(request.getOrgId());
+        if (org == null) {
+            Asserts.fail("Invalid org id");
+            return null;
+        }
         // Prepare to Insert paper base into db
         SubmissionBase paper = new SubmissionBase();
         BeanUtil.copyProperties(request, paper);
@@ -97,6 +103,7 @@ public class ReviewServiceImpl implements ReviewService {
 //        reviewTask.setDeadline(request.getDeadline());
         reviewTask.setCreatedTime(new Date());
         reviewTask.setStatus(ReviewStatusEnum.PREPARING.getValue());
+        reviewTask.setBlindMode(org.getBlindMode());
         reviewTask.setId(UUID.randomUUID().toString());
 
         // Insert data into db
@@ -120,7 +127,9 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<ReviewTaskOverallBo> getSubmissionList(SubmissionListRequest request) {
         String orgId = request.getOrgId();
-
+        UserBase curUser = userService.getCurrentUser();
+        // filter
+        String scope = request.getScope();
         ReviewTaskOverallExample reviewTaskOverallExample = new ReviewTaskOverallExample();
         reviewTaskOverallExample.createCriteria().andOrgIdEqualTo(orgId);
         List<ReviewTaskOverall> reviewTaskOveralls = reviewTaskOverallMapper.selectByExample(reviewTaskOverallExample);
@@ -133,8 +142,10 @@ public class ReviewServiceImpl implements ReviewService {
                 .andUserIdEqualTo(userService.getCurrentUser().getId());
         List<BiddingPreference> biddingPreferenceList = biddingPreferenceMapper.selectByExample(biddingPreferenceExample);
 
+        boolean isManager = orgService.checkManagership(orgId, curUser.getId());
         List<ReviewTaskOverallBo> reviewTaskOverallBoList = new ArrayList<>();
         for (ReviewTaskOverall task : reviewTaskOveralls) {
+            boolean blindMode = task.getBlindMode();
             SubmissionBase paper = submissionBaseMapper.selectByPrimaryKey(task.getSubmissionId());
             BiddingPreference curPref = biddingPreferenceList.stream()
                     .filter(u -> u.getSubmissionId().equals(task.getSubmissionId()))
@@ -145,6 +156,13 @@ public class ReviewServiceImpl implements ReviewService {
             // Because the relationship between paper_id and user_id is one to one currently,
             // we simply pick up index:0 for the merge record
             UserBase user = userService.getUserById(mergeList.get(0).getUserId());
+            if (scope != null && scope.equals("my") && !user.getId().equals(curUser.getId())) {
+                continue;
+            }
+            if (blindMode && !isManager) {
+                paper.setAuthors("Anonymous authors");
+                paper.setContactEmail("-");
+            }
             reviewTaskOverallBoList.add(new ReviewTaskOverallBo(user, request.getOrgId(), paper, task, curPref));
         }
 
@@ -461,5 +479,20 @@ public class ReviewServiceImpl implements ReviewService {
             orgService.changeReviewProcess(new ChangeOrgProcessRequest(request.getOrgId()));
             return result;
         }
+    }
+
+    @Override
+    public Boolean reviseReview(ReviseReviewRequest request) {
+        ReviewEvaluationExample example = new ReviewEvaluationExample();
+        example.createCriteria()
+                .andActiveStatusEqualTo((byte) 1)
+                .andReviewIdEqualTo(request.getReviewId());
+        ReviewEvaluation disabledEvaluation = new ReviewEvaluation();
+        disabledEvaluation.setActiveStatus((byte) 0);
+        ReviewEvaluation reviseEvaluation = reviewEvaluationMapper.selectByPrimaryKey(request.getReviseEvaluationId());
+        reviseEvaluation.setActiveStatus((byte) 1);
+        int resetRes = reviewEvaluationMapper.updateByExampleSelective(disabledEvaluation, example);
+        int reviseRes = reviewEvaluationMapper.updateByPrimaryKey(reviseEvaluation);
+        return reviseRes + resetRes == 2;
     }
 }

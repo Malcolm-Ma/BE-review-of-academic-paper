@@ -73,7 +73,7 @@ redis:
     resourceList: 'resourceList'
     authCode: 'authCode'
   expire:
-    common: 86400 # 24 hours
+    common: 604800 # 24 hours * 7 days
     authCode: 90 # auth code expire time (seconds)
 
 bidding-system:

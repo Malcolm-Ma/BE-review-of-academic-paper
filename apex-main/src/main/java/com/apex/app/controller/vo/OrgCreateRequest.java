@@ -25,4 +25,6 @@ public class OrgCreateRequest {
     @ApiModelProperty("Initial user id added in the organization")
     private List<String> userIdList;
 
+    private Boolean blindMode;
+
 }

@@ -68,6 +68,8 @@
         <result column="deadline" jdbcType="TIMESTAMP" property="deadline"/>
         <result column="decision" jdbcType="TINYINT" property="decision"/>
         <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+        <result column="blind_mode" jdbcType="BIT" property="blindMode" />
+
     </resultMap>
 
     <resultMap id="SubmissionResultMap" type="com.apex.app.domain.model.SubmissionBase">
@@ -94,6 +96,7 @@
         rt.deadline,
         rt.decision,
         rt.created_time,
+        rt.blind_mode,
         s.title,
         s.abstracts,
         s.keywords,

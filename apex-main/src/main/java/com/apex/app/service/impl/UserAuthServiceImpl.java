@@ -12,6 +12,7 @@ import com.apex.app.domain.model.UserBaseExample;
 import com.apex.app.service.CacheService;
 import com.apex.app.service.UserAuthService;
 import com.apex.app.util.JwtTokenUtil;
+import com.apex.app.util.MD5Util;
 import com.apex.app.util.SpringUtil;
 import com.apex.app.util.SqlUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -87,6 +88,11 @@ public class UserAuthServiceImpl implements UserAuthService {
         // Encode password
         String encodedPassword = passwordEncoder.encode(userBase.getPassword());
         userBase.setPassword(encodedPassword);
+        // set default avatar
+        if (userRegisterRequest.getAvatar() == null) {
+            String hash = MD5Util.md5Hex(userBase.getEmail());
+            userBase.setAvatar("https://www.gravatar.com/avatar/" + hash + "?d=identicon");
+        }
         // Set uuid
         userBase.setId(UUID.randomUUID().toString());
         userBaseMapper.insert(userBase);

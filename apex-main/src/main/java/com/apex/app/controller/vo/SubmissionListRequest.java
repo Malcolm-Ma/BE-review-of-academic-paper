@@ -2,6 +2,8 @@ package com.apex.app.controller.vo;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
+
 /**
  * Review Submission List Request
  *
@@ -10,6 +12,9 @@ import lombok.Data;
 @Data
 public class SubmissionListRequest {
 
+    @NotEmpty
     private String orgId;
+
+    private String scope;
 
 }

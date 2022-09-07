@@ -52,6 +52,9 @@ public class OrgServiceImpl implements OrgService {
     PaperAllocationMapper paperAllocationMapper;
 
     @Autowired
+    ReviewTaskOverallMapper reviewTaskOverallMapper;
+
+    @Autowired
     OrgDao orgDao;
 
     @Autowired
@@ -73,7 +76,6 @@ public class OrgServiceImpl implements OrgService {
             Asserts.fail("Organizations with the same name and email already exist");
         }
         orgBase.setId(UUID.randomUUID().toString());
-        // TODO: set initial user id list
         orgBaseMapper.insert(orgBase);
         // Add relationship of current user and org
         UserBase currentUser = userAuthService.getCurrentUser();
@@ -83,7 +85,7 @@ public class OrgServiceImpl implements OrgService {
         userOrgMerge.setType(UserTypeEnum.OWNER.getValue());
         userOrgMerge.setCreateTime(new Date());
         userOrgMergeMapper.insert(userOrgMerge);
-        log.info("Create org: {}", orgBase);
+        log.info("Create org:{}", orgBase);
 
         // Set users if applicable
         List<String> userIdList = orgCreateRequest.getUserIdList();
@@ -123,12 +125,16 @@ public class OrgServiceImpl implements OrgService {
     public OrgInfoBo getOrgDetail(String orgId) {
         OrgInfoBo orgInfo = new OrgInfoBo();
         OrgBase selectedOrg = orgBaseMapper.selectByPrimaryKey(orgId);
+        UserBase curUser = userAuthService.getCurrentUser();
+        if (!checkUserBelonging(orgId, curUser.getId())) {
+            Asserts.fail("You do not belong to this org or have been blocked");
+            return null;
+        }
         if (selectedOrg == null) {
             Asserts.fail("Invalid org id");
             return null;
         }
-        BeanUtils.copyProperties(orgBaseMapper.selectByPrimaryKey(orgId), orgInfo);
-        UserBase curUser = userAuthService.getCurrentUser();
+        BeanUtils.copyProperties(selectedOrg, orgInfo);
         List<OrgMemberBo> allMemberList = orgDao.getOrgMemberList(orgId);
         if (selectedOrg.getBlindMode()) {
             if (allMemberList.stream().noneMatch(m -> m.getType() > 1 && m.getId().equals(curUser.getId()))) {
@@ -287,7 +293,8 @@ public class OrgServiceImpl implements OrgService {
         UserOrgMergeExample example = new UserOrgMergeExample();
         example.createCriteria()
                 .andOrgIdEqualTo(orgId)
-                .andUserIdEqualTo(curUserId);
+                .andUserIdEqualTo(curUserId)
+                .andTypeGreaterThan(0);
         List<UserOrgMerge> res = userOrgMergeMapper.selectByExample(example);
         return res.size() > 0;
     }
@@ -313,6 +320,13 @@ public class OrgServiceImpl implements OrgService {
             userOrgMergeMapper.updateByPrimaryKey(merge);
         }
         orgBaseMapper.updateByPrimaryKeySelective(orgBase);
+
+        // change flag in review process
+        ReviewTaskOverallExample reviewTaskOverallExample = new ReviewTaskOverallExample();
+        reviewTaskOverallExample.createCriteria().andOrgIdEqualTo(orgId);
+        ReviewTaskOverall updateBlindMode = new ReviewTaskOverall();
+        updateBlindMode.setBlindMode(status);
+        reviewTaskOverallMapper.updateByExampleSelective(updateBlindMode, reviewTaskOverallExample);
         return status;
     }
 
@@ -330,5 +344,12 @@ public class OrgServiceImpl implements OrgService {
         newMerge.setType(request.getNewType());
         userOrgMergeMapper.updateByExampleSelective(newMerge, example);
         return request.getNewType();
+    }
+
+    @Override
+    public Boolean checkManagership(String orgId, String userId) {
+        Map<String, UserOrgMerge> res = orgDao.getMemberType(orgId, userId);
+        Integer curUserType = res.get(userId).getType();
+        return curUserType > 1;
     }
 }

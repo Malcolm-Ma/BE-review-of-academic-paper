@@ -168,4 +168,11 @@ public class ReviewController {
         return CommonResult.success(response);
     }
 
+    @ApiOperation("Revise a review")
+    @PostMapping("/revise")
+    @ResponseBody
+    public CommonResult<Boolean> reviseReview(@Validated @RequestBody ReviseReviewRequest request) {
+        Boolean response = reviewService.reviseReview(request);
+        return CommonResult.success(response);
+    }
 }
