@@ -338,6 +338,12 @@ public class ReviewServiceImpl implements ReviewService {
             return res;
         }
         res = reviewDao.getReviewTask(request.getOrgId(), userId, request.getReviewId());
+        if (res.size() > 0) {
+            ReviewTaskInfoBo sampleTask = res.get(0);
+            if (sampleTask.getBlindMode()) {
+                res.forEach(u -> u.getSubmissionInfo().setAuthors("Anonymous authors"));
+            }
+        }
         return res;
     }
 
@@ -375,7 +381,11 @@ public class ReviewServiceImpl implements ReviewService {
         newReview.setUserId(userId);
         newReview.setType((byte) 1);
         newReview.setReviewDate(new Date());
-        newReview.setReviewIndex((byte) (evaluationCounts.getReviewCount() + 1));
+        if (evaluationCounts != null) {
+            newReview.setReviewIndex((byte) (evaluationCounts.getReviewCount() + 1));
+        } else {
+            newReview.setReviewIndex((byte) 1);
+        }
         newReview.setActiveStatus((byte) 1);
         if (records.size() > 0) {
             List<ReviewEvaluation> updateItems = records.stream()

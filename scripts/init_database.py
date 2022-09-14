@@ -1,4 +1,3 @@
-import time
 import requests
 import json
 from faker import Faker
@@ -241,16 +240,16 @@ if __name__ == '__main__':
     # get token
     headers = set_token()
 
-    # # create user in batch
-    # create_user_batch()
-    #
-    # # create org
-    # org_id_list = create_org(headers)
-    #
-    # insert_user_to_org(org_id_list)
-    #
-    # admin_org_id_list = get_org_list_by_user_id(headers, 'admin')
-    # create_review_task(headers, admin_org_id_list)
+    # create user in batch
+    create_user_batch()
+
+    # create org
+    org_id_list = create_org(headers)
+
+    insert_user_to_org(org_id_list)
+
+    admin_org_id_list = get_org_list_by_user_id(headers, 'admin')
+    create_review_task(headers, admin_org_id_list)
 
     bidding_interest(headers)
 

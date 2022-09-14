@@ -39,36 +39,32 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = httpSecurity
                 .authorizeRequests();
-        //不需要保护的资源路径允许访问
+        //Resource paths that do not require protection are allowed access
         for (String url : ignoredUrlConfig.getUrls()) {
             registry.antMatchers(url).permitAll();
         }
-        //允许跨域请求的OPTIONS请求
+        //OPTIONS requests that allow cross-domain requests
         registry.antMatchers(HttpMethod.OPTIONS)
                 .permitAll();
-        // 任何请求需要身份认证
+        // Any request requires authentication
         registry.and()
                 .authorizeRequests()
                 .anyRequest()
                 .authenticated()
-                // 关闭跨站请求防护及不使用session
+                // Disable cross-site request protection and do not use session
                 .and()
                 .csrf()
                 .disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                // 自定义权限拒绝处理类
+                // Custom Permission Denial Handling Class
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(restfulAccessDeniedHandler)
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
-                // 自定义权限拦截器JWT过滤器
+                // Custom Permission Blocker JWT Filter
                 .and()
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
-        //有动态权限配置时添加动态权限校验过滤器
-//        if(dynamicSecurityService!=null){
-//            registry.and().addFilterBefore(dynamicSecurityFilter, FilterSecurityInterceptor.class);
-//        }
         return httpSecurity.build();
     }
 
