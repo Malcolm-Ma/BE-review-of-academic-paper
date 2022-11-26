@@ -1,4 +1,6 @@
-# Academic Paper Reviewer
+# Back End of Apex - Academic Paper Review System for Conference & University
+
+A web-based software system to support the review of academic papers for conferences and universities.
 
 ## Use Cases
 
