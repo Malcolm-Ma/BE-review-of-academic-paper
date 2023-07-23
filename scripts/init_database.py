@@ -1,3 +1,6 @@
+# @File Init database
+# @Author Mingze Ma
+
 import requests
 import json
 from faker import Faker
