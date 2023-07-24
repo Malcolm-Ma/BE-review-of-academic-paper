@@ -33,3 +33,4 @@ build/
 .vscode/
 
 /scripts/*.csv
+/scripts/mysql/1_apex.sql

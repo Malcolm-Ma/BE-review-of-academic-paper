@@ -1,0 +1,55 @@
+version: '3'
+services:
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./scripts/mysql:/docker-entrypoint-initdb.d/
+    restart: unless-stopped
+
+  default_redis:
+    image: 'redis:latest'
+    command: redis-server
+    ports:
+      - "6379"
+    volumes:
+      - redis_data:/data
+
+  minio:
+    image: minio/minio:RELEASE.2021-06-17T00-10-46Z
+    ports:
+      - "9090:9000"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - minio_data:/data
+    command: server /data
+
+  apex_backend_flask_app:
+    build: ./bidding-server
+    ports:
+      - "5001"
+
+  apex_backend_spring_app:
+    build: .
+    depends_on:
+      - db
+      - default_redis
+      - apex_backend_flask_app
+      - minio
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/apex?useUnicode=true&characterEncoding=utf-8&autoReconnect=true
+      - SPRING_REDIS_HOST=default_redis
+      - MINIO_ENDPOINT=apex_minio:9000
+      - BIDDING_SYSTEM_URL=http://bidding_system:5001/bidding
+    ports:
+      - "8080:8080"
+
+volumes:
+  redis_data:
+  minio_data:

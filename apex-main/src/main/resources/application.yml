@@ -22,7 +22,7 @@ spring:
       enabled: true # enable file uploading
       max-file-size: 100MB # limited file size of 10 MB
   redis:
-    host: localhost # Redis server address
+    host: 127.0.0.1 # Redis server address
     database: 0 # Redis index（default 0）
     port: 6379 # Redis server port no.
     password: # Redis server password（default empty）
@@ -36,7 +36,7 @@ mybatis:
     - classpath*:com/**/mapper/*.xml
 
 minio:
-  endpoint: https://minio.malcolmpro.com #MinIO server address
+  endpoint: localhost:9090 #MinIO server address
   bucketName: apex
   accessKey: minioadmin
   secretKey: minioadmin
@@ -77,4 +77,4 @@ redis:
     authCode: 90 # auth code expire time (seconds)
 
 bidding-system:
-  url: "http://127.0.0.1:5000/bidding"
+  url: "http://127.0.0.1:5001/bidding"
